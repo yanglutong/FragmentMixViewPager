@@ -1,0 +1,821 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:background="#888888" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:background="#888888"
+            android:contentDescription="定位icon">
+
+            <RadioButton
+                android:id="@+id/defaulticon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="默认图标"></RadioButton>
+
+            <RadioButton
+                android:id="@+id/customicon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="自定义图标"></RadioButton>
+        </RadioGroup>
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/rll"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x45"
+        android:background="@mipmap/jianbian">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x50"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            fab:ignore="RtlCompat" />
+
+        <ImageView
+            android:id="@+id/iv_set"
+            android:layout_width="@dimen/x30"
+            android:layout_height="@dimen/x30"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x12"
+            android:background="@mipmap/shezhixin"
+            android:layout_centerInParent="true"
+            android:padding="5dp" />
+    </RelativeLayout>
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/bmapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rll"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:clickable="true"
+        fab:ignore="RtlCompat" />
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_screen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/x10"
+        android:layout_marginTop="@dimen/x80"
+        android:background="@color/white"
+        android:clickable="true"
+        android:orientation="vertical"
+
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/ib_screen"
+            android:layout_width="@dimen/x40"
+            android:layout_height="@dimen/x20"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:background="@mipmap/listviews"
+            android:clickable="false"
+            android:padding="5dp" />
+
+        <TextView
+            android:id="@+id/tv_screen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ib_screen"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/x2"
+            android:clickable="false"
+            android:text="0条"
+            android:textColor="@color/gray_black" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x1"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_marginTop="@dimen/x7"
+            android:layout_marginRight="@dimen/x10"
+            android:background="@color/hui" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="轨迹记录"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/bt_ikan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="查看轨迹"
+        android:visibility="gone" />
+
+    <LinearLayout
+
+        android:weightSum="8"
+        android:id="@+id/ll_baidaohang"
+        android:layout_width="@dimen/x40"
+        android:layout_height="@dimen/x220"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/x65"
+        android:layout_marginRight="@dimen/x10"
+        android:background="@drawable/cebianlan0"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            android:id="@+id/ll_qiehuan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:duplicateParentState="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ib_qiehuan"
+                android:layout_width="@dimen/x12"
+                android:layout_height="@dimen/x12"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:background="@mipmap/statllite"
+                android:clickable="false"
+                android:padding="@dimen/x5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ib_qiehuan"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/x2"
+                android:clickable="false"
+                android:text="卫 星"
+                android:textColor="@color/gray_black" />
+
+            <!--            <View-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="@dimen/x1"-->
+            <!--                android:layout_marginLeft="@dimen/x10"-->
+            <!--                -->
+            <!--                android:layout_marginRight="@dimen/x10"-->
+            <!--                android:background="@color/hui" />-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x1"
+                android:layout_marginLeft="@dimen/x2"
+                android:layout_marginTop="@dimen/x1"
+                android:layout_marginRight="@dimen/x2"
+                android:background="@color/hui" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_clear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/ib_clear"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/button_clear_select"
+                android:clickable="false"
+                android:padding="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ib_clear"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="2dp"
+                android:clickable="false"
+                android:text="清 空"
+                android:textColor="@color/gray_black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/hui" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:id="@+id/ll_jt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ib_jt"
+                android:layout_width="@dimen/x12"
+                android:layout_height="@dimen/x12"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/x4"
+                android:background="@mipmap/jiaotong_up"
+                android:clickable="false"
+                android:padding="@dimen/x5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bt_qiehuanNew"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/x2"
+                android:clickable="false"
+                android:text="交 通"
+                android:textColor="@color/gray_black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x1"
+                android:layout_marginLeft="@dimen/x2"
+                android:layout_marginTop="@dimen/x1"
+                android:layout_marginRight="@dimen/x2"
+                android:background="@color/hui" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:id="@+id/ll_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ib_rl"
+                android:layout_width="@dimen/x12"
+                android:layout_height="@dimen/x12"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/x4"
+                android:background="@mipmap/reli_up"
+                android:clickable="false"
+                android:padding="@dimen/x5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ib_rl"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/x2"
+                android:clickable="false"
+                android:text="热 力"
+                android:textColor="@color/gray_black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x1"
+                android:layout_marginLeft="@dimen/x2"
+                android:layout_marginTop="@dimen/x1"
+                android:layout_marginRight="@dimen/x2"
+                android:background="@color/hui"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_weight="1"
+            android:id="@+id/ll_cl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ib_cl"
+                android:layout_width="@dimen/x12"
+                android:layout_height="@dimen/x12"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/x4"
+                android:background="@mipmap/measure"
+                android:clickable="false"
+                android:padding="@dimen/x5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ib_rl"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/x2"
+                android:clickable="false"
+                android:text="测 量"
+                android:textColor="@color/gray_black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x1"
+                android:layout_marginLeft="@dimen/x2"
+                android:layout_marginTop="@dimen/x1"
+                android:layout_marginRight="@dimen/x2"
+                android:background="@color/hui" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_weight="1"
+            android:id="@+id/ll_gj"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ib_gj"
+                android:layout_width="12dp"
+                android:layout_height="11dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/x4"
+                android:background="@mipmap/gj"
+                android:clickable="false"
+                android:padding="@dimen/x5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ib_rl"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/x2"
+                android:clickable="false"
+                android:text="轨 迹"
+                android:textColor="@color/gray_black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x1"
+                android:layout_marginLeft="@dimen/x2"
+                android:layout_marginTop="@dimen/x1"
+                android:layout_marginRight="@dimen/x2"
+                android:background="@color/hui" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_weight="1"
+            android:id="@+id/ll_guijis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:orientation="vertical">
+
+            <ImageView
+
+                android:id="@+id/iv_gjstart"
+                android:layout_width="@dimen/x12"
+                android:layout_height="@dimen/x12"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/x4"
+                android:background="@mipmap/kaishi_1"
+                android:clickable="false"
+                android:padding="@dimen/x5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ib_rl"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/x2"
+                android:clickable="false"
+                android:text="开 始"
+                android:textColor="@color/gray_black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x1"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_marginTop="@dimen/x1"
+                android:layout_marginRight="@dimen/x10"
+                android:background="@color/hui" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_weight="1"
+            android:id="@+id/ll_gjview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:orientation="vertical">
+
+            <ImageView
+
+                android:id="@+id/iv_viewstart"
+                android:layout_width="@dimen/x15"
+                android:layout_height="@dimen/x15"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/x4"
+                android:background="@mipmap/huizhi_1"
+                android:clickable="false"
+                android:padding="@dimen/x5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ib_rl"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/x2"
+                android:clickable="false"
+                android:text="显 示"
+                android:textColor="@color/gray_black" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x1"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_marginTop="@dimen/x1"
+                android:layout_marginRight="@dimen/x10"
+                android:background="@color/hui" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_weight="1"
+            android:id="@+id/ll_gjclear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:orientation="vertical">
+
+            <ImageView
+
+                android:layout_width="@dimen/x12"
+                android:layout_height="@dimen/x12"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/x4"
+                android:background="@mipmap/qingkong_1"
+                android:clickable="false"
+                android:padding="@dimen/x5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ib_rl"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/x2"
+                android:clickable="false"
+                android:text="清 空"
+                android:textColor="@color/gray_black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x1"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_marginTop="@dimen/x1"
+                android:layout_marginRight="@dimen/x10"
+                android:background="@color/hui" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_weight="1"
+            android:id="@+id/ll_baojing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ib_baojing"
+                android:layout_width="@dimen/x15"
+                android:layout_height="@dimen/x15"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/x4"
+                android:background="@mipmap/baojing_up"
+                android:clickable="false"
+                android:padding="@dimen/x5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ib_baojing"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/x2"
+                android:clickable="false"
+                android:text="报 警"
+                android:textColor="@color/gray_black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x1"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_marginTop="@dimen/x1"
+                android:layout_marginRight="@dimen/x10"
+                android:background="@color/hui" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:id="@+id/ll_gensui"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ib_gensui"
+                android:layout_width="@dimen/x15"
+                android:layout_height="@dimen/x15"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/x4"
+                android:background="@mipmap/gen1"
+                android:clickable="false"
+                android:padding="@dimen/x5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ib_baojing"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/x2"
+                android:clickable="false"
+                android:text="跟 随"
+                android:textColor="@color/gray_black" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x1"
+                android:layout_marginLeft="@dimen/x2"
+                android:layout_marginTop="@dimen/x1"
+                android:layout_marginRight="@dimen/x2"
+                android:background="@color/hui" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_fugai"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ib_fugai"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:background="@mipmap/radius0"
+                android:clickable="false"
+                android:padding="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ib_baojing"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="2dp"
+                android:clickable="false"
+                android:text="覆 盖"
+                android:textColor="@color/gray_black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/hui"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_uisearch"
+        android:layout_width="@dimen/x170"
+        android:layout_height="@dimen/x80"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/x20"
+        android:background="@mipmap/chaxuanjizhan"
+        android:gravity="center"
+        android:text="增加基站"
+        android:textColor="@color/white"
+        android:textSize="@dimen/x15" />
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/bt_jizhan0"
+        android:layout_width="@dimen/x45"
+        android:layout_height="@dimen/x45"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/x20"
+        android:layout_marginBottom="@dimen/x40"
+        android:background="@mipmap/jizhan_1" />
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/bt_uilocation"
+        android:layout_width="@dimen/x45"
+        android:layout_height="@dimen/x45"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/x20"
+        android:layout_marginBottom="@dimen/x90"
+        android:background="@mipmap/dangqian" />
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/bt_uiceliang"
+        android:layout_width="@dimen/x45"
+        android:layout_height="@dimen/x45"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/x2"
+        android:layout_marginRight="@dimen/x10"
+        android:layout_marginBottom="@dimen/x90"
+        android:background="@mipmap/celiang" />
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/bt_uiceliangclear"
+        android:layout_width="@dimen/x45"
+        android:layout_height="@dimen/x45"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/x2"
+        android:layout_marginRight="@dimen/x10"
+        android:layout_marginBottom="@dimen/x40"
+        android:layout_toStartOf="@+id/bt_uiceliang"
+        android:background="@mipmap/qingkong_0"
+        fab:ignore="RtlCompat" />
+
+    <LinearLayout
+        android:layout_width="56dp"
+        android:layout_height="90dp"
+        android:layout_below="@+id/ll_baidaohang"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/cebianlan"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:weightSum="2">
+
+        <Button
+
+            android:id="@+id/bt_jia"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:text="+"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/bt_jian"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:text="-"
+            android:textSize="20dp" />
+    </LinearLayout>
+
+    <!--原来的button-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+
+        <Button
+            android:id="@+id/bt_qiehuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="地图切换" />
+
+        <Button
+            android:id="@+id/bt_jizhan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bt_qiehuan"
+            android:layout_alignParentRight="true"
+            android:text="查询基站" />
+
+        <Button
+            android:id="@+id/bt_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bt_jizhan"
+            android:layout_alignParentRight="true"
+            android:text="清空地图" />
+
+        <Button
+            android:id="@+id/bt_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bt_clear"
+            android:layout_alignParentRight="true"
+            android:text="当前位置" />
+
+        <Button
+            android:id="@+id/bt_jt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bt_location"
+            android:layout_alignParentRight="true"
+            android:text="交通地图" />
+
+        <Button
+            android:id="@+id/bt_hot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bt_jt"
+            android:layout_alignParentRight="true"
+            android:text="热力地图" />
+
+        <Button
+            android:id="@+id/bt_juli"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bt_hot"
+            android:layout_alignParentRight="true"
+            android:text="距离测量" />
+
+        <Button
+            android:id="@+id/bt_jingbao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bt_juli"
+            android:layout_alignParentRight="true"
+            android:text="位置警报" />
+
+        <!--<com.baidu.mapapi.map.MapView-->
+        <!--android:id="@+id/bmapView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:clickable="true" />-->
+    </RelativeLayout>
+</RelativeLayout>

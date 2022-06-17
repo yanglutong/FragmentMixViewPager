@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: C./Users/lutong/Desktop/FragmentMixViewPager/app/libs/NaviTts.aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8346890584cb622378bcbd0c88ae81c3/jetified-NaviTts/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8346890584cb622378bcbd0c88ae81c3/jetified-NaviTts/jars/libs/com.baidu.tts_3.2.7.a926c31_20211029105631.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8346890584cb622378bcbd0c88ae81c3/jetified-NaviTts/jars/libs/galaxy-2.6.6.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8346890584cb622378bcbd0c88ae81c3/jetified-NaviTts/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8346890584cb622378bcbd0c88ae81c3/jetified-NaviTts/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

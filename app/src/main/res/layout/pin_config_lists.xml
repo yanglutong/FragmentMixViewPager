@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:gravity="center"
+    android:focusable="false"
+    android:padding="5dp">
+    <!--<View-->
+        <!--android:background="@color/gray_black"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"/>-->
+    <LinearLayout
+        android:descendantFocusability="blocksDescendants"
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        tools:ignore="RtlCompat">
+
+        <TextView
+            android:id="@+id/tv_xulie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:text="01"
+            android:textSize="12dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:text="EARFCN"
+            android:textSize="12dp" />
+
+        <LinearLayout
+            android:descendantFocusability="blocksDescendants"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/up" />
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/down" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:descendantFocusability="blocksDescendants"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:textColor="@color/main_color"
+                android:id="@+id/tv_pin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="12dp" />
+
+            <TextView
+                android:textColor="@color/main_color"
+                android:id="@+id/tv_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="12dp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/gray" />
+
+        <LinearLayout
+            android:descendantFocusability="blocksDescendants"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BAND"
+                android:textSize="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PLMN"
+                android:textSize="12dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:descendantFocusability="blocksDescendants"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:textColor="@color/main_color"
+                android:id="@+id/tv_band"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="12dp" />
+
+
+            <TextView
+                android:textColor="@color/main_color"
+                android:id="@+id/tv_plmn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="12dp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/gray" />
+        <LinearLayout
+            android:descendantFocusability="blocksDescendants"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="双工"
+                android:textSize="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="运营商"
+                android:textSize="12dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:descendantFocusability="blocksDescendants"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:textColor="@color/main_color"
+                android:id="@+id/tv_tf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="12dp" />
+
+            <TextView
+                android:textColor="@color/main_color"
+                android:id="@+id/tv_yy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="12dp" />
+        </LinearLayout>
+
+<!--        <View-->
+<!--            android:layout_width="1dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:background="@color/gray" />-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_marginLeft="5dp"-->
+<!--            android:orientation="vertical"-->
+<!--            android:text="制式"-->
+<!--            android:textSize="12dp" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tv_tf"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:text="TDD"-->
+<!--            android:textColor="#2F8DFF"-->
+<!--            android:textSize="12dp" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tv_yy"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"/>-->
+    </LinearLayout>
+
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:layout_margin="6dp"-->
+        <!--android:layout_toEndOf="@+id/ll"-->
+        <!--android:layout_toRightOf="@+id/ll"-->
+        <!--android:background="@color/blue" />-->
+    <!--<LinearLayout-->
+    <!---->
+    <!--android:orientation="horizontal"-->
+    <!--android:weightSum="2"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="80dp"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_weight="1">-->
+
+    <!--<CheckBox-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="默认频点" />-->
+    <!--</LinearLayout>-->
+
+    <!--<RelativeLayout-->
+    <!--android:layout_marginBottom="10dp"-->
+    <!--android:paddingBottom="10dp"-->
+    <!--android:layout_gravity="center_vertical"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:layout_weight="1"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="80dp">-->
+
+    <!--<ImageView-->
+
+    <!--android:layout_width="15dp"-->
+    <!--android:layout_height="15dp"-->
+    <!--android:layout_alignParentStart="true"-->
+    <!--android:layout_alignParentLeft="true"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:layout_marginStart="34dp"-->
+    <!--android:layout_marginLeft="34dp"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:background="@drawable/text" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentStart="true"-->
+    <!--android:layout_alignParentLeft="true"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:layout_marginStart="57dp"-->
+    <!--android:layout_marginLeft="57dp"-->
+    <!--android:layout_marginTop="7dp"-->
+    <!--android:text="编辑" />-->
+
+    <!--<ImageView-->
+    <!--android:layout_width="15dp"-->
+    <!--android:layout_height="15dp"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:layout_marginEnd="60dp"-->
+    <!--android:layout_marginRight="60dp"-->
+    <!--android:background="@drawable/dele" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_marginTop="7dp"-->
+    <!--android:layout_marginEnd="26dp"-->
+    <!--android:layout_marginRight="26dp"-->
+    <!--android:text="删除" />-->
+    <!--</RelativeLayout>-->
+    <!--</LinearLayout>-->
+
+    <View
+        android:layout_marginTop="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray" />
+
+    <LinearLayout
+        android:descendantFocusability="blocksDescendants"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="55dp"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:descendantFocusability="blocksDescendants"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:visibility="invisible"
+                android:text="默认频点"
+                android:id="@+id/cb_deful"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:shadowColor="@color/blue" />
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="默认频点"-->
+                <!--android:textSize="12dp" />-->
+        </LinearLayout>
+
+        <LinearLayout
+            android:descendantFocusability="blocksDescendants"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <!--<CheckBox-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="20dp" />-->
+            <!--<TextView-->
+            <!--android:text="默认频点"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+            <LinearLayout
+                android:descendantFocusability="blocksDescendants"
+                android:layout_width="wrap_content"
+                android:id="@+id/ll_bianji"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/text" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="编辑"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:descendantFocusability="blocksDescendants"
+                android:id="@+id/ll_dele"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/dele" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="删除"
+                    android:textSize="12dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_marginTop="90dp"
+        android:background="@color/gray_black"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+</RelativeLayout>

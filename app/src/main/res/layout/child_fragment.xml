@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f6f8fe"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_childfragment_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Child_Fragment"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y30"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/x10"
+        android:layout_marginTop="@dimen/x10"
+        android:background="@drawable/dingwei_fragment2"
+
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="2dp"
+            android:layout_height="@dimen/x20"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/x10"
+            android:background="@color/main_color"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/x5"
+            android:gravity="center"
+            android:text="建站方式" />
+
+        <CheckBox
+            android:id="@+id/cb_jl_sd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:buttonTint="#2f8dff"
+            android:checked="true"
+            android:gravity="center"
+            android:text="手动" />
+
+        <CheckBox
+            android:id="@+id/cb_jl_zd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:buttonTint="#2f8dff"
+            android:gravity="center"
+            android:text="自动" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/x10"
+        android:layout_marginTop="@dimen/x10"
+        android:background="@drawable/dingwei_fragment23"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y25"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/x5"
+            android:layout_marginTop="@dimen/x5"
+            android:background="@drawable/dingwei_fragment22"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv1_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/x5"
+                android:text="4G设备"></TextView>
+
+            <TextView
+                android:id="@+id/to11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv1_title"
+                android:text="(" />
+
+            <TextView
+
+                android:id="@+id/tv1_titletype"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/to11"
+                android:text="状态:连接中" />
+
+            <TextView
+                android:id="@+id/to12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv1_titletype"
+                android:text="," />
+
+            <TextView
+                android:id="@+id/tf1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/to12"
+                android:text="双工:" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tf1"
+                android:text=")" />
+
+            <CheckBox
+
+                android:id="@+id/cb_cell1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/x5"
+
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:text="TAC:"
+                    android:textSize="14dp">
+
+                </TextView>
+
+                <EditText
+                    android:id="@+id/et_tac1"
+                    android:layout_width="@dimen/x75"
+                    android:layout_height="@dimen/y30"
+                    android:layout_gravity="center"
+                    android:hint="请输入TAC"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/x5"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PCI:"
+                    android:textSize="14dp">
+
+                </TextView>
+
+                <EditText
+                    android:id="@+id/et_pci1"
+                    android:layout_width="@dimen/x75"
+                    android:layout_height="@dimen/y30"
+                    android:layout_gravity="center"
+                    android:hint="请输入PCI"
+                    android:textSize="14dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/x5"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:text="ECI:"
+                    android:textSize="14dp">
+
+                </TextView>
+
+                <EditText
+                    android:id="@+id/et_eci1"
+                    android:layout_width="@dimen/x75"
+                    android:layout_height="@dimen/y30"
+                    android:layout_gravity="center"
+                    android:hint="请输入ECI"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/x5"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="EARFCN:"
+                    android:textSize="14dp">
+
+                </TextView>
+
+                <Spinner
+
+                    android:id="@+id/spinner1"
+                    android:layout_width="@dimen/x125"
+                    android:layout_height="@dimen/y30"
+                    android:layout_gravity="center"
+                    android:hint="请输入EARFCN"
+                    android:textSize="14dp" />
+                <TextView
+                    android:layout_gravity="center"
+
+                    android:id="@+id/tv_down1"
+                    android:textSize="14dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/x10"
+        android:layout_marginTop="@dimen/x10"
+        android:background="@drawable/dingwei_fragment23"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y25"
+            android:layout_margin="@dimen/x5"
+            android:layout_marginTop="@dimen/x5"
+            android:background="@drawable/dingwei_fragment22"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv2_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/x5"
+                android:text="5G设备"></TextView>
+
+            <TextView
+                android:id="@+id/to21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv2_title"
+                android:text="(" />
+
+            <TextView
+
+                android:id="@+id/tv2_titletype"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/to21"
+                android:text="状态:连接中" />
+
+            <TextView
+                android:id="@+id/to22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv2_titletype"
+                android:text="," />
+
+            <TextView
+                android:id="@+id/tf2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/to22"
+                android:text="双工:" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tf2"
+                android:text=")" />
+
+            <CheckBox
+                android:id="@+id/cb_cell2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/x5"
+
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:text="TAC:"
+                    android:textSize="14dp">
+
+                </TextView>
+
+                <EditText
+                    android:id="@+id/et_tac2"
+                    android:layout_width="@dimen/x75"
+                    android:layout_height="@dimen/y30"
+                    android:layout_gravity="center"
+                    android:hint="请输入TAC"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/x5"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PCI:"
+                    android:textSize="14dp">
+
+                </TextView>
+
+                <EditText
+                    android:id="@+id/et_pci2"
+                    android:layout_width="@dimen/x75"
+                    android:layout_height="@dimen/y30"
+                    android:layout_gravity="center"
+                    android:hint="请输入PCI"
+                    android:textSize="14dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/x5"
+                android:visibility="gone"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:text="ECI:"
+                    android:textSize="14dp">
+
+                </TextView>
+
+                <EditText
+                    android:id="@+id/et_eci2"
+                    android:layout_width="@dimen/x75"
+                    android:layout_height="@dimen/y30"
+                    android:layout_gravity="center"
+                    android:hint="请输入ECI"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/x5"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_marginLeft="@dimen/x10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="EARFCN:"
+                    android:textSize="14dp">
+
+                </TextView>
+
+                <Spinner
+                    android:id="@+id/spinner2"
+                    android:layout_width="@dimen/x125"
+                    android:layout_height="@dimen/y30"
+                    android:layout_gravity="center"
+                    android:hint="请输入EARFCN"
+                    android:textSize="14dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

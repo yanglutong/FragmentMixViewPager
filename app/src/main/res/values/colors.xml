@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="white">#FFFFFF</color>
+    <color name="hui">#DEDEDE</color>
+    <color name="gray_black">#202020</color>
+    <color name="main_color">#2f8dff</color>
+    <color name="Automatic_color">#57585A</color>
+    <color name="blue">#2196F3</color>
+    <color name="colorMyr">#E5E7ED</color>
+    <color name="colorJigHui">#EEEDF6</color>
+    <color name="colorPrimary2">#008577</color>
+    <color name="colorJigBlack">#FF000000</color>
+    <color name="colorJigTextColor">#4080FF</color>
+    <color name="colorBg">#F4F6FD</color>
+    <color name="colorBai">#FFFFFF</color>
+    <color name="colorJigTextColorCancel">#999999</color>
+    <color name="main_colors">#ebecee</color>
+    <color name="main_colorss">#509FFF</color>
+    <color name="main_hui">#E6E7EA</color>
+<!--    <color name="main_green1">#64F482</color>-->
+<!--    <color name="main_green">#10a146</color>-->
+    <color name="gray">#DCDCDC</color>
+    <color name="bg_black">#000000</color>
+    <color name="color_f25057">#f25057</color>
+    <color name="redText">#FF6367</color>
+    <color name="redTextwendu">#ff0000</color>
+    <color name="black">#000000</color>
+    <color name="cheng">#FFE500</color>
+    <color name="bg_gray">#99F1F1F1</color>
+    <color name="main_green">#10a146</color>
+<!--    <color name="redText">#FF6367</color>-->
+<!--    <color name="redTextwendu">#ff0000</color>-->
+    <color name="color_3853e8">#0072E3</color>
+    <color name="deviceBlue">#4080FF</color>
+
+
+
+<!--    lt-->
+    <color name="red">#FF0000</color>
+    <color name="redfen">#FF7B7B</color>
+    <color name="gray2">#AAAAAA</color>
+    <color name="gray3">#F5F5F5</color>
+    <color name="wat">#FAFAFA</color>
+    <color name="blues">#FF008EFF</color>
+    <color name="textColor">#AD534D</color>
+    <color name="global">#FF1100</color>
+    <!--    lt-->
+
+</resources>

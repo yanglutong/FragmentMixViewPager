@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/rowBG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+
+        <RelativeLayout
+            android:id="@+id/start"
+            android:layout_width="@dimen/swipeWidth"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="?android:selectableItemBackground"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:tint="@android:color/white" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/thumb"
+
+            android:layout_width="@dimen/swipeWidth"
+            android:layout_height="match_parent"
+            android:background="#2f8dff"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="?android:selectableItemBackground"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="编辑"
+                    android:tint="@android:color/white" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/favorite"
+
+            android:layout_width="@dimen/swipeWidth"
+            android:layout_height="match_parent"
+            android:background="#DEDEDE"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="?android:selectableItemBackground"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="删除"
+                    android:tint="@android:color/white"
+                    tools:ignore="VectorDrawableCompat" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:id="@+id/rowFG"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:clickable="true"
+        android:elevation="3dp"
+        android:focusable="true"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <!--<cn.refactor.library.SmoothCheckBox-->
+
+            <!--android:id="@+id/scb"-->
+            <!--android:layout_width="20dp"-->
+            <!--android:layout_height="20dp"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_weight="2" />-->
+            <CheckBox
+
+                android:id="@+id/cb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:buttonTint="#2f8dff" />
+            <!--<RadioButton-->
+            <!--android:paddingLeft="50dp"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_weight="2"-->
+            <!--android:textSize="0sp" />-->
+
+
+            <!--<RadioGroup-->
+            <!--android:layout_width=""-->
+            <!--android:layout_height=""></RadioGroup>-->
+            <!--<com.uniquestudio.library.CircleCheckBox-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_weight="1" />-->
+            <TextView
+                android:id="@+id/name"
+                style="@style/main_lie"
+                android:layout_weight="2"
+                android:background="@color/white"
+                android:text="人员1"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/imsi"
+                style="@style/main_lie"
+                android:layout_weight="4"
+                android:background="@color/white"
+                android:text="123456789912345"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/phone"
+                style="@style/main_lie"
+                android:layout_weight="3"
+                android:background="@color/white"
+                android:text="15511642086"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/yy"
+                style="@style/main_lie"
+                android:background="@color/white"
+                android:text="运营商"
+                android:textSize="12dp" />
+
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="6"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/mainText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="No Calls Found"
+                    android:textColor="#424242"
+                    android:textSize="16sp"
+                    tools:text="" />
+
+                <TextView
+                    android:id="@+id/subText"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:maxLines="1"
+                    android:textColor="#9e9e9e"
+                    android:textSize="12sp"
+                    tools:text="" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/rowButton"
+                style="?attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:gravity="right|center_vertical"
+                android:text=""
+                android:textColor="#757575"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:descendantFocusability="blocksDescendants"
+            android:orientation="horizontal">
+
+            <!--<CheckBox-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="20dp" />-->
+            <!--<TextView-->
+            <!--android:text="默认频点"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray" />
+
+    <LinearLayout
+
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:descendantFocusability="blocksDescendants"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/cb_deful"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:shadowColor="@color/blue"
+                android:text="默认频点"
+                android:visibility="invisible" />
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="默认频点"-->
+            <!--android:textSize="12dp" />-->
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:descendantFocusability="blocksDescendants"
+            android:orientation="horizontal">
+
+            <!--<CheckBox-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="20dp" />-->
+            <!--<TextView-->
+            <!--android:text="默认频点"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+            <LinearLayout
+                android:id="@+id/ll_bianji"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:descendantFocusability="blocksDescendants"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/text" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="编辑"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_dele"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:descendantFocusability="blocksDescendants"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/dele" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="删除"
+                    android:textSize="12dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_black" />
+</LinearLayout>

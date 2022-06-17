@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/liner_option"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_round_white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/shape_round_blue"
+            android:gravity="center">
+
+            <LinearLayout
+                android:id="@+id/liner_option_zhiShi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_option_zhiShi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:text="基站设置"
+                    android:textColor="@android:color/white"></TextView>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gij_config_bj"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_marginLeft="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="基站报警声音"
+                        android:textColor="@color/black"></TextView>
+                    <CheckBox
+                        android:id="@+id/checkbox_jzBaoJ"
+                        android:text=""
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    </CheckBox>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="基站信息显示持续时间:"
+                        android:textColor="@color/black"></TextView>
+
+                    <EditText
+                        android:gravity="center"
+                        android:id="@+id/ed_jzTime"
+                        android:maxLength="9"
+                        android:inputType="number"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:text="300"></EditText>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="(秒)"
+                        android:textColor="@color/black"></TextView>
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+                <CheckBox
+                    android:id="@+id/checkbox_yd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="移动"></CheckBox>
+
+                <CheckBox
+                    android:id="@+id/checkbox_lt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="联通"></CheckBox>
+
+                <CheckBox
+                    android:id="@+id/checkbox_dx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="电信"></CheckBox>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/button_bg_round"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_marginLeft="20dp"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/shape_round_blues"
+                android:id="@+id/bt_Ok"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:text="确定"
+                android:textColor="@color/white"></Button>
+            <Button
+                android:layout_marginRight="20dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/shape_round_blues"
+                android:id="@+id/bt_Cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:text="取消"
+                android:textColor="@color/white"></Button>
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: C./Users/lutong/Desktop/FragmentMixViewPager/app/libs/onsdk_all.aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c199055f08de31fddfeabdfdd9803c70/jetified-onsdk_all/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c199055f08de31fddfeabdfdd9803c70/jetified-onsdk_all/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c199055f08de31fddfeabdfdd9803c70/jetified-onsdk_all/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

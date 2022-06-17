@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="Gradle: cn.yc:YCDialogLib:3.6.6@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/152718039520065eca8205bd92035f06/jetified-YCDialogLib-3.6.6/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/152718039520065eca8205bd92035f06/jetified-YCDialogLib-3.6.6/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/152718039520065eca8205bd92035f06/jetified-YCDialogLib-3.6.6/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/152718039520065eca8205bd92035f06/jetified-YCDialogLib-3.6.6/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/cn.yc/YCDialogLib/3.6.6/de8c5cd1ab4325327d411ac7fbba69299d476b05/YCDialogLib-3.6.6-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/cn.yc/YCDialogLib/3.6.6/6e1b9462e7583ceaeba62eadf5190cca20f1ab65/YCDialogLib-3.6.6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

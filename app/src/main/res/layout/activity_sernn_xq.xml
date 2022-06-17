@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="18dp"
+        android:background="@mipmap/jianbian" />
+    <RelativeLayout
+        android:background="@mipmap/jianbian"
+        android:id="@+id/ry"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <ImageView
+            android:id="@+id/finsh"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:src="@mipmap/backnew" />
+
+        <TextView
+            android:id="@+id/mytitle"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:text="基站详情"
+            android:textColor="#ffffff"
+            android:textSize="18dp" />
+
+        <ImageView
+            android:visibility="invisible"
+            android:layout_alignParentRight="true"
+            android:id="@+id/add"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:src="@mipmap/addblue" />
+    </RelativeLayout>
+
+
+
+
+    <TextView
+        android:id="@+id/title_num"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:textSize="15dp" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="基站详细信息"
+            android:textColor="@color/gray_black"
+            android:textSize="20dp"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/iv_finishs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="5dp"
+            android:background="@mipmap/close"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="运营商:"
+            android:textSize="10dp" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="范围:"
+            android:textSize="10dp" />
+
+        <TextView
+            android:id="@+id/tv_fugai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llsid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal"
+
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="SID:"
+            android:textSize="10dp" />
+
+        <TextView
+            android:id="@+id/tv_sid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:weightSum="3">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="mnc:"
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/tv_mnc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="001"
+                android:textSize="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="TAC/LAC/NID:"
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/tv_lac"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="002"
+                android:textSize="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="ECI/CI/BID:"
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/tv_cid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="003"
+                android:textSize="10dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="地址:"
+            android:textSize="10dp" />
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="004"
+            android:textSize="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="位置:"
+            android:textSize="10dp" />
+
+        <TextView
+            android:id="@+id/tv_lat_lon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="005"
+            android:textSize="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="数据来源:"
+            android:textSize="10dp" />
+
+        <TextView
+            android:id="@+id/tv_resources"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="在线数据"
+            android:textSize="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/bt_openMap"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="clip_horizontal"
+            android:background="@mipmap/daohangs"
+            android:text="导航"
+            android:textSize="12dp"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/bt_quanjing"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="clip_horizontal"
+            android:background="@mipmap/jiejing"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+
+        <Button
+
+            android:id="@+id/bt_m_location"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="clip_horizontal"
+            android:background="@mipmap/baojing_up"
+            android:textColor="@color/white"
+            android:textSize="12dp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/bt_m_dele"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="clip_horizontal"
+            android:background="@mipmap/markeradd"
+            android:textColor="@color/white"
+            android:textSize="12dp"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/bt_taset"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="clip_horizontal"
+            android:background="@mipmap/tazhidata"
+            android:textColor="@color/white"
+            android:textSize="12dp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/bt_show"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="clip_horizontal"
+            android:layout_marginLeft="10dp"
+            android:background="@mipmap/mlocation0"
+            android:textColor="@color/white"
+            android:textSize="12dp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_black" />
+    </LinearLayout>
+</LinearLayout>

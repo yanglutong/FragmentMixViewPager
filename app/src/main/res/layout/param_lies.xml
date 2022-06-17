@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_tab"
+    android:layout_width="match_parent"
+    android:layout_height="25dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:textSize="12dp"
+            android:layout_weight="1"
+            style="@style/main_lie"
+            android:text="选择" />
+
+        <TextView
+            style="@style/main_lie"
+            android:layout_weight="2"
+            android:text="名称"
+            android:textSize="12dp" />
+
+        <TextView
+            style="@style/main_lie"
+            android:layout_weight="4"
+            android:text="IMSI"
+            android:textSize="12dp" />
+
+        <TextView
+            style="@style/main_lie"
+            android:layout_weight="3"
+            android:text="手机号"
+            android:textSize="12dp" />
+
+        <TextView
+            android:textSize="12dp"
+            style="@style/main_lie"
+            android:text="运营商" />
+    </LinearLayout>
+</RelativeLayout>

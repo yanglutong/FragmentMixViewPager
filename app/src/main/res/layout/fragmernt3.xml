@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f7f8fd"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/bttest1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="设置小区参数"
+                tools:ignore="OnClick" />
+
+            <Button
+                android:id="@+id/bttest2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查询小区参数"
+                tools:ignore="OnClick" />
+
+            <Button
+                android:id="@+id/bttest3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="开始定位"
+                tools:ignore="OnClick" />
+
+            <Button
+                android:id="@+id/bttest4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="停止定位"
+                tools:ignore="OnClick" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/bttest5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查询黑名单" />
+
+            <Button
+                android:id="@+id/bttest6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="删除黑名单" />
+
+            <Button
+                android:id="@+id/bttest7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="添加黑名单" />
+
+            <Button
+                android:id="@+id/bttest8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="设置定位方式" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_fragment_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Fragment"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:visibility="gone" />
+
+        <include layout="@layout/main_lies" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ryIMSI_dw"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y50"
+            android:background="@color/white"
+            android:visibility="visible" />
+        <!--    设备1-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y15"
+            android:layout_marginLeft="@dimen/x5"
+            android:background="@drawable/dingwei_fragment22"
+            android:text="4G设备" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y120"
+            android:layout_gravity="left"
+            android:background="@color/white"
+            android:gravity="left"
+            android:orientation="horizontal"
+            android:weightSum="7">
+
+            <com.lutong.Views.LineChartView
+                android:id="@+id/line_chart_viewdw"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y120"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/x2"
+                android:layout_weight="4" />
+
+            <!--        <View-->
+            <!--            android:layout_width="1dp"-->
+            <!--            android:layout_height="@dimen/y90"-->
+            <!--            android:layout_centerVertical="true"-->
+            <!--            android:layout_toRightOf="@+id/line_chart_viewdw"-->
+            <!--            android:background="@color/hui" />-->
+
+            <LinearLayout
+                android:layout_width="@dimen/x120"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/x10"
+                android:layout_marginRight="@dimen/x2"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_imsi1_dw"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x10"
+                    android:gravity="center"
+                    android:text=""
+                    android:textSize="15sp" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/y8"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_sb1_jl_dw"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@color/main_color"
+                        android:textSize="32dp"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:id="@+id/laba1dw"
+                        android:layout_width="@dimen/x20"
+                        android:layout_height="@dimen/x20"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/x4"
+                        android:layout_toRightOf="@+id/tv_sb1_jl_dw"
+                        android:background="@mipmap/laba_green"
+                        android:gravity="center" />
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/x20"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <CheckBox
+                        android:id="@+id/cbzt1_g"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:buttonTint="#2f8dff"
+                        android:checked="true"
+                        android:text="高" />
+
+                    <CheckBox
+                        android:id="@+id/cbzt1_z"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:buttonTint="#2f8dff"
+                        android:text="中" />
+
+                    <CheckBox
+                        android:id="@+id/cbzt1_d"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:buttonTint="#2f8dff"
+                        android:text="低" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y15"
+            android:layout_marginLeft="@dimen/x5"
+            android:background="@drawable/dingwei_fragment22"
+
+            android:text="5G设备" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y120"
+            android:layout_gravity="left"
+            android:background="@color/white"
+            android:gravity="left"
+            android:orientation="horizontal"
+            android:weightSum="7">
+
+            <com.lutong.Views.LineChartView2
+                android:id="@+id/line_chart_viewdw2"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/y120"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/x2"
+                android:layout_weight="4" />
+
+            <!--        <View-->
+            <!--            android:layout_width="1dp"-->
+            <!--            android:layout_height="@dimen/y90"-->
+            <!--            android:layout_centerVertical="true"-->
+            <!--            android:layout_toRightOf="@+id/line_chart_viewdw2"-->
+            <!--            android:background="@color/hui" />-->
+
+            <LinearLayout
+                android:layout_width="@dimen/x120"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/x10"
+                android:layout_marginRight="@dimen/x2"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_imsi2_dw"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x10"
+                    android:gravity="center"
+                    android:text=""
+                    android:textSize="15sp" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/y8"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_sb2_jl_dw"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@color/main_color"
+                        android:textSize="32dp"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:id="@+id/laba2dw"
+                        android:layout_width="@dimen/x20"
+                        android:layout_height="@dimen/x20"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/x4"
+                        android:layout_toRightOf="@+id/tv_sb2_jl_dw"
+                        android:background="@mipmap/laba_red"
+                        android:gravity="center" />
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/x20"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <CheckBox
+                        android:id="@+id/cbzt2_g"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:buttonTint="#2f8dff"
+                        android:checked="true"
+                        android:text="高" />
+
+                    <CheckBox
+                        android:id="@+id/cbzt2_z"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:buttonTint="#2f8dff"
+                        android:text="中" />
+
+                    <CheckBox
+                        android:id="@+id/cbzt2_d"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:buttonTint="#2f8dff"
+                        android:text="低" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+
+            <Button
+
+                android:id="@+id/bts_start1_dw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/x2"
+                android:layout_weight="1"
+                android:background="@color/blue"
+                android:text="开始定位"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/bts_stop_dw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/x2"
+                android:layout_weight="1"
+                android:background="@color/blue"
+                android:text="停止定位"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/pb"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_marginRight="@dimen/x10"
+            android:gravity="center"
+            android:max="8"
+            android:progress="0"
+            android:progressDrawable="@drawable/bg_progress"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/pb2"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_marginTop="@dimen/x10"
+            android:layout_marginRight="@dimen/x10"
+            android:gravity="center"
+            android:max="8"
+            android:progress="0"
+            android:progressDrawable="@drawable/bg_progress"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/x2"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x5">
+
+                <TextView
+
+                    android:id="@+id/tv1type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="4G设备:连接中" />
+
+                <TextView
+                    android:id="@+id/tvtypetext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tv1type"
+                    android:text="请等待"
+                    android:visibility="visible" />
+            </RelativeLayout>
+
+
+            <!--            <TextView-->
+            <!--                android:layout_marginLeft="@dimen/x5"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:id="@+id/tv2type"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:text="5G设备:" />-->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x5">
+
+                <TextView
+
+                    android:id="@+id/tv2type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="5G设备:连接中" />
+
+                <TextView
+                    android:id="@+id/tvtypetext2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tv2type"
+                    android:text="请等待"
+                    android:visibility="visible" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

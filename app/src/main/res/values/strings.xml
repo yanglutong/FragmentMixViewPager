@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="list_xun_list">基站巡视列表</string>
+    <string name="app_name">三明定位系统</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="upparam_activity">修改参数</string>
+    <string name="addparam_activity">添加参数</string>
+    <string name="no1">定位</string>
+    <string name="no2">基站查询</string>
+    <string name="no3">工模</string>
+    <string name="no4">No4</string>
+    <string name="title1">定位</string>
+    <string name="title2">基站查询</string>
+    <string name="title3">工模</string>
+    <string name="pin_activity2">4G频点</string>
+    <string name="pin_activity5g">5G频点</string>
+    <string name="saopinlistActivity">4G扫频</string>
+    <string name="personnelConfig">人员管理</string>
+    <string name="deviceinfo">设备信息</string>
+    <string name="panorama_name">街景地图</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确认</string>
+    <string name="dialog_tip">ylt</string>
+    <string name="login_auth_ing">正在加载中</string>
+</resources>

@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/corners_bg"
+    android:gravity="center"
+    android:orientation="vertical">
+    <!---->
+
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:gravity="center"-->
+        <!--android:weightSum="2">-->
+
+        <!--<CheckBox-->
+            <!--android:buttonTint="#2f8dff"-->
+            <!--android:id="@+id/cb_phone"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="30dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:checked="true"-->
+            <!--android:text="本手机扫描" />-->
+
+        <!--<CheckBox-->
+            <!--android:buttonTint="#2f8dff"-->
+            <!--android:id="@+id/cb_device"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginRight="30dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="设备1扫描" />-->
+    <!--</LinearLayout>-->
+
+
+    <!--<LinearLayout-->
+    <!--android:orientation="vertical"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
+    <!--<LinearLayout-->
+        <!--android:id="@+id/ll_phone"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="260dp"-->
+        <!--android:orientation="vertical">-->
+        <!--&lt;!&ndash;卡槽1&ndash;&gt;-->
+        <!--<LinearLayout-->
+
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center">-->
+
+            <!--<CheckBox-->
+                <!--android:buttonTint="#2f8dff"-->
+                <!--android:id="@+id/cb_yy1"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:checked="true"-->
+                <!--android:gravity="center"-->
+                <!--android:text="运营商1" />-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:weightSum="2">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv1_yy"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="50dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="运营商 移动" />-->
+
+            <!--<TextView-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--android:id="@+id/tv1_zhishi"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="小区类型: LTE" />-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:weightSum="2">-->
+
+
+            <!--<TextView-->
+                <!--android:layout_marginLeft="50dp"-->
+                <!--android:id="@+id/tv1_BAND"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="BAND: " />-->
+
+            <!--<TextView-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--android:id="@+id/tv1_EAR"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="EARFCN: " />-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:weightSum="2">-->
+
+            <!--<TextView-->
+                <!--android:layout_marginLeft="50dp"-->
+                <!--android:id="@+id/tv1_plmn"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="PLMN: " />-->
+
+            <!--<TextView-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--android:id="@+id/tv1_TAC"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="TAC: " />-->
+
+
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:weightSum="2">-->
+
+
+            <!--<TextView-->
+                <!--android:layout_marginLeft="50dp"-->
+                <!--android:id="@+id/tv1_rsrp"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="RSRP:" />-->
+
+            <!--<TextView-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--android:id="@+id/tv1_rsrq"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="RSRP:" />-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:weightSum="2">-->
+
+
+            <!--<TextView-->
+                <!--android:layout_marginLeft="50dp"-->
+                <!--android:id="@+id/tv1_CID"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="CID: " />-->
+
+            <!--<TextView-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--android:id="@+id/tv1_PCI"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="PCI: " />-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_horizontal"-->
+
+            <!--android:gravity="center">-->
+
+            <!--<CheckBox-->
+                <!--android:id="@+id/cb_yy2"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:buttonTint="#2f8dff"-->
+                <!--android:gravity="center"-->
+                <!--android:text="运营商2" />-->
+        <!--</LinearLayout>-->
+        <!--&lt;!&ndash;<LinearLayout&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_marginTop="10dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_gravity="center_horizontal"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:gravity="center">&ndash;&gt;-->
+        <!--&lt;!&ndash;<CheckBox&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/cb_yy2"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_gravity="center_horizontal"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:gravity="center"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:text="运营商2" />&ndash;&gt;-->
+        <!--&lt;!&ndash;</LinearLayout>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;卡槽2&ndash;&gt;-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="horizontal"-->
+
+            <!--android:weightSum="2">-->
+
+            <!--<TextView-->
+                <!--android:layout_marginLeft="50dp"-->
+                <!--android:id="@+id/tv2_yy"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="运营商 :" />-->
+
+            <!--<TextView-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--android:id="@+id/tv2_zhishi"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="小区类型: LTE" />-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+
+            <!--android:weightSum="2">-->
+
+            <!--<TextView-->
+                <!--android:layout_marginLeft="50dp"-->
+                <!--android:id="@+id/tv2_BAND"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="BAND: " />-->
+
+            <!--<TextView-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--android:id="@+id/tv2_EAR"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="EARFCN: " />-->
+
+
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+
+            <!--android:weightSum="2">-->
+
+            <!--<TextView-->
+                <!--android:layout_marginLeft="50dp"-->
+                <!--android:id="@+id/tv2_plmn"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="PLMN: " />-->
+
+            <!--<TextView-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--android:id="@+id/tv2_TAC"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="TAC: " />-->
+
+
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+
+            <!--android:weightSum="2">-->
+
+            <!--<TextView-->
+                <!--android:layout_marginLeft="50dp"-->
+                <!--android:id="@+id/tv2_rsrp"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="RSRP: " />-->
+
+            <!--<TextView-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--android:id="@+id/tv2_rsrq"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="RSRQ: " />-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+
+            <!--android:weightSum="2">-->
+
+            <!--<TextView-->
+                <!--android:layout_marginLeft="50dp"-->
+                <!--android:id="@+id/tv2_CID"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="CID: " />-->
+
+            <!--<TextView-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--android:id="@+id/tv2_PCI"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="left"-->
+                <!--android:text="PCI: " />-->
+
+        <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->
+    <!--&lt;!&ndash;扫频选项<&ndash;&gt;-->
+
+
+    <LinearLayout
+        android:id="@+id/ll_device"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:weightSum="4">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:buttonTint="#2f8dff"
+                android:id="@+id/cb_tdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+
+                android:gravity="center"
+                android:text=""
+                android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/iv_tdd"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@mipmap/norest" />
+
+            <TextView
+                android:id="@+id/tv_tdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/cb_fdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:buttonTint="#2f8dff"
+                android:gravity="center"
+                android:text=""
+                android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/iv_fdd"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@mipmap/norest" />
+
+            <TextView
+                android:id="@+id/tv_fdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:buttonTint="#2f8dff"
+                android:id="@+id/cb_lt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+
+                android:gravity="center"
+                android:text=""
+                android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/iv_lt"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@mipmap/norest" />
+
+            <TextView
+                android:id="@+id/tv_lt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/cb_ds"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:buttonTint="#2f8dff"
+                android:gravity="center"
+                android:text=""
+                android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/iv_ds"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@mipmap/norest" />
+
+            <TextView
+                android:id="@+id/tv_ds"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textSize="20dp" />
+        </LinearLayout>
+        <!--<CheckBox-->
+        <!--android:id="@+id/cb_fdd"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:gravity="center"-->
+        <!--android:text="移动FDD"-->
+        <!--android:textSize="20dp" />-->
+
+        <!--<CheckBox-->
+        <!--android:id="@+id/cb_lt"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:gravity="center"-->
+        <!--android:text="联通        "-->
+        <!--android:textSize="20dp" />-->
+
+        <!--<CheckBox-->
+        <!--android:id="@+id/cb_ds"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:gravity="center"-->
+        <!--android:text="电信        "-->
+        <!--android:textSize="20dp" />-->
+    </LinearLayout>
+    <TextView
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="数据管理"
+        android:textSize="20dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/bg_black" />
+
+    <!--<Button-->
+        <!--android:gravity="center"-->
+        <!--android:text="侦码数据导出"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
+    <Button
+
+        android:id="@+id/bt_export"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:text="侦码数据导出"
+        android:background="@color/blue"
+        android:textSize="15dp" />
+
+
+
+
+    <View
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/bg_black" />
+
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/bt_clear"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:background="@color/blue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:text="侦码数据清除"
+        android:textSize="15dp" />
+    <TextView
+        android:id="@+id/tv_locations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="@dimen/x10"
+        android:gravity="left"
+        android:text="导出路径:"
+        android:textSize="20dp" />
+    <TextView
+        android:id="@+id/tv_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text=""
+        android:textSize="20dp" />
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:textSize="20dp"
+            android:id="@+id/bt_cancel"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="2"
+            android:background="@color/blue"
+            android:text="关闭"
+            android:textColor="@color/white" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="50dp"
+            android:background="@color/bg_black" />
+
+        <!--<Button-->
+            <!--android:id="@+id/bt_cancel"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/corners_bg_blue_left"-->
+            <!--android:text="取消"-->
+            <!--android:textColor="@color/white" />-->
+    </LinearLayout>
+</LinearLayout><!--</LinearLayout>-->

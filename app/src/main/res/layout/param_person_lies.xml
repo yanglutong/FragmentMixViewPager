@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_tab"
+    android:layout_width="match_parent"
+    android:layout_height="25dp"
+    android:orientation="vertical"
+    tools:ignore="MissingDefaultResource">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <TextView
+            style="@style/main_lie"
+            android:layout_weight="1"
+            android:text="选择"
+            android:textSize="12dp" />
+        <TextView
+            style="@style/main_lie"
+            android:layout_weight="2"
+            android:text="序号"
+            android:textSize="12dp" />
+
+
+
+        <TextView
+            style="@style/main_lie"
+            android:layout_weight="3"
+            android:text="账号"
+            android:textSize="12dp" />
+
+        <TextView
+            style="@style/main_lie"
+            android:layout_weight="3"
+            android:text="密码"
+            android:textSize="12dp" />
+
+        <TextView
+            style="@style/main_lie"
+            android:text="备注"
+            android:textSize="12dp" />
+    </LinearLayout>
+</RelativeLayout>
