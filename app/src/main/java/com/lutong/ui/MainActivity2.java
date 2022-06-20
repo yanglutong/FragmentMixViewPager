@@ -1,8 +1,12 @@
 package com.lutong.ui;
 
+import static com.lutong.Constants.isDx;
+import static com.lutong.Constants.isJzBj;
+import static com.lutong.Constants.isLt;
+import static com.lutong.Constants.isYd;
+import static com.lutong.Constants.jzMessage;
 import android.Manifest;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,7 +31,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -50,11 +53,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.baidu.location.LocationClient;
 import com.baidu.mapapi.SDKInitializer;
-import com.baidu.tts.observer.receiver.NetworkChangeReceiver;
 import com.liys.dialoglib.LAnimationsType;
 import com.liys.dialoglib.LDialog;
 import com.lutong.App.MessageEvent;
-import com.lutong.ConnectivityManager.MyBroadcastReceiver;
 import com.lutong.ConnectivityManager.NetChangeReceiver;
 import com.lutong.Constants;
 import com.lutong.Device.DeviceInfoActivity;
@@ -87,12 +88,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
-
-import static com.lutong.Constants.isDx;
-import static com.lutong.Constants.isJzBj;
-import static com.lutong.Constants.isLt;
-import static com.lutong.Constants.isYd;
-import static com.lutong.Constants.jzMessage;
 
 /**
  * 主界面

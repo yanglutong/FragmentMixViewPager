@@ -20,6 +20,7 @@ import com.lutong.Constants;
 import com.lutong.R;
 import com.lutong.Utils.MyUtils;
 import com.lutong.adapter.RecyclerAdapter;
+import com.lutong.ormlite.DBManagerBj;
 import com.lutong.ormlite.JzbJBean;
 import com.lutong.tcp_connect.JsonLteBean;
 import com.lutong.tcp_connect.JsonNrBean;
@@ -30,6 +31,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -101,6 +103,9 @@ public class GijChildFragment4 extends Fragment {
                         return o2.getTv_yxj() - o1.getTv_yxj();
                     }
                 });
+
+
+                Log.e("TAG", "handleMessage: "+listManager.toString() );
                 //基站报警
                 if (listManager.size() > 1) {
                     //基站报警
@@ -191,6 +196,15 @@ public class GijChildFragment4 extends Fragment {
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerAdapter = new RecyclerAdapter(getContext(), listAdd, "LTE");
         recycler.setAdapter(recyclerAdapter);
+
+        //获取数据库是否有基站报警的条目
+        try {
+            DBManagerBj managerBj = new DBManagerBj(getContext());
+            Log.e("ylt", "initGmConfigState4: " + managerBj.getdemoBeanList());
+            listManager = (ArrayList<JzbJBean>) managerBj.getdemoBeanList();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND, sticky = true)
