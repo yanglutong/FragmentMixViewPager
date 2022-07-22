@@ -3,6 +3,7 @@ package com.lutong.ui;
 import com.lutong.fragment.home.FragmentGm;
 import com.lutong.fragment.home.HomeFragment;
 import com.lutong.R;
+import com.lutong.fragment.home.HomeFragment2;
 import com.lutong.fragment.home.ViewPagerFragment1;
 
 

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,11 +43,11 @@
 
 
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/rll"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x45"
-        android:background="@mipmap/jianbian">
+        android:background="@mipmap/jianbian"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="match_parent"
@@ -67,9 +68,9 @@
             android:layout_width="@dimen/x30"
             android:layout_height="@dimen/x30"
             android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
             android:layout_marginRight="@dimen/x12"
             android:background="@mipmap/shezhixin"
-            android:layout_centerInParent="true"
             android:padding="5dp" />
     </RelativeLayout>
 
@@ -84,7 +85,6 @@
         fab:ignore="RtlCompat" />
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/ll_screen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -94,8 +94,9 @@
         android:background="@color/white"
         android:clickable="true"
         android:orientation="vertical"
+        android:padding="5dp"
 
-        android:padding="5dp">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/ib_screen"
@@ -146,7 +147,6 @@
 
     <LinearLayout
 
-        android:weightSum="8"
         android:id="@+id/ll_baidaohang"
         android:layout_width="@dimen/x40"
         android:layout_height="@dimen/x220"
@@ -155,14 +155,15 @@
         android:layout_marginRight="@dimen/x10"
         android:background="@drawable/cebianlan0"
         android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="8">
 
         <LinearLayout
-            android:layout_weight="1"
-            android:layout_marginTop="10dp"
             android:id="@+id/ll_qiehuan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
             android:clickable="true"
             android:duplicateParentState="true"
             android:orientation="vertical">
@@ -246,10 +247,10 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_weight="1"
             android:id="@+id/ll_jt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:clickable="true"
             android:orientation="vertical">
 
@@ -286,10 +287,10 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_weight="1"
             android:id="@+id/ll_rl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:clickable="true"
             android:orientation="vertical">
 
@@ -322,13 +323,14 @@
                 android:layout_marginLeft="@dimen/x2"
                 android:layout_marginTop="@dimen/x1"
                 android:layout_marginRight="@dimen/x2"
-                android:background="@color/hui"/>
+                android:background="@color/hui" />
         </LinearLayout>
+
         <LinearLayout
-            android:layout_weight="1"
             android:id="@+id/ll_cl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:clickable="true"
             android:orientation="vertical">
 
@@ -363,11 +365,12 @@
                 android:layout_marginRight="@dimen/x2"
                 android:background="@color/hui" />
         </LinearLayout>
+
         <LinearLayout
-            android:layout_weight="1"
             android:id="@+id/ll_gj"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:clickable="true"
             android:orientation="vertical">
 
@@ -404,13 +407,13 @@
         </LinearLayout>
 
         <LinearLayout
-            android:visibility="gone"
-            android:layout_weight="1"
             android:id="@+id/ll_guijis"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:clickable="true"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
 
@@ -446,13 +449,13 @@
         </LinearLayout>
 
         <LinearLayout
-            android:visibility="gone"
-            android:layout_weight="1"
             android:id="@+id/ll_gjview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:clickable="true"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
 
@@ -477,6 +480,7 @@
                 android:clickable="false"
                 android:text="显 示"
                 android:textColor="@color/gray_black" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x1"
@@ -487,13 +491,13 @@
         </LinearLayout>
 
         <LinearLayout
-            android:visibility="gone"
-            android:layout_weight="1"
             android:id="@+id/ll_gjclear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:clickable="true"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
 
@@ -528,13 +532,13 @@
         </LinearLayout>
 
         <LinearLayout
-            android:visibility="gone"
-            android:layout_weight="1"
             android:id="@+id/ll_baojing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:clickable="true"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/ib_baojing"
@@ -569,10 +573,10 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_weight="1"
             android:id="@+id/ll_gensui"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:clickable="true"
             android:orientation="vertical">
 
@@ -598,6 +602,7 @@
                 android:clickable="false"
                 android:text="跟 随"
                 android:textColor="@color/gray_black" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x1"
@@ -608,12 +613,12 @@
         </LinearLayout>
 
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/ll_fugai"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/ib_fugai"
@@ -643,9 +648,10 @@
                 android:layout_height="1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/hui"/>
+                android:background="@color/hui" />
         </LinearLayout>
     </LinearLayout>
+
     <Button
         android:id="@+id/bt_uisearch"
         android:layout_width="@dimen/x170"
@@ -657,30 +663,30 @@
         android:gravity="center"
         android:text="增加基站"
         android:textColor="@color/white"
-        android:textSize="@dimen/x15" />
+        android:textSize="@dimen/x15"
+        android:visibility="gone" />
 
     <Button
-        android:visibility="gone"
         android:id="@+id/bt_jizhan0"
         android:layout_width="@dimen/x45"
         android:layout_height="@dimen/x45"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/x20"
         android:layout_marginBottom="@dimen/x40"
-        android:background="@mipmap/jizhan_1" />
+        android:background="@mipmap/jizhan_1"
+        android:visibility="gone" />
 
     <Button
-        android:visibility="gone"
         android:id="@+id/bt_uilocation"
         android:layout_width="@dimen/x45"
         android:layout_height="@dimen/x45"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/x20"
         android:layout_marginBottom="@dimen/x90"
-        android:background="@mipmap/dangqian" />
+        android:background="@mipmap/dangqian"
+        android:visibility="gone" />
 
     <Button
-        android:visibility="gone"
         android:id="@+id/bt_uiceliang"
         android:layout_width="@dimen/x45"
         android:layout_height="@dimen/x45"
@@ -690,10 +696,10 @@
         android:layout_marginLeft="@dimen/x2"
         android:layout_marginRight="@dimen/x10"
         android:layout_marginBottom="@dimen/x90"
-        android:background="@mipmap/celiang" />
+        android:background="@mipmap/celiang"
+        android:visibility="gone" />
 
     <Button
-        android:visibility="gone"
         android:id="@+id/bt_uiceliangclear"
         android:layout_width="@dimen/x45"
         android:layout_height="@dimen/x45"
@@ -705,6 +711,7 @@
         android:layout_marginBottom="@dimen/x40"
         android:layout_toStartOf="@+id/bt_uiceliang"
         android:background="@mipmap/qingkong_0"
+        android:visibility="gone"
         fab:ignore="RtlCompat" />
 
     <LinearLayout
@@ -817,4 +824,337 @@
         <!--android:layout_height="wrap_content"-->
         <!--android:clickable="true" />-->
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/rb_yidong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="移动"
+                android:textSize="12dp" />
+
+            <CheckBox
+                android:id="@+id/rb_liantong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="联通"
+                android:textSize="12dp" />
+
+            <CheckBox
+                android:id="@+id/rb_ldainxin4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="电信"
+                android:textSize="12dp" />
+
+            <CheckBox
+                android:id="@+id/rb_cdma"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="电信CDMA"
+                android:textSize="12dp" />
+        </RadioGroup>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_7f000000" />
+
+        <LinearLayout
+            android:id="@+id/ll_sid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="SID:"
+                android:textColor="@color/gray_black" />
+
+            <EditText
+                android:id="@+id/et_sid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:hint="CDMA请输入SID"
+                android:inputType="number"
+                android:text="" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_nid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="请输入lac:"
+                android:textColor="@color/gray_black" />
+
+            <EditText
+                android:id="@+id/et_nid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:hint="请输入nid"
+                android:inputType="number"
+                android:text="" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_bid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="请输入ci:"
+                android:textColor="@color/gray_black" />
+
+            <EditText
+                android:id="@+id/et_bid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:hint="请输入bid"
+                android:inputType="number"
+                android:text="" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_7f000000" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="TAC/LAC/NID:"
+                android:textColor="@color/gray_black"
+                android:textSize="12dp" />
+
+            <EditText
+                android:id="@+id/et_taclac"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:hint="请输入TAC/LAC/NID"
+                android:inputType="number"
+                android:text="12562"
+                android:textSize="12dp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_7f000000" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:text="ECI/CI/BID:"
+                android:textColor="@color/gray_black"
+                android:textSize="12dp" />
+
+            <EditText
+                android:id="@+id/et_eci"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:hint="请输入ECI/BID"
+                android:inputType="number"
+                android:text="46026774"
+                android:textSize="12dp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_7f000000" />
+
+        <LinearLayout
+            android:id="@+id/ll_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:text="经度（WGS）:"
+                    android:textColor="@color/gray_black"
+                    android:textSize="12dp" />
+
+                <EditText
+                    android:id="@+id/ets_lon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:hint="请输入经度"
+                    android:inputType="numberDecimal"
+                    android:text=""
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:text="纬度（WGS）:"
+                    android:textColor="@color/gray_black"
+                    android:textSize="12dp" />
+
+                <EditText
+                    android:id="@+id/ets_lat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:hint="请输入纬度"
+                    android:inputType="numberDecimal"
+                    android:text=""
+                    android:textSize="12dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_7f000000" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:text="基站范围:"
+                android:textColor="@color/gray_black"
+                android:textSize="12dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginRight="10dp"
+                android:layout_weight="2"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/et_ta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="2"
+                    android:hint="请输入范围值"
+                    android:inputType="number|numberDecimal"
+                    android:text=""
+                    android:textSize="12dp" />
+
+                <Button
+                    android:id="@+id/btadd"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:background="#2f8dff"
+                    android:text="添加TA值"
+                    android:textColor="#FFFFFF"
+                    android:textSize="17dp"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/bt_adddilao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:background="@drawable/shape_button_queren"
+                        android:text="确认"
+                        android:textColor="#FFFFFF"
+                        android:textSize="17dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_7f000000" />
+
+    </LinearLayout>
 </RelativeLayout>

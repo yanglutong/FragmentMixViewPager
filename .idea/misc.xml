@@ -45,12 +45,15 @@
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/drawable/bg_loading_dialog.xml" value="0.1" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/drawable/corners_bg_blue_left.xml" value="0.221" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/drawable/gij_config_bj.xml" value="0.1555" />
+        <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/drawable/shape_button_queren.xml" value="0.21" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/drawable/tab_icon3.xml" value="0.224" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/activity_adminctivity.xml" value="0.11727456940222898" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/activity_home.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/activity_location.xml" value="0.22282608695652173" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/activity_main.xml" value="0.144" />
+        <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/activity_map_info.xml" value="0.24114583333333334" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/activity_panorama_demo_main.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/activity_sernn_xq.xml" value="0.4" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/activity_test.xml" value="0.23097826086956522" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/activity_test2.xml" value="0.2" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/base_viewpage_fragment.xml" value="0.22552083333333334" />
@@ -71,8 +74,11 @@
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/fragment_gijs.xml" value="0.12" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/fragmernt3.xml" value="0.2" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/item_dibushow2.xml" value="0.24114583333333334" />
+        <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/item_dibushow53.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/item_dibushowdaohao.xml" value="0.14322916666666666" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/item_dibushowlt.xml" value="0.264" />
+        <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/item_dibushowlt2.xml" value="0.264" />
+        <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/jz_fragment.xml" value="0.2" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/main_lies.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/pin_config_list.xml" value="0.2" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/pin_config_list5g.xml" value="0.4" />
