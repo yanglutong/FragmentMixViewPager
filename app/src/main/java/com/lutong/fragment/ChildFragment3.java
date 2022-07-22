@@ -3119,7 +3119,6 @@ public class ChildFragment3 extends BaseFragment implements NewViewDW.View {
                                         } catch (SocketException e) {
                                             e.printStackTrace();
                                         }
-                                        ;
                                         DatagramPacket outputPacket = new DatagramPacket(outputData, outputData.length, address, 3345);
 //                        DatagramPacket outputPacket = new DatagramPacket(outputData, outputData.length, reIP, Integer.parseInt(et_port.getText().toString()));
                                         Log.e("nzqsendstart1", "run: sendsocket端口号" + outputPacket.getPort() + "Ip地址:" + outputPacket.getAddress().toString() + "数据:" + outputPacket.getData());
@@ -3135,7 +3134,6 @@ public class ChildFragment3 extends BaseFragment implements NewViewDW.View {
                                     }
                                 }).start();
                             }
-
                         }
                     }
                     List<AddPararBean> pararBeansListA = new ArrayList<>();
@@ -3665,10 +3663,7 @@ public class ChildFragment3 extends BaseFragment implements NewViewDW.View {
                     presenter.buildSD(ACacheUtil.getSpinner1(), 1, type1, mContext);
                 } else {
                     presenter.buildSD(ACacheUtil.getSpinner1(), 1, type1, mContext);
-
                 }
-
-
                 break;
             case 100137:
                 Log.d(TAG, "onMessageEvent: 设置定位模式失败");
@@ -3715,12 +3710,10 @@ public class ChildFragment3 extends BaseFragment implements NewViewDW.View {
                 tv_sb1_jl_dw.setText(event.getData() + "");
                 presenter.setIMSInengliangzhi(event.getData().toString(), mContext, 1, tf1, dfBaoshu, tv_sb1_jl_dw, laba1Flag, textToSpeech);
                 break;
-
             case 100148:
                 Log.d("100148", "定位IMSIonMessageEvent: " + event.getData());
                 tv_imsi1_dw.setText(event.getData() + "");
                 break;
-
             case 100152:
                 //  定时 扫频
                 Log.d(TAG, "100152onMessageEvent: " + event.getData() + "----" + ACacheUtil.getSpinner1());

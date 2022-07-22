@@ -6,11 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity2">
     <LinearLayout
+        android:id="@+id/liner_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-      <include layout="@layout/tabs"/>
+        <include layout="@layout/tabs"/>
 
         <FrameLayout
             android:id="@+id/realtabcontent"
@@ -42,5 +43,147 @@
 
         </FrameLayout>
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/liner_home"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        tools:context=".ui.HomeActivity">
 
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@drawable/bghuanying"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                tools:layout_editor_absoluteX="-16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:gravity="center"
+                    android:text="首页"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"></TextView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="40dp"
+                    android:text="欢迎使用三明定位系统"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"></TextView>
+
+                <TextView
+                    android:id="@+id/dingwei"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
+                    android:text="基站查询·工模·定位三合一"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="200dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/banner"></LinearLayout>
+        </RelativeLayout>
+        <TextView
+            android:layout_marginTop="20dp"
+            android:textSize="25sp"
+            android:layout_marginLeft="15dp"
+            android:text="功能模块"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+        <LinearLayout
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/liner_jz_home"
+                android:orientation="vertical"
+                android:background="@drawable/blue_bg1"
+                android:layout_width="130dp"
+                android:layout_height="130dp">
+                <ImageView
+                    android:layout_marginTop="25dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/jizhan"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+                </ImageView>
+                <TextView
+                    android:text="基站查询"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/liner_gm"
+                android:orientation="vertical"
+                android:background="@drawable/blue_bg2"
+                android:layout_width="130dp"
+                android:layout_height="130dp">
+                <ImageView
+                    android:layout_marginTop="25dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/gongmo"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+                </ImageView>
+                <TextView
+                    android:text="工模"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/liner_dw"
+                android:orientation="vertical"
+                android:background="@drawable/blue_bg3"
+                android:layout_width="130dp"
+                android:layout_height="130dp">
+                <ImageView
+                    android:layout_marginTop="25dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/dingwei"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+                </ImageView>
+                <TextView
+                    android:text="定位"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </TextView>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>

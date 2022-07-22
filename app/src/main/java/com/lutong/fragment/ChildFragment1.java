@@ -26,7 +26,7 @@ import com.lutong.Service.MyService;
 import com.lutong.activity.AddParamActivity;
 import com.lutong.base.BaseFragment;
 import com.lutong.fragment.adapter.IMSIRecycleAdapter;
-import com.lutong.fragment.home_fragment.ViewPagerFragment1;
+import com.lutong.fragment.home.ViewPagerFragment1;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -286,8 +286,4 @@ public class ChildFragment1 extends BaseFragment implements ITMailister, ViewPag
 //                break;
 //        }
     }
-
-
-    ;
-
 }

@@ -918,7 +918,6 @@ public class NewPersentDW implements NewViewDW.MainPresenter {
     private void startAuto(String data, boolean b, TextToSpeech textToSpeech) {
         textToSpeech.setPitch(1.f);
         Log.d("wpnqq", "startAuto: " + b);
-
         // 设置语速
         textToSpeech.setSpeechRate(8.01f);
         textToSpeech.speak(data,//输入中文，若不支持的设备则不会读出来

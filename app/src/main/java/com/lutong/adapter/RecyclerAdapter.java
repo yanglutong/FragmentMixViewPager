@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lutong.R;
-import com.lutong.tcp_connect.RecJsonBean;
+import com.lutong.tcp.RecJsonBean;
 
 import java.util.ArrayList;
 
@@ -83,15 +83,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
         if (mDatas.get(position).getTv_yxj() == 0) {
-            normalHolder.tv_yxj.setText("0");
+            normalHolder.tv_yxj.setText("-");
         }
         if (mDatas.get(position).getTv_NetWorkType().equals("NR")) {
             if (mDatas.get(position).getTv_cid().equals("0")) {
-                normalHolder.tv_arfcn.setText(mDatas.get(position).getTv_arfcn() + "(0)");
-                normalHolder.tv_cid.setText("0");
+                normalHolder.tv_arfcn.setText(mDatas.get(position).getTv_arfcn() + "(-)");
+                normalHolder.tv_cid.setText("-");
             } else {
                 if (mDatas.get(position).getNrCenterArfcn().equals("0")) {
-                    normalHolder.tv_arfcn.setText(mDatas.get(position).getTv_arfcn() + "(0)");
+                    normalHolder.tv_arfcn.setText(mDatas.get(position).getTv_arfcn() + "(-)");
                 } else {
                     normalHolder.tv_arfcn.setText(mDatas.get(position).getTv_arfcn() + "(" + mDatas.get(position).getNrCenterArfcn() + ")");
                 }

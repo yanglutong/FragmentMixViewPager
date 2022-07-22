@@ -32,7 +32,8 @@ public class NetUtil {
         if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
             if (activeNetworkInfo.getType() == (ConnectivityManager.TYPE_WIFI)) {
                 return NETWORK_WIFI;//wifi
-            } else if (activeNetworkInfo.getType() == (ConnectivityManager.TYPE_MOBILE)) {
+            } else
+                if (activeNetworkInfo.getType() == (ConnectivityManager.TYPE_MOBILE)) {
                 return NETWORK_MOBILE;//mobile
             }
         } else {

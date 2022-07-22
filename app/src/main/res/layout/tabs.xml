@@ -6,11 +6,6 @@
     android:layout_height="@dimen/y30"
     android:orientation="vertical">
 
-    <!--    <LinearLayout-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="35dp"-->
-    <!--        android:background="@mipmap/jianbian" />-->
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/y35"
@@ -18,20 +13,31 @@
 
         <LinearLayout
             android:id="@+id/liner_jz"
-            android:visibility="visible"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/iv_home"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/homehuanying"
+                android:padding="5dp" />
 
             <TextView
                 android:id="@+id/titles"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/y35"
-                android:layout_marginLeft="@dimen/x120"
+                android:layout_marginLeft="@dimen/navi_dimens_100dp"
                 android:gravity="center"
                 android:text="title"
                 android:textColor="@color/white"
-                android:textSize="20dp"
-                />
+                android:textSize="20dp" />
+
             <TextView
                 android:id="@+id/titles_r"
                 android:layout_width="wrap_content"
@@ -48,6 +54,16 @@
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_homes"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/homehuanying"
+                android:padding="5dp" />
             <TextView
                 android:id="@+id/titles_location"
                 android:layout_width="match_parent"

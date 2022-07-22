@@ -96,6 +96,11 @@ public class AppContext extends Application {
 //        //设置屏幕适配逻辑策略类, 一般不用设置, 使用框架默认的就好
 ////                .setAutoAdaptStrategy(new AutoAdaptStrategy())
 //        ;
+
+		if (mBMapManager == null) {//初始化街景地圖
+			mBMapManager = new BMapManager(this);
+			mBMapManager.init(new AppContext.MyGeneralListener());
+		}
     }
 	public static class MyGeneralListener implements MKGeneralListener {
 

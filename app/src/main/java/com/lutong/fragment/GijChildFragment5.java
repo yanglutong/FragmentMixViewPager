@@ -5,6 +5,8 @@ import static com.lutong.Constants.isJzBj;
 import static com.lutong.Constants.isLt;
 import static com.lutong.Constants.isYd;
 import static com.lutong.Constants.jzMessage;
+import static com.lutong.Constants.typeJzMode;
+import static com.lutong.Constants.typePage;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -27,9 +29,8 @@ import com.lutong.Utils.MyUtils;
 import com.lutong.adapter.RecyclerAdapter;
 import com.lutong.ormlite.DBManagerBj;
 import com.lutong.ormlite.JzbJBean;
-import com.lutong.tcp_connect.JsonLteBean;
-import com.lutong.tcp_connect.JsonNrBean;
-import com.lutong.tcp_connect.RecJsonBean;
+import com.lutong.tcp.JsonNrBean;
+import com.lutong.tcp.RecJsonBean;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -58,109 +59,115 @@ public class GijChildFragment5 extends Fragment {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            if (msg.what == 11115) {
-                JsonNrBean jsonNrBean = (JsonNrBean) msg.obj;
-                listAdd.clear();
-                setNr(jsonNrBean);//添加数据源
-                //移动联通电信运营商区分
-                if (list.size() > 0) {
-                    for (RecJsonBean recJsonBean : list) {
-                        if (isYd) {
-                            if (recJsonBean.getTv_plmn().equals("46002") || recJsonBean.getTv_plmn().equals("46000")) {
-                                listAdd.add(recJsonBean);
-                            }
-                        }
-                        if (isLt) {
-                            if (recJsonBean.getTv_plmn().equals("46001")) {
-                                listAdd.add(recJsonBean);
-                            }
-                        }
-                        if (isDx) {
-                            if (recJsonBean.getTv_plmn().equals("46011")) {
-                                listAdd.add(recJsonBean);
-                            }
-                        }
-                    }
-                }
-
-                //基站老化
-                Iterator<RecJsonBean> iterator = list.iterator();
-                while (iterator.hasNext()) {
-                    RecJsonBean recJsonBean = iterator.next();
-                    boolean remove = MyUtils.isRemove(MyUtils.timeM(MyUtils.getTimeShort()), MyUtils.timeM(recJsonBean.getTv_cj_time()), jzMessage);
-                    if (remove) {
-                        iterator.remove();
-                    }
-                }
-                //按照优先级排序
-                Collections.sort(listAdd, new Comparator<RecJsonBean>() {
-                    @Override
-                    public int compare(RecJsonBean o1, RecJsonBean o2) {
-                        return o2.getTv_yxj() - o1.getTv_yxj();
-                    }
-                });
-                //基站报警
-                if (listManager.size() > 1) {
-                    //基站报警
-                    ArrayList<RecJsonBean> beans = new ArrayList<>();
-                    for (int i = 1; i < listManager.size(); i++) {
-                        JzbJBean jzbJBean = listManager.get(i);
-                        for (int j = 0; j < listAdd.size(); j++) {
-                            RecJsonBean jsonBean = listAdd.get(j);
-                            if (jzbJBean.getCid().equals(jsonBean.getTv_cid() + "") && jzbJBean.getTac().equals(jsonBean.getTv_tac() + "")) {
-                                beans.add(jsonBean);
-                            }
-                        }
-                    }
-                    for (int i = 0; i < beans.size(); i++) {
-                        RecJsonBean jzbJBean = beans.get(i);
-                        jzbJBean.setJzBjState(true);
-//                        list.set(jzbJBean.getIndex() - 1, jzbJBean);
-                    }
-
-                    //是选中状态，并且显示在界面上的才会响铃
-                    if (isJzBj) {//报警声音
-                        String tac = null;
-                        String cid = null;
-                        for (int i = 1; i < listManager.size(); i++) {
-                            JzbJBean jzbJBean = listManager.get(i);
-                            if (jzbJBean.getTac().equals(jsonNrBean.getPLMNLIST().get(0).getTAC() + "") && jzbJBean.getCid().equals(jsonNrBean.getPLMNLIST().get(0).getCID() + "")) {
-                                tac = jsonNrBean.getPLMNLIST().get(0).getTAC() + "";
-                                cid = jsonNrBean.getPLMNLIST().get(0).getCID() + "";
-                            }
-                        }
-                        if (tac != null && cid != null) {
-                            //有报警的基站并且为显示状态才报警
-                            boolean isBaoJ = false;
-                            for (RecJsonBean jsonBean : listAdd) {
-                                if (jsonBean.getTv_tac().equals(tac) && jsonBean.getTv_cid().equals(cid)) {
-                                    isBaoJ = true;
+            if(typePage == 1 && typeJzMode == 5){
+                if (msg.what == 11115) {
+                    JsonNrBean jsonNrBean = (JsonNrBean) msg.obj;
+                    listAdd.clear();
+                    setNr(jsonNrBean);//添加数据源
+                    //移动联通电信运营商区分
+                    if (list.size() > 0) {
+                        for (RecJsonBean recJsonBean : list) {
+                            if (isYd) {
+                                if (recJsonBean.getTv_plmn().equals("46002") || recJsonBean.getTv_plmn().equals("46000")) {
+                                    listAdd.add(recJsonBean);
                                 }
                             }
-
-                            if (isBaoJ) {
-                                startVoice();
-                            } else {
-                                length = 5;
-                                stopVoice();
+                            if (isLt) {
+                                if (recJsonBean.getTv_plmn().equals("46001")) {
+                                    listAdd.add(recJsonBean);
+                                }
+                            }
+                            if (isDx) {
+                                if (recJsonBean.getTv_plmn().equals("46011")) {
+                                    listAdd.add(recJsonBean);
+                                }
                             }
                         }
-                    } else {
-                        length = 5;
-                        stopVoice();
                     }
-                } else {
+
+                    //基站老化
+                    Iterator<RecJsonBean> iterator = list.iterator();
+                    while (iterator.hasNext()) {
+                        RecJsonBean recJsonBean = iterator.next();
+                        boolean remove = MyUtils.isRemove(MyUtils.timeM(MyUtils.getTimeShort()), MyUtils.timeM(recJsonBean.getTv_cj_time()), jzMessage);
+                        if (remove) {
+                            iterator.remove();
+                        }
+                    }
+                    //按照优先级排序
+                    Collections.sort(listAdd, new Comparator<RecJsonBean>() {
+                        @Override
+                        public int compare(RecJsonBean o1, RecJsonBean o2) {
+                            return o2.getTv_yxj() - o1.getTv_yxj();
+                        }
+                    });
+                    //基站报警
+                    if (listManager.size() > 1) {
+                        //基站报警
+                        ArrayList<RecJsonBean> beans = new ArrayList<>();
+                        for (int i = 1; i < listManager.size(); i++) {
+                            JzbJBean jzbJBean = listManager.get(i);
+                            for (int j = 0; j < listAdd.size(); j++) {
+                                RecJsonBean jsonBean = listAdd.get(j);
+                                if (jzbJBean.getCid().equals(jsonBean.getTv_cid() + "") && jzbJBean.getTac().equals(jsonBean.getTv_tac() + "")) {
+                                    beans.add(jsonBean);
+                                }
+                            }
+                        }
+                        for (int i = 0; i < beans.size(); i++) {
+                            RecJsonBean jzbJBean = beans.get(i);
+                            jzbJBean.setJzBjState(true);
+//                        list.set(jzbJBean.getIndex() - 1, jzbJBean);
+                        }
+
+                        //是选中状态，并且显示在界面上的才会响铃
+                        if (isJzBj) {//报警声音
+                            String tac = null;
+                            String cid = null;
+                            for (int i = 1; i < listManager.size(); i++) {
+                                JzbJBean jzbJBean = listManager.get(i);
+                                if (jzbJBean.getTac().equals(jsonNrBean.getPLMNLIST().get(0).getTAC() + "") && jzbJBean.getCid().equals(jsonNrBean.getPLMNLIST().get(0).getCID() + "")) {
+                                    tac = jsonNrBean.getPLMNLIST().get(0).getTAC() + "";
+                                    cid = jsonNrBean.getPLMNLIST().get(0).getCID() + "";
+                                }
+                            }
+                            if (tac != null && cid != null) {
+                                //有报警的基站并且为显示状态才报警
+                                boolean isBaoJ = false;
+                                for (RecJsonBean jsonBean : listAdd) {
+                                    if (jsonBean.getTv_tac().equals(tac) && jsonBean.getTv_cid().equals(cid)) {
+                                        isBaoJ = true;
+                                    }
+                                }
+
+                                if (isBaoJ) {
+                                    if(isPlay){
+                                        startVoice();
+                                    }
+                                } else {
+                                    length = 5;
+                                    stopVoice();
+                                }
+                            }
+                        } else {
+                            length = 5;
+                            stopVoice();
+                        }
+                    } else {
+                        for (int i = 0; i < listAdd.size(); i++) {
+                            RecJsonBean jsonBean = listAdd.get(i);
+                            jsonBean.setJzBjState(false);
+                        }
+                    }
+                    //显示条目下标
                     for (int i = 0; i < listAdd.size(); i++) {
                         RecJsonBean jsonBean = listAdd.get(i);
-                        jsonBean.setJzBjState(false);
+                        jsonBean.setIndex(i + 1);
                     }
+                    recyclerAdapter.notifyDataSetChanged();
                 }
-                //显示条目下标
-                for (int i = 0; i < listAdd.size(); i++) {
-                    RecJsonBean jsonBean = listAdd.get(i);
-                    jsonBean.setIndex(i + 1);
-                }
-                recyclerAdapter.notifyDataSetChanged();
+            }else{
+                stopVoice();
             }
         }
     };
@@ -172,11 +179,11 @@ public class GijChildFragment5 extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_gijs, container, false);
         findView(view);
-        initData(view);
+        initData();
         return view;
     }
 
-    private void initData(View view) {
+    private void initData() {
         //注册Event
         EventBus.getDefault().register(this);
 
@@ -215,6 +222,9 @@ public class GijChildFragment5 extends Fragment {
             listManager = (ArrayList<JzbJBean>) event.getData();
             Log.e("ylt", "GijChildFragment4: " + listManager.size() + "===" + listManager.toString());
         }
+        if(event.getCode() == 3033){//界面为基站查询或定位时，停止播放报警声音
+            stopVoice();
+        }
     }
 
     @Override
@@ -229,7 +239,10 @@ public class GijChildFragment5 extends Fragment {
         stopVoice();//只要有切换界面的操作 
         if (isVisibleToUser) {//显示的时候
             //切换成4G
+            typeJzMode = 5;
             EventBus.getDefault().postSticky(new MessageEvent(2022, Constants.sendNr));
+        }else{
+            stopVoice();
         }
     }
 
@@ -354,6 +367,9 @@ public class GijChildFragment5 extends Fragment {
 
     //循环播放音频文件
     public void startVoice() {
+        if(getContext() == null){
+            return;
+        }
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             return;
         }
@@ -377,5 +393,20 @@ public class GijChildFragment5 extends Fragment {
             }
 //                mediaPlayer.setLooping(false);
         });
+    }
+
+    private boolean isPlay = true;
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.e("CijChild5", "onPause: " );
+        stopVoice();
+        isPlay =false;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        isPlay = true;
     }
 }

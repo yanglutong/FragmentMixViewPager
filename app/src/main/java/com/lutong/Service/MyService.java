@@ -88,11 +88,9 @@ public class MyService extends Service {
 
     public MyService() {
     }
-
     @Override
     public void unbindService(ServiceConnection conn) {
         super.unbindService(conn);
-
         Log.d("MyServiceTAG", "unbindService: ");
     }
 

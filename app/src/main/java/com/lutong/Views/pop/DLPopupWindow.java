@@ -92,8 +92,8 @@ public class DLPopupWindow extends PopupWindow {
 //                llBG.setBackgroundResource(R.drawable.menu_open_weixin);
                 llBG.setBackgroundResource(R.drawable.menu_open);
                 break;
-            default:
-                llBG.setBackgroundResource(R.drawable.menu_open);
+            case STYLE_DEF:
+                llBG.setBackgroundResource(R.drawable.menu_ylt);
                 break;
         }
     }

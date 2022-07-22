@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Base64;
+import android.util.Log;
 
 
 import com.lutong.Utils.ReceiveTask;
@@ -53,6 +54,8 @@ public class LoginUtils {
                     if (Constant.IP1.equals(dp.getAddress().getHostAddress())) {
                         System.out.println("123456");
                         System.out.println("收到" + dp.getAddress().getHostAddress() + "发送数据：" + str);
+                        Log.e("ylt", "run: 收到"+ dp.getAddress().getHostAddress() );
+
 
                         //时间
                         Date d = new Date();

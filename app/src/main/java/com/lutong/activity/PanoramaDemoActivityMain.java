@@ -28,7 +28,6 @@ public class PanoramaDemoActivityMain extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         // 先初始化BMapManager
         initBMapManager();
-
         setContentView(R.layout.activity_panorama_demo_main);
         findViewById(R.id.finsh).setOnClickListener(new View.OnClickListener() {//返回键
             @Override

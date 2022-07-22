@@ -1,16 +1,15 @@
 package com.lutong.ui;
 
-import com.lutong.fragment.home_fragment.FragmentGm;
-import com.lutong.fragment.home_fragment.HomeFragment;
+import com.lutong.fragment.home.FragmentGm;
+import com.lutong.fragment.home.HomeFragment;
 import com.lutong.R;
-import com.lutong.fragment.home_fragment.ViewPagerFragment1;
+import com.lutong.fragment.home.ViewPagerFragment1;
 
 
 public enum MainTab {
 
 //	NO1(0, R.string.no1, R.drawable.tab_icon1,
 //	        ViewPagerFragment1.class),
-//
 //	NO2(1, R.string.no2, R.drawable.tab_icon2,
 //	        Fragment1.class),
 //

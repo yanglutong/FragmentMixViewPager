@@ -5,7 +5,15 @@ import static com.lutong.Constants.isJzBj;
 import static com.lutong.Constants.isLt;
 import static com.lutong.Constants.isYd;
 import static com.lutong.Constants.jzMessage;
+import static com.lutong.Constants.port;
+import static com.lutong.Constants.sendLte;
+import static com.lutong.Constants.sendNr;
+import static com.lutong.Constants.stop;
+import static com.lutong.Constants.typeJzMode;
+import static com.lutong.Constants.typePage;
+
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -44,6 +52,7 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -53,6 +62,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.baidu.location.LocationClient;
 import com.baidu.mapapi.SDKInitializer;
+import com.baidu.navisdk.util.common.LogUtil;
 import com.liys.dialoglib.LAnimationsType;
 import com.liys.dialoglib.LDialog;
 import com.lutong.App.MessageEvent;
@@ -77,17 +87,22 @@ import com.lutong.adapter.RecyclerAdapter_Jz;
 import com.lutong.base.OnTabReselectListener;
 import com.lutong.ormlite.DBManagerBj;
 import com.lutong.ormlite.JzbJBean;
-import com.lutong.tcp_connect.TCPServer;
+import com.lutong.server.SocketServerListenHandler;
 import com.lutong.widget.MyFragmentTabHost;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.IOException;
+import java.net.ServerSocket;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 主界面
@@ -119,20 +134,21 @@ public class MainActivity2 extends FragmentActivity implements
     private DLPopupWindow popupWindow;
     private List<DLPopItem> mList = new ArrayList<>();
     private NetChangeReceiver myBroadcastReceiver;//监听是否有手机卡网络连接
-    private TCPServer tcpServer;//扫网获取路测仪数据
     private Timer timerStart = new Timer();
-    private Timer timerNet = new Timer();
     private int pageMode;//区分界面标识
     private LinearLayout liner_jz;
     private LinearLayout liner_location;
+    private Context context;
+    private SocketServerListenHandler socketServerListenHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = this;
         LocationClient.setAgreePrivacy(true);
         SDKInitializer.initialize(getApplicationContext());
         BitmapUtil.init();//创建轨迹图片
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main2);
         EventBus.getDefault().register(this);//注册
         setCallReceiver();//注册广播
         initView();
@@ -146,11 +162,9 @@ public class MainActivity2 extends FragmentActivity implements
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        //初始化tcp连接
-        tcpServer = new TCPServer(handler);
-        tcpServer.startTimerScheduleNet(timerNet, this);//监听网络状态
-        tcpServer.startTimerSchedule(timerStart, tcpServer);
-
+        //初始化服务
+        socketServerListenHandler = new SocketServerListenHandler(handler, port);
+        socketServerListenHandler.startSchedule(timerStart, 10000);
         //初始化工模配置选项状态
         initGmConfigState();
     }
@@ -163,7 +177,7 @@ public class MainActivity2 extends FragmentActivity implements
         //网络发生变化，系统会发出android.net.conn.CONNECTIVITY_CHANGE这样的广播
         //在action添加广播内容，就能接收到相应的广播内容
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-        registerReceiver(myBroadcastReceiver, intentFilter);
+        registerReceiver(myBroadcastReceiver, intentFilter);//
     }
 
     private void initGmConfigState() {
@@ -177,7 +191,7 @@ public class MainActivity2 extends FragmentActivity implements
 
         //初始化数据库
         try {
-            DBManagerBj managerBj = new DBManagerBj(MainActivity2.this);
+            DBManagerBj managerBj = new DBManagerBj(context);
             Log.e("ylt", "initGmConfigState: " + managerBj.getdemoBeanList());
             EventBus.getDefault().postSticky(new MessageEvent(13145, managerBj.getdemoBeanList()));
         } catch (SQLException throwables) {
@@ -186,56 +200,80 @@ public class MainActivity2 extends FragmentActivity implements
     }
 
     private Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak")
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what == 3333) {
-                MyToast.showToast("连接成功");
-                //发送停止命令
-                tcpServer.sendMessage(Constants.sendStop);
-            }
-            if (msg.what == 3030) {
-                int state = (int) msg.obj;//0 移动数据可用 1 wifi可用 -1无网络
-                String title = "";
-                if (pageMode == 0) {
-                    title = "(移动数据切换中...)";
-                    if (state == 0) {//移动数据可用
-                        title = "(移动数据切换成功)";
-                    }
-                } else if (pageMode == 1) {
-                    title = "(扫网设置切换中...)";
-                    if (state != 0) {
-                        title = "(扫网设置切换成功)";
-                    }
+            switch (msg.what) {
+                case 3333: {//连接成功
+                    MyToast.showToast("连接成功");
+                    //发送停止
+                    socketServerListenHandler.sendMessage(sendMsg);//发送停止命令
+                    break;
                 }
-                titles_r.setText(title);
+                case 8888: {
+                    Log.e("ylt", "handleMessage 8888: " + msg.obj);
+                    socketServerListenHandler.listenClientConnect();//重新连接
+                    break;
+                }
+//                case 3030: {//标题栏状态
+////                    ArrayList<Boolean> booleans = (ArrayList<Boolean>) msg.obj;
+////                    Boolean page0 = booleans.get(0);
+////                    Boolean page1 = booleans.get(1);
+//////                    boolean state = (boolean) msg.obj;//true 移动数据可用 false不可用
+////                    String title = "";
+////                    if (pageMode == 0) {
+////                        title = "(移动数据切换中...)";
+////                        if (page0) {//移动数据可用
+////                            title = "(移动数据切换成功)";
+////                        }
+////                    }
+//////                    else if (pageMode == 1) {
+//////                        title = "(扫网设置切换中...)";
+//////                        if (page1) {
+//////                            title = "(扫网设置切换成功)";
+//////                        }
+//////                    }
+////                    titles_r.setText(title);
+////                    Log.e("TAG", "handleMessage:3030 "+booleans.toString());
+//                    break;
+//                }
             }
         }
     };
 
     //移动数据切换中...  移动数据切换成功
     private void findViews() {
-        title = (TextView) findViewById(R.id.titles);//标题
-        titles_r = (TextView) findViewById(R.id.titles_r);//标题小标题
+        title = findViewById(R.id.titles);//标题
+        titles_r = findViewById(R.id.titles_r);//标题小标题
         //基站标题
-        liner_jz = (LinearLayout) findViewById(R.id.liner_jz);
+        liner_jz = findViewById(R.id.liner_jz);
         //定位标题
-        liner_location = (LinearLayout) findViewById(R.id.Liner_location);
+        liner_location = findViewById(R.id.Liner_location);
         title.setVisibility(View.VISIBLE);//默认标题栏展示
         title.setText(getText(R.string.title2));//默认标题栏文字
-        ivadd = (ImageView) findViewById(R.id.iv_add);//imsi添加按钮
+        ivadd = findViewById(R.id.iv_add);//imsi添加按钮
         ivadd.setVisibility(View.GONE);
         ivadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity2.this, AddParamActivity.class));
+                startActivity(new Intent(context, AddParamActivity.class));
             }
         });
-        iv_menu = (ImageView) findViewById(R.id.iv_menu);
+        iv_menu = findViewById(R.id.iv_menu);
         iv_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popupWindow.showAsDropDown(v, 0, 0);
+            }
+        });
+
+        ImageView iv_home = findViewById(R.id.iv_home);
+        iv_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //返回主界面
+                finish();
             }
         });
     }
@@ -283,19 +321,19 @@ public class MainActivity2 extends FragmentActivity implements
             @Override
             public void OnClick(int position) {
                 if (mList.get(position).getText().equals("4G扫频")) {
-                    startActivity(new Intent(MainActivity2.this, SaoPinSetingActivity.class));
+                    startActivity(new Intent(context, SaoPinSetingActivity.class));
                 }
                 if (mList.get(position).getText().equals("4G频点")) {
-                    startActivity(new Intent(MainActivity2.this, PinConfigViewPagerActivity.class));
+                    startActivity(new Intent(context, PinConfigViewPagerActivity.class));
                 }
                 if (mList.get(position).getText().equals("5G频点")) {
-                    startActivity(new Intent(MainActivity2.this, PinConfigViewPagerActivity5G.class));
+                    startActivity(new Intent(context, PinConfigViewPagerActivity5G.class));
                 }
                 if (mList.get(position).getText().equals("5G扫频")) {
                     ToastUtils.showToast("开发中暂未开放");
                 }
                 if (mList.get(position).getText().equals("设备信息")) {
-                    startActivity(new Intent(MainActivity2.this, DeviceInfoActivity.class));
+                    startActivity(new Intent(context, DeviceInfoActivity.class));
                 }
                 if (mList.get(position).getText().equals("数据管理")) {
                 }
@@ -304,17 +342,18 @@ public class MainActivity2 extends FragmentActivity implements
     }
 
     private void AddITemMenujz() {//添加菜单的按钮
-        popupWindow = new DLPopupWindow(this, mList, DLPopupWindow.STYLE_WEIXIN);
+        popupWindow = new DLPopupWindow(this, mList, DLPopupWindow.STYLE_DEF);
         mList.clear();
         AddMenuUtils.addmenuJz(this, popupWindow, mList);
         popupWindow.setOnItemClickListener(new DLPopupWindow.OnItemClickListener() {
             @Override
             public void OnClick(int position) {
                 if (mList.get(position).getText().equals("基站列表")) {
-                    startActivity(new Intent(MainActivity2.this, JzListActivity.class));
+                    startActivity(new Intent(context, JzListActivity.class));
                 }
-                if (mList.get(position).getText().equals("断开")) {
-                    tcpServer.eliminate();
+                if (mList.get(position).getText().equals("dk")) {
+                    Toast.makeText(context, "dk", Toast.LENGTH_SHORT).show();
+                    socketServerListenHandler.eliminate();
                 }
             }
         });
@@ -329,13 +368,12 @@ public class MainActivity2 extends FragmentActivity implements
             View indicator = LayoutInflater.from(getApplicationContext())
                     .inflate(R.layout.tab_indicator, null);
             TextView title = (TextView) indicator.findViewById(R.id.tab_title);
-            Drawable drawable = this.getResources().getDrawable(
-                    mainTab.getResIcon());
+            Drawable drawable = this.getResources().getDrawable(mainTab.getResIcon());
             title.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null,
                     null);
             title.setText(getString(mainTab.getResName()));
             tab.setIndicator(indicator);
-            tab.setContent(tag -> new View(MainActivity2.this));
+            tab.setContent(tag -> new View(context));
             mTabHost.addTab(tab, mainTab.getClz(), null);
             mTabHost.getTabWidget().getChildAt(i).setOnTouchListener(this);
         }
@@ -354,30 +392,28 @@ public class MainActivity2 extends FragmentActivity implements
         switch (mTabHost.getCurrentTab()) {
             case 0:
                 pageMode = 0;
-                title.setText(getText(R.string.title2));
-                AddITemMenujz();
-                iv_menu.setVisibility(View.VISIBLE);
-                tcpServer.sendMessage(Constants.sendStop);//发送指令
-                liner_jz.setVisibility(View.VISIBLE);
-                liner_location.setVisibility(View.GONE);
+
+                typePage = 0;
+
+                EventBus.getDefault().postSticky(new MessageEvent<>(3033,""));
+
+                setCurrentTab((String) getText(R.string.title2));
                 break;
             case 1:
                 pageMode = 1;
-                title.setText(getText(R.string.title3));
-                AddITemMenuGm();
-                iv_menu.setVisibility(View.VISIBLE);
-                tcpServer.sendMessage(sendMsg);//发送指令
-                liner_jz.setVisibility(View.VISIBLE);
-                liner_location.setVisibility(View.GONE);
+
+                typePage = 1;
+                //获取工模界面的4 5G选中状态
+                setCurrentTab((String) getText(R.string.title3));
                 break;
             case 2:
                 pageMode = 2;
-                title.setText(getText(R.string.title1));
-                AddITemMenu();
-                iv_menu.setVisibility(View.VISIBLE);
-                tcpServer.sendMessage(Constants.sendStop);//发送指令
-                liner_jz.setVisibility(View.GONE);
-                liner_location.setVisibility(View.VISIBLE);
+
+                typePage = 2;
+
+                EventBus.getDefault().postSticky(new MessageEvent<>(3033,""));
+
+                setCurrentTab((String) getText(R.string.title1));
                 break;
         }
         for (int i = 0; i < size; i++) {
@@ -391,6 +427,34 @@ public class MainActivity2 extends FragmentActivity implements
         supportInvalidateOptionsMenu();
     }
 
+    private void setCurrentTab(String title) {
+        if (pageMode == 0) {
+            AddITemMenujz();
+            iv_menu.setVisibility(View.VISIBLE);
+            liner_jz.setVisibility(View.VISIBLE);
+            liner_location.setVisibility(View.GONE);
+            sendMsg = stop;
+        } else if (pageMode == 1) {
+            AddITemMenuGm();
+            iv_menu.setVisibility(View.VISIBLE);
+            liner_jz.setVisibility(View.VISIBLE);
+            liner_location.setVisibility(View.GONE);
+            if (typeJzMode == 5) {
+                sendMsg = sendNr;
+            } else {
+                sendMsg = sendLte;
+            }
+        } else {
+            AddITemMenu();
+            iv_menu.setVisibility(View.VISIBLE);
+            liner_jz.setVisibility(View.GONE);
+            liner_location.setVisibility(View.VISIBLE);
+            sendMsg = stop;
+        }
+        this.title.setText(title);
+        socketServerListenHandler.sendMessage(sendMsg);//基站工模定位切换下发指令
+    }
+
     //工模右上角设置菜单按钮
     private void AddITemMenuGm() {
         popupWindow = new DLPopupWindow(this, mList, DLPopupWindow.STYLE_WEIXIN);
@@ -399,7 +463,7 @@ public class MainActivity2 extends FragmentActivity implements
         popupWindow.setOnItemClickListener(new DLPopupWindow.OnItemClickListener() {
             @Override
             public void OnClick(int position) {
-                final PopupWindow popupWindow = new PopupWindow(MainActivity2.this);
+                final PopupWindow popupWindow = new PopupWindow(context);
                 popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
                 popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
 //                                popupWindow .setBackgroundDrawable(null);
@@ -515,13 +579,13 @@ public class MainActivity2 extends FragmentActivity implements
 
         //初始化recyclerView
         //条目初始化
-        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity2.this));
-        adapterJz = new RecyclerAdapter_Jz(MainActivity2.this, jBeans);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        adapterJz = new RecyclerAdapter_Jz(context, jBeans);
         recyclerView.setAdapter(adapterJz);
 
         try {
             //获取数据库的集合
-            final DBManagerBj dbManager = new DBManagerBj(MainActivity2.this);
+            final DBManagerBj dbManager = new DBManagerBj(context);
             //先插入默认数据
             if (dbManager.getdemoBeanList().size() == 0) {
                 dbManager.insertdemoBean(new JzbJBean());
@@ -614,10 +678,10 @@ public class MainActivity2 extends FragmentActivity implements
                 String tac = et_tac.getText().toString();
 
                 if (TextUtils.isEmpty(cid) || TextUtils.isEmpty(tac)) {
-                    Toast.makeText(MainActivity2.this, "请输入TAC或CID", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "请输入TAC或CID", Toast.LENGTH_SHORT).show();
                 } else {
                     try {
-                        DBManagerBj dbManager = new DBManagerBj(MainActivity2.this);
+                        DBManagerBj dbManager = new DBManagerBj(context);
                         List<JzbJBean> beans = dbManager.getdemoBeanList();
 
                         if (beans.size() > 1) {//已有数据 就正常添加数据
@@ -629,7 +693,7 @@ public class MainActivity2 extends FragmentActivity implements
                                 }
                             }
                             if (isExist) {
-                                Toast.makeText(MainActivity2.this, "请勿重复添加", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "请勿重复添加", Toast.LENGTH_SHORT).show();
                             } else {
                                 //插入数据
                                 if (dbManager.getdemoBeanList().size() == 2) {//处理只有一条数据时
@@ -647,10 +711,10 @@ public class MainActivity2 extends FragmentActivity implements
 
                                 //查看是否插入成功
                                 if (jBeans.get(jBeans.size() - 1).getTac().equals(tac) && jBeans.get(jBeans.size() - 1).getCid().equals(cid)) {//最后一条是最新插入的
-                                    Toast.makeText(MainActivity2.this, "添加成功", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "添加成功", Toast.LENGTH_SHORT).show();
                                     adapterJz.notifyDataSetChanged();
                                 } else {
-                                    Toast.makeText(MainActivity2.this, "添加失败", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "添加失败", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         } else {//数据库里首次添加数据 就显示界面
@@ -669,12 +733,10 @@ public class MainActivity2 extends FragmentActivity implements
 //                                Log.e("ylt", "Main2ListManager: "+listManager.toString());
                                 //将保存的数据库条目发送给fragment
                                 EventBus.getDefault().postSticky(new MessageEvent(13145, jBeans));
-
-                                Log.e("ylt", "onClick: " + jBeans.toString());
                                 adapterJz.notifyDataSetChanged();
-                                Toast.makeText(MainActivity2.this, "添加成功", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "添加成功", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(MainActivity2.this, "添加失败", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "添加失败", Toast.LENGTH_SHORT).show();
                             }
                         }
                     } catch (SQLException e) {
@@ -724,7 +786,7 @@ public class MainActivity2 extends FragmentActivity implements
         EditText ed_jzTime = dialog.getView(R.id.ed_jzTime);//基站信息显示持续时间
         //保存
         SharedPreferences name = getSharedPreferences("name", Context.MODE_PRIVATE);
-        isYd = name.getBoolean("checkbox_jzBaoJ", true);
+        isJzBj = name.getBoolean("checkbox_jzBaoJ", true);
         jzMessage = name.getInt("ed_jzTime", 300);
         isYd = name.getBoolean("checkbox4_yd", true);
         isLt = name.getBoolean("checkbox4_lt", true);
@@ -825,7 +887,6 @@ public class MainActivity2 extends FragmentActivity implements
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
         binder = (MyService.Binder) service;
-
         binder.getService().setCallback(data -> {//因为在Service里面赋值data是在Thread中进行的，所以我们不能直接在这里将返回的值展示在TextView上。
             Message msg = new Message();
             Bundle bundle = new Bundle();
@@ -839,26 +900,28 @@ public class MainActivity2 extends FragmentActivity implements
     public void onServiceDisconnected(ComponentName name) {
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        unregisterReceiver(myBroadcastReceiver);
+        destory();
+    }
+
+    private void destory() {
         EventBus.getDefault().unregister(this);
         if (timerStart != null) {
             timerStart.cancel();
             timerStart = null;
         }
-        if (timerNet != null) {
-            timerNet.cancel();
-            timerNet = null;
-        }
-        if (tcpServer != null) {
-            tcpServer = null;
+        if (socketServerListenHandler != null) {
+            socketServerListenHandler = null;
         }
         if (myBroadcastReceiver != null) {
             unregisterReceiver(myBroadcastReceiver);
         }
-        Log.e("ylt", "onDestroy: ");
+        if(servic!=null){
+            unbindService(servic);
+        }
     }
 
     /**
@@ -910,13 +973,12 @@ public class MainActivity2 extends FragmentActivity implements
         }
     }
 
-    private String sendMsg = Constants.sendLte;//切换工模界面默认发送的命令
-
+    public String sendMsg = stop;//切换工模界面默认发送的命令
     //订阅Event
     @Subscribe(threadMode = ThreadMode.BACKGROUND, sticky = true)
     public void onEvent(MessageEvent event) {
         if (event.getCode() == 3030) {//监听网络状态
-            int data = (int) event.getData();
+            boolean data = (Boolean) event.getData();
             Message message = Message.obtain();
             message.obj = data;
             message.what = 3030;
@@ -924,7 +986,7 @@ public class MainActivity2 extends FragmentActivity implements
         }
         if (event.getCode() == 2022) {//工模4、5G页面切换状态
             sendMsg = event.getData().toString();
-            tcpServer.sendMessage(sendMsg);
+            socketServerListenHandler.sendMessage(sendMsg);//工模界面下发指令
         }
     }
 
@@ -968,6 +1030,9 @@ public class MainActivity2 extends FragmentActivity implements
                 break;
             }
             case R.id.checkbox_jzBaoJ: {
+                if(!isChecked){//未选中 发送停止报警声音
+                    EventBus.getDefault().postSticky(new MessageEvent<>(3033,""));
+                }
                 isJzBj = isChecked;
             }
         }
