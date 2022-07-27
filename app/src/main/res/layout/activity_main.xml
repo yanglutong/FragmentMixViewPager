@@ -23,8 +23,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white">
-
+            android:background="@drawable/bg_shape_jz_fragment2">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
