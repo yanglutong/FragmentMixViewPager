@@ -23,8 +23,9 @@ import com.lutong.OrmSqlLite.DBManagerJZ;
 import com.lutong.R;
 import com.lutong.Utils.MyToast;
 import com.lutong.activity.Adapter.JzListAdapter;
-import com.lutong.ui.MainActivity2;
-import com.lutong.fragment.Fragment1;
+import com.lutong.fragment.home.HomeFragment;
+import com.lutong.ui.MainActivity;
+
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -73,7 +74,7 @@ public class JzListActivity extends FragmentActivity implements View.OnClickList
 
         @Override
         public void showCALL(int id, String lat, String lon) {
-            Intent intent = new Intent(JzListActivity.this, MainActivity2.class);
+            Intent intent = new Intent(JzListActivity.this, MainActivity.class);
             intent.putExtra("id", id + "");
             intent.putExtra("lon", lon);
             intent.putExtra("lat", lat);
@@ -111,7 +112,7 @@ public class JzListActivity extends FragmentActivity implements View.OnClickList
                 for (int i = 1; i < guijiViewBeanjizhans.size() + 1; i++) {
                     listnum.add(i);
                 }
-                jzListAdapter = new JzListAdapter(JzListActivity.this, guijiViewBeanjizhans, Fragment1.mylag, dbManagerJZ, callBack,listnum);
+                jzListAdapter = new JzListAdapter(JzListActivity.this, guijiViewBeanjizhans, HomeFragment.mylag, dbManagerJZ, callBack,listnum);
                 ry_ta.setAdapter(jzListAdapter);
                 ll.setVisibility(View.VISIBLE);
                 lltv.setVisibility(View.GONE);
@@ -121,7 +122,7 @@ public class JzListActivity extends FragmentActivity implements View.OnClickList
                     listnum.add(i);
                 }
                 //没有基站数据
-                jzListAdapter = new JzListAdapter(JzListActivity.this, guijiViewBeanjizhans, Fragment1.mylag, dbManagerJZ, callBack,listnum);
+                jzListAdapter = new JzListAdapter(JzListActivity.this, guijiViewBeanjizhans, HomeFragment.mylag, dbManagerJZ, callBack,listnum);
                 ry_ta.setAdapter(jzListAdapter);
                 ll.setVisibility(View.GONE);
                 lltv.setVisibility(View.VISIBLE);
@@ -156,7 +157,7 @@ public class JzListActivity extends FragmentActivity implements View.OnClickList
 
     @Override
     public void onBackPressed() {//重写返回键方法
-        Intent intent = new Intent(JzListActivity.this, MainActivity2.class);
+        Intent intent = new Intent(JzListActivity.this, MainActivity.class);
         intent.putExtra("JzListActivity", "0");
         setResult(12, intent);
         finish();
@@ -166,7 +167,7 @@ public class JzListActivity extends FragmentActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.finsh:
-                Intent intent = new Intent(JzListActivity.this, MainActivity2.class);
+                Intent intent = new Intent(JzListActivity.this, MainActivity.class);
                 intent.putExtra("JzListActivity", "0");
                 setResult(12, intent);
                 finish();

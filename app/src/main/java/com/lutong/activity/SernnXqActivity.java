@@ -40,7 +40,8 @@ import com.lutong.R;
 import com.lutong.Utils.MyUtils;
 import com.lutong.fragment.adapter.CallBack;
 import com.lutong.fragment.adapter.SerrnTaAdapter;
-import com.lutong.fragment.Fragment1;
+
+import com.lutong.fragment.home.HomeFragment;
 
 
 import java.sql.SQLException;
@@ -267,7 +268,7 @@ public class SernnXqActivity extends FragmentActivity implements View.OnClickLis
                     LatLng startLatLng = new LatLng(39.940387, 116.29446);
                     LatLng endLatLng = new LatLng(39.87397, 116.529025);
                     String uri = String.format("baidumap://map/direction?origin=%s,%s&destination=" +
-                                    "%s,%s&mode=driving&src=com.34xian.demo", Fragment1.mylag.latitude, Fragment1.mylag.longitude,
+                                    "%s,%s&mode=driving&src=com.34xian.demo", HomeFragment.mylag.latitude, HomeFragment.mylag.longitude,
                             lat, lon);
                     Intent intent = new Intent();
                     intent.setData(Uri.parse(uri));

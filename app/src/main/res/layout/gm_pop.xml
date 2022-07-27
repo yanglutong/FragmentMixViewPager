@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="center"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content">
+        <LinearLayout
+            android:background="@drawable/shape_button_bg"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="150dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="@dimen/dimens_20dp"
+                    android:layout_height="@dimen/dimens_20dp">
+                </ImageView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/x15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:gravity="center"
+                    android:text="确定查询该基站吗?"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </TextView>
+            </LinearLayout>
+
+
+
+
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_marginTop="@dimen/x20"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40">
+                <Button
+                    android:layout_marginRight="@dimen/x18"
+                    android:id="@+id/bt_adddilao"
+                    android:layout_width="@dimen/navi_dimens_70dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/shape_button_queren"
+                    android:text="确定"
+                    android:textColor="#FFFFFF"
+                    android:textSize="17dp" />
+
+               <TextView
+                   android:gravity="center"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content">
+               </TextView>
+                <Button
+                    android:id="@+id/bt_cancel"
+                    android:layout_marginLeft="@dimen/x18"
+                    android:text="取消"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/shape_button_quxiao"
+                    android:layout_width="@dimen/navi_dimens_70dp"
+                    android:layout_height="35dp">
+                </Button>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/x10"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </LinearLayout>
+        </LinearLayout>
+
+</LinearLayout>

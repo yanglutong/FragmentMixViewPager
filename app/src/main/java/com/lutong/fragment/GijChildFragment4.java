@@ -1,19 +1,25 @@
 package com.lutong.fragment;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.liys.dialoglib.LAnimationsType;
+import com.liys.dialoglib.LDialog;
 import com.lutong.App.MessageEvent;
 import com.lutong.Constants;
 import com.lutong.R;
@@ -47,7 +53,7 @@ import static com.lutong.Constants.typePage;
 /**
  * 工模界面-子Fragment 4G 5G
  */
-public class GijChildFragment4 extends Fragment {
+public class GijChildFragment4 extends Fragment implements RecyclerAdapter.OnLongClick {
     private ArrayList<RecJsonBean> list;
     private ArrayList<RecJsonBean> listAdd;
     private RecyclerView recycler;
@@ -62,7 +68,7 @@ public class GijChildFragment4 extends Fragment {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            if(typeJzMode==4 && typePage == 1){
+            if (typeJzMode == 4 && typePage == 1) {
                 if (msg.what == 11114) {
                     JsonLteBean jsonLteBean = (JsonLteBean) msg.obj;
                     listAdd.clear();
@@ -105,7 +111,7 @@ public class GijChildFragment4 extends Fragment {
                         }
                     });
 
-                    Log.e("TAG", "handleMessage: "+listManager.toString() );
+                    Log.e("TAG", "handleMessage: " + listManager.toString());
                     //基站报警
                     if (listManager.size() > 1) {
                         //基站报警
@@ -146,7 +152,7 @@ public class GijChildFragment4 extends Fragment {
                                 }
 
                                 if (isBaoJ) {
-                                    if(isPlay){
+                                    if (isPlay) {
                                         startVoice();
                                     }
                                 } else {
@@ -171,7 +177,7 @@ public class GijChildFragment4 extends Fragment {
                     }
                     recyclerAdapter.notifyDataSetChanged();
                 }
-            }else{
+            } else {
                 stopVoice();
             }
 
@@ -202,6 +208,7 @@ public class GijChildFragment4 extends Fragment {
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerAdapter = new RecyclerAdapter(getContext(), listAdd, "LTE");
         recycler.setAdapter(recyclerAdapter);
+        recyclerAdapter.setOnLongClick(this);
 
         //获取数据库是否有基站报警的条目
         try {
@@ -225,7 +232,7 @@ public class GijChildFragment4 extends Fragment {
             listManager = (ArrayList<JzbJBean>) event.getData();
             Log.e("ylt", "GijChildFragment4: " + listManager.size() + "===" + listManager.toString());
         }
-        if(event.getCode() == 3033){//界面为基站查询或定位时，停止播放报警声音
+        if (event.getCode() == 3033) {//界面为基站查询或定位时，停止播放报警声音
             stopVoice();
         }
     }
@@ -244,7 +251,7 @@ public class GijChildFragment4 extends Fragment {
             //切换成4G
             typeJzMode = 4;
             EventBus.getDefault().postSticky(new MessageEvent(2022, Constants.sendLte));
-        }else{
+        } else {
             stopVoice();
         }
     }
@@ -363,7 +370,7 @@ public class GijChildFragment4 extends Fragment {
 
     //循环播放音频文件
     public void startVoice() {
-        if(getContext() == null){
+        if (getContext() == null) {
             return;
         }
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
@@ -393,17 +400,125 @@ public class GijChildFragment4 extends Fragment {
 
 
     private boolean isPlay = true;
+
     @Override
     public void onPause() {
         super.onPause();
-        Log.e("CijChild4", "onPause: " );
+        Log.e("CijChild4", "onPause: ");
         stopVoice();
-        isPlay =false;
+        isPlay = false;
     }
 
     @Override
     public void onResume() {
         super.onResume();
         isPlay = true;
+    }
+
+    private void showDialog(Context context, RecJsonBean recJsonBean) {
+        LDialog dialog = LDialog.newInstance(context,R.layout.gm_pop);
+        Button bt_adddilao = dialog.findViewById(R.id.bt_adddilao);
+        bt_adddilao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //通过EventBus发送消息切换到基站查询界面
+                EventBus.getDefault().postSticky(new MessageEvent(7777,recJsonBean));
+                dialog.dismiss();
+                //切换到基站查询界面
+            }
+        });
+        Button bt_cancel = dialog.findViewById(R.id.bt_cancel);
+        bt_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog
+                .setMaskValue(0.5f) //遮罩--透明度(0-1)
+                //1.设置宽
+                //精确宽度
+                .setWidth(750) //单位:dp
+                .setWidthPX(750) //单位:px
+//                .setWidthRatio(0.5) //占屏幕宽比例
+//                //最小宽度
+//                .setMinWidth(300) //单位:dp
+//                .setMinWidth(100) //单位:px
+//                .setMinWidthRatio(0.5) //占屏幕宽比例
+//                //最大宽度
+//                .setMaxWidth(300) //单位:dp
+//                .setMaxWidthPX(100) //单位:px
+//                .setMaxWidthRatio(0.8) //占屏幕宽比例
+
+                //2.设置高
+                //精确高度
+                .setHeight(400) //单位:dp
+                .setHeightPX(400) //单位:px
+//                .setHeightRatio(0.4) //占屏幕高比例
+//                //最小高度
+//                .setMinHeight(100) //单位:dp
+//                .setMinHeightPX(100) //单位:px
+//                .setMinHeightRatio(0.3) //占屏幕高比例
+//                //最大高度
+//                .setMaxHeight(100) //单位:dp
+//                .setMaxHeightPX(100) //单位:px
+//                .setMaxHeightRatio(0.3) //占屏幕高比例
+
+                //3.设置背景
+                //颜色
+                .setBgColor(Color.WHITE) //一种颜色
+//                .setBgColor("#FFFFFF") //一种颜色
+//                .setBgColor(GradientDrawable.Orientation.BOTTOM_TOP, Color.BLUE, Color.YELLOW) //颜色渐变(可传多个) 参数1：渐变的方向
+//                .setBgColor(GradientDrawable.Orientation.BOTTOM_TOP, "#00FEE9", "#008EB4") //颜色渐变(可传多个)
+//                .setBgColorRes(R.color.white) //一种颜色(res资源)
+//                .setBgColorRes(GradientDrawable.Orientation.BOTTOM_TOP, R.color.colorAccent, R.color.colorPrimary) //颜色渐变(可传多个)
+                //圆角
+                .setBgRadius(20) //圆角, 单位：dp
+                .setBgRadius(20, 20, 20, 20) //圆角, 单位：dp
+                .setBgRadiusPX(20) //圆角, 单位：px
+                .setBgRadiusPX(20, 20, 20, 20) //圆角, 单位：px
+
+                //4.设置弹框位置
+//                .setGravity(Gravity.LEFT | Gravity.BOTTOM) //弹框位置
+//                .setGravity(Gravity.LEFT, 0, 0) //弹框位置(偏移量)
+                .setGravity(Gravity.CENTER, 0, 0)
+
+
+                //5.设置动画
+                //5.1 内置动画(平移，从各个方向弹出)
+                // 对应的值：DEFAULT(渐变) (LEFT TOP RIGHT BOTTOM 平移)  SCALE(缩放)
+                .setAnimations(LAnimationsType.SCALE)
+                //5.2 自定义动画
+                .setAnimationsStyle(R.style.li_dialog_default) //设置动画
+
+                //6.设置具体布局
+                //6.1 常见系统View属性
+//                .setText(R.id.tv_title, "确定")
+//                .setTextColor()
+//                .setTextSize()
+//                .setTextSizePX()
+//                .setBackgroundColor()
+//                .setBackgroundRes()
+//                .setImageBitmap()
+//                .setVisible()
+//                .setGone()
+                //6.2 其它属性
+                .setOnTouchOutside(true) //点击空白消失
+//                .setCancelBtn(R.id.tv_cancel, R.id.tv_confirm) //设置按钮，点击弹框消失(可以传多个)
+//                .setOnClickListener(new LDialog.DialogOnClickListener() { //设置按钮监听
+//                    @Override
+//                    public void onClick(View v, LDialog customDialog) {
+//                        customDialog.dismiss();
+//                    }
+//                }, R.id.tv_confirm, R.id.tv_cancel)  //可以传多个
+                .show();
+    }
+
+    @Override
+    public void setOnLongClick(int i) {
+        //适配器长按监听
+        RecJsonBean recJsonBean = listAdd.get(i);
+        showDialog(getContext(),recJsonBean);
+        Log.e("ylt", "setOnLongClick: " + recJsonBean.toString());
     }
 }

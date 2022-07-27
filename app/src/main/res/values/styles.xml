@@ -245,4 +245,17 @@
     </style>
 
     <color name="transparent">#7FE705</color>
+
+
+
+    <color name="holo_green_dark2">#2F8DFF</color>
+
+
+
+
+    <style name="MyCheckBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">#9C9C9C</item>
+        <item name="colorControlActivated">@color/blue</item>
+    </style>
+
 </resources>

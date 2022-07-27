@@ -4,6 +4,8 @@ import static com.lutong.Constants.beat;
 import static com.lutong.Constants.sendLte;
 import static com.lutong.Constants.sendStop;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
@@ -18,7 +20,8 @@ public class TestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test2);
+        setContentView(R.layout.activity_home);
+        setStatBar(0);
 //        socketServerListenHandler = new SocketServerListenHandler(null,56969);
 //        findViewById(R.id.bt).setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -49,5 +52,21 @@ public class TestActivity extends AppCompatActivity {
 //                socketServerListenHandler.listenClientConnect();
 //            }
 //        }).start();
+    }
+    @SuppressLint("NewApi")
+    public void setStatBar(int type) {//根据版本设置沉浸式状态栏
+        View decorView = getWindow().getDecorView();
+        int option;
+        if (type == 1) {
+            option = View.SYSTEM_UI_FLAG_VISIBLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setStatusBarColor(Color.parseColor("#00564B"));
+        } else {
+            option =
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
     }
 }

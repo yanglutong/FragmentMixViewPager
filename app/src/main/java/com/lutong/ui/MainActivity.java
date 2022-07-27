@@ -48,6 +48,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
@@ -89,6 +90,7 @@ import com.lutong.base.OnTabReselectListener;
 import com.lutong.ormlite.DBManagerBj;
 import com.lutong.ormlite.JzbJBean;
 import com.lutong.server.SocketServerListenHandler;
+import com.lutong.tcp.RecJsonBean;
 import com.lutong.widget.MyFragmentTabHost;
 
 import org.greenrobot.eventbus.EventBus;
@@ -141,9 +143,9 @@ public class MainActivity extends FragmentActivity implements
     private LinearLayout liner_location;
     private Context context;
     private SocketServerListenHandler socketServerListenHandler;
-    private LinearLayout liner_home;
+    private RelativeLayout liner_home;
     private LinearLayout liner_main;
-    private LinearLayout liner_jz_home,liner_gm,liner_dw;
+    private TextView liner_jz_home, liner_gm, liner_dw;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -228,6 +230,18 @@ public class MainActivity extends FragmentActivity implements
                 case 8888: {
                     Log.e("ylt", "handleMessage 8888: " + msg.obj);
                     socketServerListenHandler.listenClientConnect();//重新连接
+                    break;
+                }
+                case 7777: {
+                    RecJsonBean obj = (RecJsonBean) msg.obj;
+                    Log.e("ylt", "handleMessage: 7777" + obj);
+                    mTabHost.setCurrentTab(0);
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            EventBus.getDefault().postSticky(new MessageEvent(9999, obj));
+                        }
+                    }, 3000);
                     break;
                 }
 //                case 3030: {//标题栏状态
@@ -1047,6 +1061,15 @@ public class MainActivity extends FragmentActivity implements
         if (event.getCode() == 2022) {//工模4、5G页面切换状态
             sendMsg = event.getData().toString();
             socketServerListenHandler.sendMessage(sendMsg);//工模界面下发指令
+        }
+        if (event.getCode() == 7777) {
+            RecJsonBean recJsonBean = (RecJsonBean) event.getData();
+            Message message = Message.obtain();
+            message.obj = recJsonBean;
+            message.what = 7777;
+            handler.sendMessage(message);
+//            mTabHost.setCurrentTab(0);
+            Log.e("ylt", "onEvent: 7777" + recJsonBean.toString());
         }
     }
 

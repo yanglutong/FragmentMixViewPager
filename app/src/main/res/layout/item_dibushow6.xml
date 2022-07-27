@@ -14,11 +14,12 @@
             android:layout_height="45dp"
             android:background="@drawable/jizhan_bg"
             android:gravity="center"
-            android:text="修改TA值"
+            android:text="修改半径值"
             android:textColor="@color/gray_black"
             android:textSize="20dp"
             android:textStyle="bold" />
-
+<!--            android:text="修改TA值"
+-->
         <ImageView
             android:id="@+id/iv_finish"
             android:layout_width="28dp"
@@ -52,7 +53,7 @@
             android:layout_width="85dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="TA:"
+            android:text="半径:"
             android:textColor="@color/gray_black" />
 
         <EditText
@@ -60,10 +61,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:hint="请输入TA"
+            android:hint="请输入半径值"
             android:inputType="number|numberDecimal"
             android:text="" />
-
+<!--            android:hint="请输入TA"
+-->
         <Button
             android:visibility="gone"
             android:id="@+id/btadd"

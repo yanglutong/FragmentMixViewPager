@@ -27,7 +27,7 @@
 
         <TextView
             android:id="@+id/mytitle"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
@@ -35,10 +35,11 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:gravity="center"
-            android:text="TA值设置"
+            android:text="基站覆盖半径设置"
             android:textColor="#ffffff"
             android:textSize="18dp" />
-
+<!--            android:text="TA值设置"
+-->
         <ImageView
             android:layout_alignParentRight="true"
             android:id="@+id/add"

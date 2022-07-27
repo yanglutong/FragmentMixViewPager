@@ -143,14 +143,17 @@ public class SocketServerListenHandler {
     public void eliminate() {
         try {
             for (SocketServerClientHandler socket : list) {
-                socket.getOutputStream().close();
-                socket.getInputStream().close();
-                socket.setOutputStream(null);
-                socket.setInputStream(null);
+                if(socket.getOutputStream()!=null){
+                    socket.getOutputStream().close();
+                }
+                if(socket.getInputStream()!=null){
+                    socket.getInputStream().close();
+                }
             }
             for (SocketServerClientHandler socket : list) {
-                socket.getClientConnectSocket().close();
-                socket.setClientConnectSocket(null);
+                if(socket.getClientConnectSocket()!=null){
+                    socket.getClientConnectSocket().close();
+                }
             }
             list.clear();
         } catch (Exception e) {

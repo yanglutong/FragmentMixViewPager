@@ -831,9 +831,10 @@
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:orientation="vertical">
+
         <RadioGroup
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/x30"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="10dp"
             android:background="@color/white"
@@ -847,7 +848,8 @@
                 android:layout_weight="1"
                 android:checked="true"
                 android:text="移动"
-                android:textSize="12dp" />
+                android:textSize="12dp"
+                android:theme="@style/MyCheckBox" />
 
             <CheckBox
                 android:id="@+id/rb_liantong"
@@ -856,7 +858,8 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:text="联通"
-                android:textSize="12dp" />
+                android:textSize="12dp"
+                android:theme="@style/MyCheckBox" />
 
             <CheckBox
                 android:id="@+id/rb_ldainxin4"
@@ -865,7 +868,8 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:text="电信"
-                android:textSize="12dp" />
+                android:textSize="12dp"
+                android:theme="@style/MyCheckBox" />
 
             <CheckBox
                 android:id="@+id/rb_cdma"
@@ -874,37 +878,43 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:text="电信CDMA"
-                android:textSize="12dp" />
+                android:textSize="12dp"
+                android:theme="@style/MyCheckBox" />
         </RadioGroup>
 
         <View
+            android:visibility="gone"
+            android:id="@+id/view_check"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/color_7f000000" />
+            android:background="#E3E4E6" />
 
         <LinearLayout
             android:id="@+id/ll_sid"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/x30"
             android:background="@color/white"
             android:orientation="horizontal"
             android:visibility="gone">
 
             <TextView
                 android:layout_width="130dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
+                android:gravity="center_vertical"
                 android:text="SID:"
                 android:textColor="@color/gray_black" />
 
             <EditText
                 android:id="@+id/et_sid"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
+                android:background="@null"
                 android:hint="CDMA请输入SID"
                 android:inputType="number"
-                android:text="" />
+                android:text=""
+                android:textSize="12dp" />
         </LinearLayout>
 
 
@@ -961,11 +971,11 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/color_7f000000" />
+            android:background="#E3E4E6" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/x30"
             android:background="@color/white"
             android:orientation="horizontal">
 
@@ -980,8 +990,9 @@
             <EditText
                 android:id="@+id/et_taclac"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
+                android:background="@null"
                 android:hint="请输入TAC/LAC/NID"
                 android:inputType="number"
                 android:text="12562"
@@ -991,12 +1002,13 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/color_7f000000" />
+            android:background="#E3E4E6" />
 
 
         <LinearLayout
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/x30"
             android:background="@color/white"
             android:orientation="horizontal">
 
@@ -1012,18 +1024,19 @@
             <EditText
                 android:id="@+id/et_eci"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
-                android:hint="请输入ECI/BID"
+                android:background="@null"
+                android:hint="请输入ECI/CI/BID"
                 android:inputType="number"
                 android:text="46026774"
                 android:textSize="12dp" />
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/color_7f000000" />
+        <!--        <View-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="1dp"-->
+        <!--            android:background="#E3E4E6" />-->
 
         <LinearLayout
             android:id="@+id/ll_location"
@@ -1031,6 +1044,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:weightSum="2">
 
             <LinearLayout
@@ -1087,7 +1101,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/color_7f000000" />
+            android:background="#E3E4E6" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -1100,13 +1114,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
-                android:text="基站范围:"
+                android:text="基站覆盖半径:"
                 android:textColor="@color/gray_black"
                 android:textSize="12dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_40"
+                android:layout_height="@dimen/x30"
                 android:layout_marginRight="10dp"
                 android:layout_weight="2"
                 android:orientation="horizontal">
@@ -1114,10 +1128,11 @@
                 <EditText
                     android:id="@+id/et_ta"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
                     android:layout_weight="2"
-                    android:hint="请输入范围值"
+                    android:background="@null"
+                    android:hint="请输入半径值"
                     android:inputType="number|numberDecimal"
                     android:text=""
                     android:textSize="12dp" />
@@ -1144,17 +1159,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="32dp"
                         android:background="@drawable/shape_button_queren"
-                        android:text="确认"
+                        android:text="查询"
                         android:textColor="#FFFFFF"
                         android:textSize="17dp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/color_7f000000" />
+        <!--        <View-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="1dp"-->
+        <!--            android:background="@color/color_7f000000" />-->
 
     </LinearLayout>
 </RelativeLayout>

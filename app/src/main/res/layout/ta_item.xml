@@ -26,8 +26,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/iv"
-            android:text="TA值:" />
-
+            android:text="半径值:" />
+<!--TA值:-->
         <TextView
             android:id="@+id/tv_text"
             android:layout_width="200dp"

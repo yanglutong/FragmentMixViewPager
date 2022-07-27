@@ -1,5 +1,6 @@
 package com.lutong.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,9 +39,22 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         NormalHolder normalHolder = (NormalHolder) holder;
         RecJsonBean jsonNrBean = mDatas.get(position);
+        normalHolder.liner_item.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(mContext, "c"+position, Toast.LENGTH_SHORT).show();
+                onLongClick.setOnLongClick(position);
+                return true;//长按执行完，不执行短按
+            }
+        });
+        normalHolder.liner_item.setOnClickListener((View.OnClickListener) v -> {
+            Toast.makeText(mContext, "d"+position, Toast.LENGTH_SHORT).show();
+//                onLongClick.setOnLongClick(position);
+        });
+
         if (jsonNrBean != null) {
             if (jsonNrBean.isJzBjState()) {//报警状态
                 normalHolder.view_jzBj.setBackgroundColor(mContext.getResources().getColor(R.color.gray));
@@ -145,6 +160,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             view2 = itemView.findViewById(R.id.view2);
             view3 = itemView.findViewById(R.id.view3);
         }
+    }
 
+    public interface OnLongClick{
+        void setOnLongClick(int i);
+    }
+    OnLongClick onLongClick;
+
+    public void setOnLongClick(OnLongClick onLongClick) {
+        this.onLongClick = onLongClick;
     }
 }

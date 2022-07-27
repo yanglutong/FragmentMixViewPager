@@ -101,6 +101,7 @@ import com.baidu.mapapi.utils.DistanceUtil;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lutong.App.MessageEvent;
 import com.lutong.AppContext;
+import com.lutong.ConnectivityManager.NetUtil;
 import com.lutong.OrmSqlLite.Bean.DataAliBean;
 import com.lutong.OrmSqlLite.Bean.DataBean;
 import com.lutong.OrmSqlLite.Bean.GuijiViewBean;
@@ -132,6 +133,7 @@ import com.lutong.fragment.adapter.DemoAdapter;
 import com.lutong.fragment.adapter.DemoAdapteradd;
 import com.lutong.fragment.adapter.Mycallback;
 import com.lutong.fragment.adapter.SerrnTaAdapter;
+import com.lutong.tcp.RecJsonBean;
 import com.lutong.tcp.TCPServer;
 import com.mylhyl.circledialog.CircleDialog;
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
@@ -320,6 +322,31 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     e.printStackTrace();
                 }
             }
+            if(msg.what==9999){
+                RecJsonBean obj = (RecJsonBean) msg.obj;
+                //查看是否有网络
+                if(NetUtil.getNetWorkState(getContext())==-1){//没有网络
+                    Log.e(TAG, "handleMessage: 9999"+obj.toString());
+                    Message obtain = Message.obtain();
+                    obtain.what = 9999;
+                    obtain.obj = obj;
+                    handler.sendMessageAtTime(obtain,2000);
+                }else{//有网络
+                    String plmn = obj.getTv_plmn().substring(3);
+                    String tv_cid = obj.getTv_cid();
+                    String tv_tac = obj.getTv_tac();
+                    Log.e(TAG, "handleMessage: 9999"+plmn+"---"+tv_cid+"---"+tv_tac);
+                    ArrayList<String> list = new ArrayList<>();
+                    list.add(plmn);
+                    list.add(tv_tac);
+                    list.add(tv_cid);
+                    list.add(appKey);
+
+                    Log.i("TAG", "handleMessageplmn: "+plmn);
+
+                    getRetrofits(list,plmn,tv_cid,tv_tac);
+                }
+            }
 //            if(msg.what==5500){
 //                int state= (int) msg.obj;
 //
@@ -346,6 +373,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private MapUtil mapUtil;
     private TCPServer tcpServer;
     private Timer timerStart = new Timer();
+    private View view_check;
 
 
     public void HomeFragment() {
@@ -374,6 +402,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     private void initJz(View inflate) {
+        Log.e(TAG, "initJzinitJz: "+jizhanFlag );
         list.clear();
         //初始化控件
         ll_sid = inflate.findViewById(R.id.ll_sid);
@@ -383,6 +412,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         et_taclac = inflate.findViewById(R.id.et_taclac);
         et_eci = inflate.findViewById(R.id.et_eci);
         et_ta = inflate.findViewById(R.id.et_ta);
+        view_check = inflate.findViewById(R.id.view_check);
 
 
         //手动输入的 view
@@ -407,6 +437,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     rb_cdma.setChecked(false);
                     jizhanFlag = 0;
                     ll_sid.setVisibility(View.GONE);
+                    view_check.setVisibility(View.GONE);
                 } else {
                     jizhanFlag = 44;
                 }
@@ -421,8 +452,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     rb_yidong.setChecked(false);
                     rb_ldainxin4.setChecked(false);
                     rb_cdma.setChecked(false);
-                    jizhanFlag = 1;
+                    jizhanFlag = 01;
                     ll_sid.setVisibility(View.GONE);
+                    view_check.setVisibility(View.GONE);
                 } else {
                     jizhanFlag = 44;
                 }
@@ -438,6 +470,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     rb_cdma.setChecked(false);
                     jizhanFlag = 11;
                     ll_sid.setVisibility(View.GONE);
+                    view_check.setVisibility(View.GONE);
                 } else {
                     jizhanFlag = 44;
                 }
@@ -452,39 +485,46 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     rb_ldainxin4.setChecked(false);
                     jizhanFlag = 4;
                     ll_sid.setVisibility(View.VISIBLE);
+                    view_check.setVisibility(View.VISIBLE);
                 } else {
                     jizhanFlag = 44;
+                    ll_sid.setVisibility(View.GONE);
+                    view_check.setVisibility(View.GONE);
                 }
-
             }
         });
 
+        Log.e(TAG, "initJz1: "+jizhanFlag);
 
         //保存上次选中基站的记录
         String s = ACacheUtil.getjzType();
+
+
         if (TextUtils.isEmpty(s)) {
         } else {
-            jizhanFlag = Integer.parseInt(s + "");
+            jizhanFlag = Integer.parseInt(s);
         }
-        if (jizhanFlag == 0) {//如果是0 ，是移动
+        Log.e(TAG, "initJz2: "+jizhanFlag);
+
+        if (jizhanFlag==0) {//如果是0 ，是移动
             rb_yidong.setChecked(true);
             rb_liantong.setChecked(false);
             rb_cdma.setChecked(false);
             rb_ldainxin4.setChecked(false);
         }
-        if (jizhanFlag == 1) {//如果是1 ，是联通
+        if (jizhanFlag==1) {//如果是1 ，是联通
             rb_yidong.setChecked(false);
             rb_liantong.setChecked(true);
             rb_cdma.setChecked(false);
             rb_ldainxin4.setChecked(false);
         }
-        if (jizhanFlag == 11) {//如果是11 ，是电信
+        if (jizhanFlag==11) {//如果是11 ，是电信
             rb_yidong.setChecked(false);
             rb_liantong.setChecked(false);
             rb_cdma.setChecked(false);
             rb_ldainxin4.setChecked(true);
         }
-        if (jizhanFlag == 4) {//如果是4 ，是cdma
+        if (jizhanFlag==4) {//如果是4 ，是cdma
             rb_yidong.setChecked(false);
             rb_liantong.setChecked(false);
             rb_cdma.setChecked(true);
@@ -519,7 +559,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     MyToast.showToast("ECI不能为空");
                     return;
                 }
-                if (jizhanFlag == 4) {
+                if (jizhanFlag==4) {
                     if (TextUtils.isEmpty(et_sid.getText().toString())) {
                         MyToast.showToast("Sid不能为空");
                         return;
@@ -540,7 +580,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     list.add(0.0);
                 }
                 //是否有类型未选中
-                if (rb_yidong.isChecked() == false && rb_liantong.isChecked() == false && rb_ldainxin4.isChecked() == false && rb_cdma.isChecked() == false && rb_bdjz1.isChecked() == false && rb_bdjz2.isChecked() == false) {
+                if (rb_yidong.isChecked() == false && rb_liantong.isChecked() == false && rb_ldainxin4.isChecked() == false && rb_cdma.isChecked() == false) {
                     Log.d(TAG, "onClick: " + rb_liantong.isChecked());
                     MyToast.showToast("请选择基站类型");
                     return;
@@ -550,30 +590,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 }
             }
         });
-
-
-//        dialog = new Dialog(mContext, R.style.ActionSheetDialogStyle2);
-        //填充对话框的布局
-//        inflate = LayoutInflater.from(mContext).inflate(R.layout.item_dibushowlt2, null);
-//        RadioGroup rgp_main = inflate.findViewById(R.id.rg_main);
-        //聚合数据
-//        RadioButton rb_open1 = inflate.findViewById(R.id.rb_open_check1);
-//        RadioButton rb_open2 = inflate.findViewById(R.id.rb_open_check2);
-//        RadioButton rb_oneself = inflate.findViewById(R.id.rb_oneself);
-//        RadioButton rb_Manuallyenter = inflate.findViewById(R.id.rb_Manuallyenter);
-
-//        //将布局设置给Dialog
-//        dialog.setContentView(inflate);
-//        //获取当前Activity所在的窗体
-//        Window dialogWindow = dialog.getWindow();
-//        //设置Dialog从窗体底部弹出
-//        dialogWindow.setGravity(Gravity.BOTTOM);
-//        dialogWindow.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        //获得窗体的属性
-//        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-////       将属性设置给窗体
-//        dialogWindow.setAttributes(lp);
-//        dialog.show();//显示对话框
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -1254,13 +1270,21 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
 
             }
-//            aaa
             tv_title.setText(str + "");
             TextView tv_fugai = view.findViewById(R.id.tv_fugai);
             tv_fugai.setText(extraInfo.getString("Radius") + "");
             Log.d(TAG, "setMapMakerViaew: " + extraInfo.getString("Radius"));
             TextView tv_mnc = view.findViewById(R.id.tv_mnc);
             tv_mnc.setText(extraInfo.getString("mnc"));
+            if(extraInfo.getString("mnc").equals("0")){
+                tv_mnc.setText("00");
+            }
+            if(extraInfo.getString("mnc").equals("1")){
+                tv_mnc.setText("01");
+            }
+            if(extraInfo.getString("mnc").equals("4")){
+                tv_mnc.setText("11");
+            }
             TextView tv_lac = view.findViewById(R.id.tv_lac);
             tv_lac.setText(extraInfo.getString("lac"));
             TextView tv_cid = view.findViewById(R.id.tv_cid);
@@ -2348,6 +2372,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             tv_fugai.setText(guijiViewBeanjizhan.getRadius() + "");
             TextView tv_mnc = view.findViewById(R.id.tv_mnc);
             tv_mnc.setText(guijiViewBeanjizhan.getMnc());
+            if(guijiViewBeanjizhan.getMnc().equals("0")){
+                tv_mnc.setText("00");
+            }if(guijiViewBeanjizhan.getMnc().equals("1")){
+                tv_mnc.setText("01");
+            }if(guijiViewBeanjizhan.getMnc().equals("4")){
+                tv_mnc.setText("11");
+            }
             TextView tv_lac = view.findViewById(R.id.tv_lac);
             tv_lac.setText(guijiViewBeanjizhan.getLac());
             TextView tv_cid = view.findViewById(R.id.tv_cid);
@@ -3639,42 +3670,42 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                         .build()));
                 break;
 
-            case R.id.bt_adddilao:
-                if (TextUtils.isEmpty(et_taclac.getText().toString())) {
-//                    Toast.makeText(this, "TAC/LAC不能为空", Toast.LENGTH_SHORT).show();
-                    MyToast.showToast("TAC/LAC不能为空");
-                    break;
-                }
-                if (TextUtils.isEmpty(et_eci.getText().toString())) {
-//                    Toast.makeText(this, "ECI不能为空", Toast.LENGTH_SHORT).show();
-                    MyToast.showToast("ECI不能为空");
-                    break;
-                }
-                if (jizhanFlag == 4) {
-                    if (TextUtils.isEmpty(et_sid.getText().toString())) {
-                        MyToast.showToast("Sid不能为空");
-                        break;
-                    }
-                }
-                if (list.size() > 0) {
-                } else {
-                    list.add(0.0);
-                }
-                //是否有类型未选中
-                if (rb_yidong.isChecked() == false && rb_liantong.isChecked() == false && rb_ldainxin4.isChecked() == false && rb_cdma.isChecked() == false && rb_bdjz1.isChecked() == false && rb_bdjz2.isChecked() == false) {
-                    Log.d(TAG, "onClick: " + rb_liantong.isChecked());
-                    MyToast.showToast("请选择基站类型");
-                    break;
-                } else {
-//                    Toast.makeText(MainActivity.this,"22",Toast.LENGTH_LONG).show();
-                    saveIsShow();//保存发送的数据
-//                    mBaiduMap.clear();
-                    sendPost();
-                    Log.d("2ilssDetail144", "onClick: ");
-//
-                }
+//            case R.id.bt_adddilao:
+//                if (TextUtils.isEmpty(et_taclac.getText().toString())) {
+////                    Toast.makeText(this, "TAC/LAC不能为空", Toast.LENGTH_SHORT).show();
+//                    MyToast.showToast("TAC/LAC不能为空");
+//                    break;
+//                }
+//                if (TextUtils.isEmpty(et_eci.getText().toString())) {
+////                    Toast.makeText(this, "ECI不能为空", Toast.LENGTH_SHORT).show();
+//                    MyToast.showToast("ECI不能为空");
+//                    break;
+//                }
+//                if (jizhanFlag == 4) {
+//                    if (TextUtils.isEmpty(et_sid.getText().toString())) {
+//                        MyToast.showToast("Sid不能为空");
+//                        break;
+//                    }
+//                }
+//                if (list.size() > 0) {
+//                } else {
+//                    list.add(0.0);
+//                }
+//                //是否有类型未选中
+//                if (rb_yidong.isChecked() == false && rb_liantong.isChecked() == false && rb_ldainxin4.isChecked() == false && rb_cdma.isChecked() == false && rb_bdjz1.isChecked() == false && rb_bdjz2.isChecked() == false) {
+//                    Log.d(TAG, "onClick: " + rb_liantong.isChecked());
+//                    MyToast.showToast("请选择基站类型");
+//                    break;
+//                } else {
+////                    Toast.makeText(MainActivity.this,"22",Toast.LENGTH_LONG).show();
+//                    saveIsShow();//保存发送的数据
+////                    mBaiduMap.clear();
+//                    sendPost();
+//                    Log.d("2ilssDetail144", "onClick: ");
+////
+//                }
 
-                break;
+//                break;
             case R.id.iv_finish:
                 dialog.dismiss();
                 break;
@@ -4016,7 +4047,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     rb_cdma.setChecked(false);
 //                    rb_bdjz1.setChecked(false);
 //                    rb_bdjz2.setChecked(false);
-                    jizhanFlag = 0;
+                    jizhanFlag = 00;
                     Log.d(TAG, "onCheckedChanged: " + jizhanFlag);
                     ll_sid.setVisibility(View.GONE);
                 } else {
@@ -4037,7 +4068,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     rb_cdma.setChecked(false);
 //                    rb_bdjz1.setChecked(false);
 //                    rb_bdjz2.setChecked(false);
-                    jizhanFlag = 1;
+                    jizhanFlag = 01;
                     Log.d(TAG, "onCheckedChanged: " + jizhanFlag);
                     ll_sid.setVisibility(View.GONE);
                 } else {
@@ -4242,31 +4273,29 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         bt_adddilao.setOnClickListener(this);
         String s = ACacheUtil.getjzType();
         if (TextUtils.isEmpty(s)) {
-
-
         } else {
-            jizhanFlag = Integer.parseInt(s + "");
+            jizhanFlag = Integer.parseInt(s);
         }
 
-        if (jizhanFlag == 0) {//如果是0 ，是移动
+        if (jizhanFlag==0) {//如果是0 ，是移动
             rb_yidong.setChecked(true);
             rb_liantong.setChecked(false);
             rb_cdma.setChecked(false);
             rb_ldainxin4.setChecked(false);
         }
-        if (jizhanFlag == 1) {//如果是1 ，是联通
+        if (jizhanFlag==1) {//如果是1 ，是联通
             rb_yidong.setChecked(false);
             rb_liantong.setChecked(true);
             rb_cdma.setChecked(false);
             rb_ldainxin4.setChecked(false);
         }
-        if (jizhanFlag == 11) {//如果是11 ，是电信
+        if (jizhanFlag==11) {//如果是11 ，是电信
             rb_yidong.setChecked(false);
             rb_liantong.setChecked(false);
             rb_cdma.setChecked(false);
             rb_ldainxin4.setChecked(true);
         }
-        if (jizhanFlag == 4) {//如果是4 ，是cdma
+        if (jizhanFlag==4) {//如果是4 ，是cdma
             rb_yidong.setChecked(false);
             rb_liantong.setChecked(false);
             rb_cdma.setChecked(true);
@@ -4302,8 +4331,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             }
 
         }
-
-
     };
 
     private void saveIsShow() {
@@ -4312,6 +4339,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         ACacheUtil.putSID(et_sid.getText().toString() + "");
 //        ACacheUtil.putTa(et_ta.getText().toString());
 //        ACacheUtil.putTa(MyUtils.listToString(list));
+        Log.e(TAG, "saveIsShow: "+jizhanFlag);
         ACacheUtil.putjzType(jizhanFlag + "");
     }
 
@@ -4407,10 +4435,100 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                 d.setCi(et_eci.getText().toString() + "");
                                 d.setLac(et_taclac.getText().toString() + "");
                                 d.setMcc("");
+                                Log.e(TAG, "runjkjljk: "+jizhanFlag);
                                 d.setMnc(jizhanFlag + "");
                                 d.setRadius("0");
 //                        d.setTa(et_ta.getText().toString());
                                 d.setTa(MyUtils.listToString(HomeFragment.this.list));
+                                d.setType(0);
+                                d.setResources("公开数据");
+                                d.setLat(String.valueOf(desLatLngBaidu.latitude));
+                                d.setLon(String.valueOf(desLatLngBaidu.longitude));
+                                dbManagerJZ.insertStudent(d);
+                                initdatas();
+                                //视角跳转
+                                MapStatus.Builder builder = new MapStatus.Builder();
+                                builder.target(new LatLng(desLatLngBaidu.latitude, desLatLngBaidu.longitude)).zoom(18.0f);
+                                mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+                                list.clear();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                                Log.d(TAG, "resultBeansonResponse1: " + e.getMessage());
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    private void getRetrofits(ArrayList<String> list, String plmn, String tv_cid, String tv_tac) {
+        String url;
+//        http://www.cellmap.cn/api/cell2gps.aspx?mnc=0&lac=12795&cell=241734401&key=09f9433abbe7406aa5da1d3290d36c1d
+
+        url = getBaseUrl + "?mnc=" + list.get(0) + "&lac=" + list.get(1) + "&cell=" + list.get(2) + "&key=" + list.get(3);
+
+        Log.e(TAG, "getRetrofit: " + url);
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request
+                .Builder()
+                .url(url)//要访问的链接
+                .get()
+                .build();
+        okhttp3.Call call = client.newCall(request);
+        call.enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(okhttp3.Call call, IOException e) {
+                Log.e("yltylt", "onResponse: " + e.getMessage());
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        MyToast.showToast("查询失败");
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
+                String string = response.body().string();
+                Log.e("yltylt", "onResponse: " + string);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (string.equals("null")) {
+                            MyToast.showToast("查询不到该基站");
+                        } else {
+                            String[] split = string.split(",");
+                            Log.e("yltylt", "onResponse3: " + string);
+                            try {
+                                String latresult = split[0];
+                                String lonresult = split[1];
+                                LatLng latLngresult = new LatLng(Double.parseDouble(latresult), Double.parseDouble(lonresult));
+                                CoordinateConverter converter = new CoordinateConverter()
+                                        .from(CoordinateConverter.CoordType.GPS)
+                                        .coord(latLngresult);
+                                //转换坐标
+                                LatLng desLatLngBaidu = converter.convert();
+                                GuijiViewBeanjizhan d = new GuijiViewBeanjizhan();
+                                if (jizhanFlag == 4) {
+                                    d.setSid(et_sid.getText().toString());
+                                } else {
+                                    d.setSid("");
+                                }
+//                        d.setTypes("" + jzGetData.getData().getType());
+//                        d.setBand("" + jzGetData.getData().getBand());
+//                        d.setPci("" + jzGetData.getData().getPci());
+//                        d.setDown("" + jzGetData.getData().getDownFrequencyPoint());
+                                d.setId(1);
+                                d.setId(1);
+                                d.setAddress(split[4]);
+                                d.setCi(tv_cid + "");
+                                d.setLac(tv_tac + "");
+                                d.setMcc("");
+                                d.setMnc(plmn + "");
+                                d.setRadius("0");
+//                        d.setTa(et_ta.getText().toString());
+                                d.setTa("1.0");
                                 d.setType(0);
                                 d.setResources("公开数据");
                                 d.setLat(String.valueOf(desLatLngBaidu.latitude));
@@ -4494,6 +4612,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                 d.setCi(et_eci.getText().toString() + "");
                                 d.setLac(et_taclac.getText().toString() + "");
                                 d.setMcc("");
+                                Log.e(TAG, "runjkjljk: "+jizhanFlag);
                                 d.setMnc(jizhanFlag + "");
                                 d.setRadius("0");
 //                        d.setTa(et_ta.getText().toString());
@@ -4580,6 +4699,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 tv_fugai.setText(guijiViewBeanjizhan.getRadius() + "");
                 TextView tv_mnc = view.findViewById(R.id.tv_mnc);
                 tv_mnc.setText(guijiViewBeanjizhan.getMnc());
+                if(guijiViewBeanjizhan.getMnc().equals("0")){
+                    tv_mnc.setText("00");
+                }if(guijiViewBeanjizhan.getMnc().equals("1")){
+                    tv_mnc.setText("01");
+                }if(guijiViewBeanjizhan.getMnc().equals("4")){
+                    tv_mnc.setText("11");
+                }
                 TextView tv_lac = view.findViewById(R.id.tv_lac);
                 tv_lac.setText(guijiViewBeanjizhan.getLac());
                 TextView tv_cid = view.findViewById(R.id.tv_cid);
@@ -4968,6 +5094,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         if (event.getCode() == 5500) {
             Message message = Message.obtain();
             message.what = 5500;
+            message.obj = event.getData();
+            handler.sendMessage(message);
+        }
+        if (event.getCode() == 9999) {
+            Message message = Message.obtain();
+            message.what = 9999;
             message.obj = event.getData();
             handler.sendMessage(message);
         }

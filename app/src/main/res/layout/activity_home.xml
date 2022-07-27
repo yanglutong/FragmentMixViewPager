@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/liner_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,6 +11,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/f"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -17,7 +19,7 @@
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:background="@drawable/bghuanying"
+            android:background="@drawable/banner"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -32,45 +34,196 @@
                 android:text="首页"
                 android:textColor="@color/white"
                 android:textSize="25sp"></TextView>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/navi_dimens_250dp"
+        android:background="@drawable/shape_re_yuanjiao"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="@dimen/x30"
+            android:text="功能模块"
+            android:textColor="@color/black"
+            android:textSize="20sp"></TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_100dp"
+            android:layout_marginLeft="@dimen/navi_dimens_10dp"
+            android:layout_marginTop="@dimen/navi_dimens_15dp"
+            android:layout_marginRight="@dimen/navi_dimens_10dp"
+            android:background="@drawable/bg_blue"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/navi_dimens_45dp"
+                android:layout_height="@dimen/navi_dimens_45dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/navi_dimens_30dp"
+                android:src="@drawable/jizhan"></ImageView>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/dimens_20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="基站查询"
+                    android:textColor="@color/black"></TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="快速查询基站位置"
+                    android:textColor="#9A9899"></TextView>
+            </LinearLayout>
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="40dp"
-                android:text="欢迎使用三明定位系统"
-                android:textColor="@color/white"
-                android:textSize="20sp"></TextView>
+                android:layout_weight="1"></TextView>
 
             <TextView
-                android:id="@+id/dingwei"
-                android:layout_width="match_parent"
+                android:id="@+id/liner_jz_home"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="5dp"
-                android:text="基站查询·工模·定位三合一"
-                android:textColor="@color/white"
-                android:textSize="15sp"></TextView>
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/navi_dimens_30dp"
+                android:background="@drawable/btn_blue"
+                android:gravity="center"
+                android:text="使 用"
+                android:textColor="@color/white"></TextView>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="200dp"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/banner"></LinearLayout>
-    </RelativeLayout>
-    <TextView
-        android:layout_marginTop="20dp"
-        android:textSize="25sp"
-        android:layout_marginLeft="15dp"
-        android:text="功能模块"
-        android:textColor="@color/black"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </TextView>
+            android:layout_height="@dimen/navi_dimens_100dp"
+            android:layout_marginLeft="@dimen/navi_dimens_10dp"
+            android:layout_marginRight="@dimen/navi_dimens_10dp"
+            android:background="@drawable/bg_green"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/navi_dimens_45dp"
+                android:layout_height="@dimen/navi_dimens_45dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/navi_dimens_30dp"
+                android:src="@drawable/gongmo"></ImageView>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/dimens_20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="工模"
+                    android:textColor="@color/black"></TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="快速查询基站位置"
+                    android:textColor="#9A9899"></TextView>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"></TextView>
+
+            <TextView
+                android:id="@+id/liner_gm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/navi_dimens_30dp"
+                android:background="@drawable/btn_blue"
+                android:gravity="center"
+                android:text="使 用"
+                android:textColor="@color/white"></TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navi_dimens_100dp"
+            android:layout_marginLeft="@dimen/navi_dimens_10dp"
+            android:layout_marginRight="@dimen/navi_dimens_10dp"
+            android:background="@drawable/bg_yellow"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/navi_dimens_45dp"
+                android:layout_height="@dimen/navi_dimens_45dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/navi_dimens_30dp"
+                android:src="@drawable/dingwei"></ImageView>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/dimens_20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="定位"
+                    android:textColor="@color/black"></TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="快速查询基站位置"
+                    android:textColor="#9A9899"></TextView>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"></TextView>
+
+            <TextView
+                android:id="@+id/liner_dw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/navi_dimens_30dp"
+                android:background="@drawable/btn_blue"
+                android:gravity="center"
+                android:text="使 用"
+                android:textColor="@color/white"></TextView>
+        </LinearLayout>
+    </LinearLayout>
+
     <LinearLayout
+        android:visibility="gone"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="20dp"
@@ -140,4 +293,4 @@
             </TextView>
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>
