@@ -9,22 +9,23 @@
         android:id="@+id/tab_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="@color/main_color"
-        android:textSize="17sp"
         android:layout_centerInParent="true"
-        android:paddingBottom="10dip"
+        android:gravity="center"
         android:paddingLeft="16dip"
-        android:paddingRight="16dip"
         android:paddingTop="10dip"
-        android:text="tab_title" />
+        android:paddingRight="16dip"
+        android:paddingBottom="10dip"
+        android:text="tab_title"
+        android:textColor="@color/main_color"
+        android:textSize="17sp" />
+
     <TextView
 
         android:id="@+id/tab_mes"
         android:layout_width="15dp"
         android:layout_height="15dp"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
         android:layout_marginTop="5dp"
         android:layout_marginRight="13dp"
         android:gravity="center"

@@ -152,6 +152,8 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Call;
@@ -322,51 +324,47 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     e.printStackTrace();
                 }
             }
-            if(msg.what==9999){
+            if (msg.what == 9999) {
                 RecJsonBean obj = (RecJsonBean) msg.obj;
                 //查看是否有网络
-                if(NetUtil.getNetWorkState(getContext())==-1){//没有网络
-                    Log.e(TAG, "handleMessage: 9999"+obj.toString());
+                if (NetUtil.getNetWorkState(getContext()) == -1) {//没有网络
+                    Log.e(TAG, "handleMessage: 9999" + obj.toString());
                     Message obtain = Message.obtain();
                     obtain.what = 9999;
                     obtain.obj = obj;
-                    handler.sendMessageAtTime(obtain,2000);
-                }else{//有网络
+                    handler.sendMessageAtTime(obtain, 2000);
+                } else {//有网络
                     String plmn = obj.getTv_plmn().substring(3);
                     String tv_cid = obj.getTv_cid();
                     String tv_tac = obj.getTv_tac();
-                    Log.e(TAG, "handleMessage: 9999"+plmn+"---"+tv_cid+"---"+tv_tac);
+                    Log.e(TAG, "handleMessage: 9999" + plmn + "---" + tv_cid + "---" + tv_tac);
                     ArrayList<String> list = new ArrayList<>();
                     list.add(plmn);
                     list.add(tv_tac);
                     list.add(tv_cid);
                     list.add(appKey);
 
-                    Log.i("TAG", "handleMessageplmn: "+plmn);
+                    Log.i("TAG", "handleMessageplmn: " + plmn);
 
-                    getRetrofits(list,plmn,tv_cid,tv_tac);
+                    getRetrofits(list, plmn, tv_cid, tv_tac);
                 }
             }
-//            if(msg.what==5500){
-//                int state= (int) msg.obj;
-//
-//                Toast.makeText(mContext, ""+state, Toast.LENGTH_SHORT).show();
-//                    new Timer().schedule(new TimerTask() {
-//                        @Override
-//                        public void run() {
-//                            getActivity().runOnUiThread(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    Log.e("yltylts", "run: jjjj"+state);
-//                                    if(state!=-1){//重新连接上网络时刷新地图界面
-//                                        initData(view);
-//                                    }
-//                                }
-//                            });
-//                        }
-//                    },5000);
-////                }
-//            }
+            if (msg.what == 5500) {
+                int state = (int) msg.obj;
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (state != -1) {//重新连接上网络时刷新地图界面
+                                    initData(view);
+                                }
+                            }
+                        });
+                    }
+                }, 2000);
+            }
         }
     };
     private boolean isfirst = true;
@@ -402,7 +400,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     private void initJz(View inflate) {
-        Log.e(TAG, "initJzinitJz: "+jizhanFlag );
+        Log.e(TAG, "initJzinitJz: " + jizhanFlag);
         list.clear();
         //初始化控件
         ll_sid = inflate.findViewById(R.id.ll_sid);
@@ -494,7 +492,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             }
         });
 
-        Log.e(TAG, "initJz1: "+jizhanFlag);
+        Log.e(TAG, "initJz1: " + jizhanFlag);
 
         //保存上次选中基站的记录
         String s = ACacheUtil.getjzType();
@@ -504,27 +502,27 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         } else {
             jizhanFlag = Integer.parseInt(s);
         }
-        Log.e(TAG, "initJz2: "+jizhanFlag);
+        Log.e(TAG, "initJz2: " + jizhanFlag);
 
-        if (jizhanFlag==0) {//如果是0 ，是移动
+        if (jizhanFlag == 0) {//如果是0 ，是移动
             rb_yidong.setChecked(true);
             rb_liantong.setChecked(false);
             rb_cdma.setChecked(false);
             rb_ldainxin4.setChecked(false);
         }
-        if (jizhanFlag==1) {//如果是1 ，是联通
+        if (jizhanFlag == 1) {//如果是1 ，是联通
             rb_yidong.setChecked(false);
             rb_liantong.setChecked(true);
             rb_cdma.setChecked(false);
             rb_ldainxin4.setChecked(false);
         }
-        if (jizhanFlag==11) {//如果是11 ，是电信
+        if (jizhanFlag == 11) {//如果是11 ，是电信
             rb_yidong.setChecked(false);
             rb_liantong.setChecked(false);
             rb_cdma.setChecked(false);
             rb_ldainxin4.setChecked(true);
         }
-        if (jizhanFlag==4) {//如果是4 ，是cdma
+        if (jizhanFlag == 4) {//如果是4 ，是cdma
             rb_yidong.setChecked(false);
             rb_liantong.setChecked(false);
             rb_cdma.setChecked(true);
@@ -559,7 +557,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     MyToast.showToast("ECI不能为空");
                     return;
                 }
-                if (jizhanFlag==4) {
+                if (jizhanFlag == 4) {
                     if (TextUtils.isEmpty(et_sid.getText().toString())) {
                         MyToast.showToast("Sid不能为空");
                         return;
@@ -1276,13 +1274,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             Log.d(TAG, "setMapMakerViaew: " + extraInfo.getString("Radius"));
             TextView tv_mnc = view.findViewById(R.id.tv_mnc);
             tv_mnc.setText(extraInfo.getString("mnc"));
-            if(extraInfo.getString("mnc").equals("0")){
+            if (extraInfo.getString("mnc").equals("0")) {
                 tv_mnc.setText("00");
             }
-            if(extraInfo.getString("mnc").equals("1")){
+            if (extraInfo.getString("mnc").equals("1")) {
                 tv_mnc.setText("01");
             }
-            if(extraInfo.getString("mnc").equals("4")){
+            if (extraInfo.getString("mnc").equals("4")) {
                 tv_mnc.setText("11");
             }
             TextView tv_lac = view.findViewById(R.id.tv_lac);
@@ -2372,11 +2370,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             tv_fugai.setText(guijiViewBeanjizhan.getRadius() + "");
             TextView tv_mnc = view.findViewById(R.id.tv_mnc);
             tv_mnc.setText(guijiViewBeanjizhan.getMnc());
-            if(guijiViewBeanjizhan.getMnc().equals("0")){
+            if (guijiViewBeanjizhan.getMnc().equals("0")) {
                 tv_mnc.setText("00");
-            }if(guijiViewBeanjizhan.getMnc().equals("1")){
+            }
+            if (guijiViewBeanjizhan.getMnc().equals("1")) {
                 tv_mnc.setText("01");
-            }if(guijiViewBeanjizhan.getMnc().equals("4")){
+            }
+            if (guijiViewBeanjizhan.getMnc().equals("4")) {
                 tv_mnc.setText("11");
             }
             TextView tv_lac = view.findViewById(R.id.tv_lac);
@@ -4277,25 +4277,25 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             jizhanFlag = Integer.parseInt(s);
         }
 
-        if (jizhanFlag==0) {//如果是0 ，是移动
+        if (jizhanFlag == 0) {//如果是0 ，是移动
             rb_yidong.setChecked(true);
             rb_liantong.setChecked(false);
             rb_cdma.setChecked(false);
             rb_ldainxin4.setChecked(false);
         }
-        if (jizhanFlag==1) {//如果是1 ，是联通
+        if (jizhanFlag == 1) {//如果是1 ，是联通
             rb_yidong.setChecked(false);
             rb_liantong.setChecked(true);
             rb_cdma.setChecked(false);
             rb_ldainxin4.setChecked(false);
         }
-        if (jizhanFlag==11) {//如果是11 ，是电信
+        if (jizhanFlag == 11) {//如果是11 ，是电信
             rb_yidong.setChecked(false);
             rb_liantong.setChecked(false);
             rb_cdma.setChecked(false);
             rb_ldainxin4.setChecked(true);
         }
-        if (jizhanFlag==4) {//如果是4 ，是cdma
+        if (jizhanFlag == 4) {//如果是4 ，是cdma
             rb_yidong.setChecked(false);
             rb_liantong.setChecked(false);
             rb_cdma.setChecked(true);
@@ -4339,7 +4339,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         ACacheUtil.putSID(et_sid.getText().toString() + "");
 //        ACacheUtil.putTa(et_ta.getText().toString());
 //        ACacheUtil.putTa(MyUtils.listToString(list));
-        Log.e(TAG, "saveIsShow: "+jizhanFlag);
+        Log.e(TAG, "saveIsShow: " + jizhanFlag);
         ACacheUtil.putjzType(jizhanFlag + "");
     }
 
@@ -4435,7 +4435,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                 d.setCi(et_eci.getText().toString() + "");
                                 d.setLac(et_taclac.getText().toString() + "");
                                 d.setMcc("");
-                                Log.e(TAG, "runjkjljk: "+jizhanFlag);
+                                Log.e(TAG, "runjkjljk: " + jizhanFlag);
                                 d.setMnc(jizhanFlag + "");
                                 d.setRadius("0");
 //                        d.setTa(et_ta.getText().toString());
@@ -4525,7 +4525,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                 d.setCi(tv_cid + "");
                                 d.setLac(tv_tac + "");
                                 d.setMcc("");
-                                d.setMnc(plmn + "");
+                                d.setMnc(plmn);
+                                if (plmn.equals("00")) {
+                                    d.setMnc("0");
+                                }
+                                if (plmn.equals("01")) {
+                                    d.setMnc("1");
+                                }
+                                if (plmn.equals("11")) {
+                                    d.setMnc("11");
+                                }
                                 d.setRadius("0");
 //                        d.setTa(et_ta.getText().toString());
                                 d.setTa("1.0");
@@ -4612,7 +4621,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                 d.setCi(et_eci.getText().toString() + "");
                                 d.setLac(et_taclac.getText().toString() + "");
                                 d.setMcc("");
-                                Log.e(TAG, "runjkjljk: "+jizhanFlag);
+                                Log.e(TAG, "runjkjljk: " + jizhanFlag);
                                 d.setMnc(jizhanFlag + "");
                                 d.setRadius("0");
 //                        d.setTa(et_ta.getText().toString());
@@ -4699,11 +4708,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 tv_fugai.setText(guijiViewBeanjizhan.getRadius() + "");
                 TextView tv_mnc = view.findViewById(R.id.tv_mnc);
                 tv_mnc.setText(guijiViewBeanjizhan.getMnc());
-                if(guijiViewBeanjizhan.getMnc().equals("0")){
+                if (guijiViewBeanjizhan.getMnc().equals("0")) {
                     tv_mnc.setText("00");
-                }if(guijiViewBeanjizhan.getMnc().equals("1")){
+                }
+                if (guijiViewBeanjizhan.getMnc().equals("1")) {
                     tv_mnc.setText("01");
-                }if(guijiViewBeanjizhan.getMnc().equals("4")){
+                }
+                if (guijiViewBeanjizhan.getMnc().equals("4")) {
                     tv_mnc.setText("11");
                 }
                 TextView tv_lac = view.findViewById(R.id.tv_lac);

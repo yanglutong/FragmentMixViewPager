@@ -159,18 +159,24 @@
 //}
 package com.lutong.fragment.home;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.lutong.App.MessageEvent;
+import com.lutong.R;
 import com.lutong.Utils.MyToast;
 import com.lutong.adapter.ViewPageFragmentAdapter;
 import com.lutong.base.BaseViewPagerFragment;
 import com.lutong.base.OnTabReselectListener;
 import com.lutong.fragment.GijChildFragment4;
 import com.lutong.fragment.GijChildFragment5;
+import com.lutong.widget.PagerSlidingTabStrip;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -206,7 +212,7 @@ public class FragmentGm extends BaseViewPagerFragment implements
 
     @Override
     public void onClick(View v) {
-
+            
     }
 
     GijChildFragment4 childFragment4;
@@ -219,6 +225,66 @@ public class FragmentGm extends BaseViewPagerFragment implements
         }
         //注册Event
         EventBus.getDefault().register(this);
+
+
+        View child = mTabStrip.getChild(1);
+        TextView textView = child.findViewById(R.id.tab_title);
+        textView.setTextColor(Color.parseColor("#202020"));
+
+
+        View child2 = mTabStrip.getChild(0);
+        TextView textView2 = child2.findViewById(R.id.tab_title);
+        textView2.setTextColor(Color.parseColor("#2f8dff"));
+
+        mTabStrip.setOnClickTabListener(new PagerSlidingTabStrip.OnClickTabListener() {
+            @Override
+            public void onClickTab(View tab, int index) {
+//                View child = mPagerStrip.getChildAt(index);
+//				TextView textView = child.findViewById(R.id.tab_title);
+//				Toast.makeText(mContext, "child"+textView.getText().toString(), Toast.LENGTH_SHORT).show();
+////                TextView view = tab.findViewById(R.id.tab_title);
+////                view.setTextColor(Color.parseColor("#2f8dff"));
+            }
+        });
+        mTabStrip.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position == 0){
+                    View child = mTabStrip.getChild(1);
+                    TextView textView = child.findViewById(R.id.tab_title);
+                    textView.setTextColor(Color.parseColor("#202020"));
+
+
+                    View child2 = mTabStrip.getChild(0);
+                    TextView textView2 = child2.findViewById(R.id.tab_title);
+                    textView2.setTextColor(Color.parseColor("#2f8dff"));
+
+                }else if(position == 1){
+                    View child = mTabStrip.getChild(0);
+                    TextView textView = child.findViewById(R.id.tab_title);
+                    textView.setTextColor(Color.parseColor("#202020"));
+
+
+                    View child2 = mTabStrip.getChild(1);
+                    TextView textView2 = child2.findViewById(R.id.tab_title);
+                    textView2.setTextColor(Color.parseColor("#2f8dff"));
+                }
+
+
+
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
 

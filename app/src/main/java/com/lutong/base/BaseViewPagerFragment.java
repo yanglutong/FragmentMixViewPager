@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.viewpager.widget.ViewPager;
 
@@ -35,6 +36,8 @@ public abstract class BaseViewPagerFragment extends BaseFragment {
 
         mTabStrip = (PagerSlidingTabStrip) view
                 .findViewById(R.id.pager_tabstrip);
+
+
 
         mViewPager = (ViewPager) view.findViewById(R.id.pager);
 //		mViewPager.setOffscreenPageLimit(4);
