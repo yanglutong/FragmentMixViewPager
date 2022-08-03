@@ -68,7 +68,7 @@ public abstract class BaseActivity extends FragmentActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,//防止锁屏,只有当前为Activity时生效
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(getView());//设置布局
-//        setStatBar();//根据版本设置沉浸式状态栏
+        setStatBar();//根据版本设置沉浸式状态栏
         findViews();//初始化组件
         try {
             init();

@@ -1,9 +1,12 @@
 package com.lutong.Device;
 
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Build;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -55,6 +58,8 @@ public class DeviceInfoActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void findViews() {
         iv_add=findViewById(R.id.iv_add);
+        ImageView iv_home=findViewById(R.id.iv_home);
+        iv_home.setVisibility(View.GONE);
         iv_add.setVisibility(View.GONE);
         layout = findViewById(R.id.ll_tab);
         title = findViewById(R.id.titles);

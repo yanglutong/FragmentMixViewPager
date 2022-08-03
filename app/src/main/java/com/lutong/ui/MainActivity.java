@@ -39,8 +39,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -64,12 +64,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.baidu.location.LocationClient;
 import com.baidu.mapapi.SDKInitializer;
-import com.baidu.navisdk.util.common.LogUtil;
 import com.liys.dialoglib.LAnimationsType;
 import com.liys.dialoglib.LDialog;
 import com.lutong.App.MessageEvent;
 import com.lutong.ConnectivityManager.NetChangeReceiver;
-import com.lutong.Constants;
 import com.lutong.Device.DeviceInfoActivity;
 import com.lutong.OrmSqlLite.DBManagerZM;
 import com.lutong.PinConfig.PinConfigViewPagerActivity;
@@ -97,15 +95,11 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.IOException;
-import java.net.ServerSocket;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * 主界面
@@ -138,6 +132,7 @@ public class MainActivity extends FragmentActivity implements
     private List<DLPopItem> mList = new ArrayList<>();
     private NetChangeReceiver myBroadcastReceiver;//监听是否有手机卡网络连接
     private Timer timerStart = new Timer();
+    private Timer timertitle = new Timer();
     private int pageMode;//区分界面标识
     private LinearLayout liner_jz;
     private LinearLayout liner_location;
@@ -173,8 +168,9 @@ public class MainActivity extends FragmentActivity implements
         initGmConfigState();
 
         //初始化服务
-        socketServerListenHandler = new SocketServerListenHandler(handler, port);
-        socketServerListenHandler.startSchedule(timerStart, 10000);
+        socketServerListenHandler = new SocketServerListenHandler(this, handler, port);
+        socketServerListenHandler.startSchedule(timerStart, 10000);//检测心跳
+        socketServerListenHandler.startScheduleTitle(timertitle, 2000);//标题
 
         setHome();
     }
@@ -244,28 +240,25 @@ public class MainActivity extends FragmentActivity implements
                     }, 3000);
                     break;
                 }
-//                case 3030: {//标题栏状态
-////                    ArrayList<Boolean> booleans = (ArrayList<Boolean>) msg.obj;
-////                    Boolean page0 = booleans.get(0);
-////                    Boolean page1 = booleans.get(1);
-//////                    boolean state = (boolean) msg.obj;//true 移动数据可用 false不可用
-////                    String title = "";
-////                    if (pageMode == 0) {
-////                        title = "(移动数据切换中...)";
-////                        if (page0) {//移动数据可用
-////                            title = "(移动数据切换成功)";
-////                        }
-////                    }
-//////                    else if (pageMode == 1) {
-//////                        title = "(扫网设置切换中...)";
-//////                        if (page1) {
-//////                            title = "(扫网设置切换成功)";
-//////                        }
-//////                    }
-////                    titles_r.setText(title);
-////                    Log.e("TAG", "handleMessage:3030 "+booleans.toString());
-//                    break;
-//                }
+                case 3030: {//标题栏状态
+                    ArrayList<Boolean> booleans = (ArrayList<Boolean>) msg.obj;
+                    if (booleans.size() > 0) {
+                        String title = "";
+                        if (pageMode == 0) {
+                            title = "(移动数据切换中...)";
+                            if (booleans.get(0)) {//移动数据可用
+                                title = "(移动数据切换成功)";
+                            }
+                        } else if (pageMode == 1) {
+                            title = "(扫网设置切换中...)";
+                            if (booleans.get(1)) {
+                                title = "(扫网设置切换成功)";
+                            }
+                        }
+                        titles_r.setText(title);
+                    }
+                    break;
+                }
             }
         }
     };
@@ -301,8 +294,10 @@ public class MainActivity extends FragmentActivity implements
             @Override
             public void onClick(View v) {
                 //返回主界面
-                liner_home.setVisibility(View.VISIBLE);
                 liner_main.setVisibility(View.GONE);
+                liner_main.setAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_exit));
+                liner_home.setVisibility(View.VISIBLE);
+                liner_home.setAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_enter));
                 mTabHost.clearAllTabs();
                 initTabs();
                 setStatBar(0);
@@ -315,6 +310,7 @@ public class MainActivity extends FragmentActivity implements
                 //返回主界面
                 liner_home.setVisibility(View.VISIBLE);
                 liner_main.setVisibility(View.GONE);
+                liner_home.setAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_enter));
                 mTabHost.clearAllTabs();
                 initTabs();
                 setStatBar(0);
@@ -331,21 +327,26 @@ public class MainActivity extends FragmentActivity implements
             //返回主界面
             liner_home.setVisibility(View.GONE);
             liner_main.setVisibility(View.VISIBLE);
-            setStatBar(1);
+            liner_main.setAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_enter));
+            setStatBar(0);
             mTabHost.setCurrentTab(0);
         });
         liner_gm.setOnClickListener(v -> {
             //返回主界面
             liner_home.setVisibility(View.GONE);
             liner_main.setVisibility(View.VISIBLE);
-            setStatBar(1);
+            liner_main.setAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_enter));
+
+            setStatBar(0);
             mTabHost.setCurrentTab(1);
         });
         liner_dw.setOnClickListener(v -> {
             //返回主界面
             liner_home.setVisibility(View.GONE);
             liner_main.setVisibility(View.VISIBLE);
-            setStatBar(1);
+            liner_main.setAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_enter));
+
+            setStatBar(0);
             mTabHost.setCurrentTab(2);
         });
     }
@@ -982,6 +983,10 @@ public class MainActivity extends FragmentActivity implements
 
     private void destory() {
         EventBus.getDefault().unregister(this);
+        if (timertitle != null) {
+            timertitle.cancel();
+            timertitle = null;
+        }
         if (timerStart != null) {
             timerStart.cancel();
             timerStart = null;
@@ -1035,14 +1040,25 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     public void onBackPressed() {//重写返回键方法
-        long mNowTime = System.currentTimeMillis();//获取第一次按键时间
-        Log.d("nzq", "onBackPressed: " + mNowTime);
-        if ((mNowTime - mPressedTime) > 2000) {//比较两次按键时间差
-            ToastUtils.showToast("再按一次退出程序");
-            mPressedTime = mNowTime;
-        } else {//退出程序
-            this.finish();
-            System.exit(0);
+        if (liner_home.getVisibility() == View.VISIBLE) {//显示
+            long mNowTime = System.currentTimeMillis();//获取第一次按键时间
+            Log.d("nzq", "onBackPressed: " + mNowTime);
+            if ((mNowTime - mPressedTime) > 2000) {//比较两次按键时间差
+                ToastUtils.showToast("再按一次退出程序");
+                mPressedTime = mNowTime;
+            } else {//退出程序
+                this.finish();
+                System.exit(0);
+            }
+        } else {
+            //返回主界面
+            liner_main.setVisibility(View.GONE);
+            liner_main.setAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_exit));
+            liner_home.setVisibility(View.VISIBLE);
+            liner_home.setAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_enter));
+            mTabHost.clearAllTabs();
+            initTabs();
+            setStatBar(0);
         }
     }
 
@@ -1126,6 +1142,16 @@ public class MainActivity extends FragmentActivity implements
     };
 
     @SuppressLint("NewApi")
+    public void setStatBar() {//根据版本设置沉浸式状态栏
+        View decorView = getWindow().getDecorView();
+        int option =
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        decorView.setSystemUiVisibility(option);
+        getWindow().setStatusBarColor(Color.TRANSPARENT
+        );
+    }
+    @SuppressLint("NewApi")
     public void setStatBar(int type) {//根据版本设置沉浸式状态栏
         View decorView = getWindow().getDecorView();
         int option;
@@ -1159,4 +1185,5 @@ public class MainActivity extends FragmentActivity implements
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
     }
+
 }

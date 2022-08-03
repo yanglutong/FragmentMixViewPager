@@ -62,12 +62,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.baidu.location.LocationClient;
 import com.baidu.mapapi.SDKInitializer;
-import com.baidu.navisdk.util.common.LogUtil;
 import com.liys.dialoglib.LAnimationsType;
 import com.liys.dialoglib.LDialog;
 import com.lutong.App.MessageEvent;
 import com.lutong.ConnectivityManager.NetChangeReceiver;
-import com.lutong.Constants;
 import com.lutong.Device.DeviceInfoActivity;
 import com.lutong.OrmSqlLite.DBManagerZM;
 import com.lutong.PinConfig.PinConfigViewPagerActivity;
@@ -94,15 +92,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.IOException;
-import java.net.ServerSocket;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * 主界面
@@ -163,7 +156,7 @@ public class MainActivity2 extends FragmentActivity implements
             throwables.printStackTrace();
         }
         //初始化服务
-        socketServerListenHandler = new SocketServerListenHandler(handler, port);
+        socketServerListenHandler = new SocketServerListenHandler(this, handler, port);
         socketServerListenHandler.startSchedule(timerStart, 10000);
         //初始化工模配置选项状态
         initGmConfigState();

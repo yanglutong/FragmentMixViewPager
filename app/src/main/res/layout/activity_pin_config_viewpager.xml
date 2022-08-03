@@ -6,7 +6,11 @@
     android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical">
-
+    <LinearLayout
+        android:background="@mipmap/jianbian"
+        android:layout_width="match_parent"
+        android:layout_height="20dp">
+    </LinearLayout>
     <include layout="@layout/tabspinconfig" />
     <LinearLayout
         android:layout_width="match_parent"

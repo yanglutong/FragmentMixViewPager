@@ -5,8 +5,14 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity2">
+    tools:context=".ui.MainActivity">
     <LinearLayout
+        android:background="@mipmap/jianbian"
+        android:layout_width="match_parent"
+        android:layout_height="20dp">
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="20dp"
         android:id="@+id/liner_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

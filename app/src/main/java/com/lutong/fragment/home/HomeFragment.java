@@ -278,7 +278,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private String address_reverseGeoCodeResult = "";//拖动后的marker地址
     private boolean jingbaoflag = false;//判断是否启动警报
     private int juliType = 0;
-    private boolean guijiFlag = false;
+    //    private boolean guijiFlag = false;
     private boolean guijistart = false;
     private boolean gensuiFlag = false;
     private boolean fugaiFlag = false;
@@ -314,7 +314,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 1) {
-                Viewgjs();
+                //第一次有网才添加数据
+                Viewgjs();//轨迹
             }
             if (msg.what == 2) {//报警功能
                 JingBaos(pointsJingbao, positionjingbaojizhan, mylag, true);
@@ -324,7 +325,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     e.printStackTrace();
                 }
             }
-            if (msg.what == 9999) {
+            if (msg.what == 9999) {//点击工模返回基站页面查询基站
                 RecJsonBean obj = (RecJsonBean) msg.obj;
                 //查看是否有网络
                 if (NetUtil.getNetWorkState(getContext()) == -1) {//没有网络
@@ -358,6 +359,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                             @Override
                             public void run() {
                                 if (state != -1) {//重新连接上网络时刷新地图界面
+                                    Toast.makeText(mContext, "" + state, Toast.LENGTH_SHORT).show();
+                                    if (isoneOpengj) {//第一次有网的话开启轨迹
+                                        initGj();
+                                        isoneOpengj = false;
+                                        isoneOpengjs = true;//第一次正常加载过才可以用轨迹
+                                    }
                                     initData(view);
                                 }
                             }
@@ -367,12 +374,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             }
         }
     };
-    private boolean isfirst = true;
+    private boolean isoneOpengj = true;
+    private boolean isoneOpengjs = false;
     private MapUtil mapUtil;
     private TCPServer tcpServer;
     private Timer timerStart = new Timer();
     private View view_check;
-
+    private TextView viewById;
 
     public void HomeFragment() {
         // Required empty public constructor
@@ -385,6 +393,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.jz_fragment, container, false);
         mContext = getActivity();
+        viewById = view.findViewById(R.id.tv);
         initView(view);
         return view;
     }
@@ -397,6 +406,33 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         initData(view);
         //初始化基站下方的查询工模
         initJz(view);
+    }
+
+    private void initGj() {
+        if (juliFlage) {
+            com.lutong.Utils.ToastUtils.showToast("请先关闭测量");
+            return;
+        }
+        if (guijistart) {
+            //开启后在点击会走此
+            new CircleDialog.Builder()
+//                            .setTitle("")
+                    .setWidth(0.7f)
+                    .setMaxHeight(0.7f)
+                    .setText("确定要关闭轨迹功能吗?")
+                    .setTitleColor(Color.parseColor("#00acff"))
+                    .setNegative("确定", new Positiv(13))
+                    .setPositive("取消", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                        }
+                    })
+                    .show(getFragmentManager());
+        } else {
+            //关闭后在点击会走此
+            startGj();
+        }
     }
 
     private void initJz(View inflate) {
@@ -439,7 +475,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 } else {
                     jizhanFlag = 44;
                 }
-
             }
         });
 
@@ -575,7 +610,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     list.add(Double.parseDouble(et_ta.getText().toString()));
                 }
                 if (list.size() == 0) {
-                    list.add(0.0);
+                    list.add(1.0);
                 }
                 //是否有类型未选中
                 if (rb_yidong.isChecked() == false && rb_liantong.isChecked() == false && rb_ldainxin4.isChecked() == false && rb_cdma.isChecked() == false) {
@@ -583,7 +618,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     MyToast.showToast("请选择基站类型");
                     return;
                 } else {
-                    saveIsShow();//保存发送的数据
                     sendPost();
                 }
             }
@@ -2724,9 +2758,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             mylag = new LatLng(location.getLatitude(), location.getLongitude());//当前的位置
             longitude = location.getLongitude() + "";
             latitude = location.getLatitude() + "";
-//            Log.i("杨路通", "onReceiveLocation: " + longitude);
-//            Log.i("杨路通", "onReceiveLocation: " + latitude);
-//            Log.d(TAG, "位置mylag" + mylag);
 
             if (guijistart == true) {//轨迹开始添加记录
                 List<GuijiViewBean> guijiViewBeans = null;
@@ -2750,6 +2781,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                         getguis = 10.0;
                     }
                     if (distance > getguis) { //大于设置的 轨迹间隔 添加
+                        d = "大于";
                         Log.d(TAG, "ASonReceiveLocation:大于");
                         GuijiViewBean guijiViewBeanS = new GuijiViewBean();
                         guijiViewBeanS.setLat(location.getLatitude());
@@ -2760,8 +2792,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                             e.printStackTrace();
                         }
                     } else {
+                        d = "小于";
                         Log.d(TAG, "ASonReceiveLocation:小于");
-
                     }
                 }
             }
@@ -2804,6 +2836,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         }
     }
 
+    private String d = "";
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     //线集合        基站点的位置                   自己当前的位置   是否开启警报
@@ -3120,78 +3153,85 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void Viewgjs() {
-        List<GuijiViewBean> guijiViewBeans = null;
+
+        List<GuijiViewBean> guijiViewBeans;
         try {
             guijiViewBeans = dbManagerGuijiView.guijiViewBeans();
-            Log.d(TAG, "Viewgjs: aa" + guijiViewBeans);
             if (guijiViewBeans.size() > 1 && guijiViewBeans != null) {
-                mBaiduMap.clear();
-                List<GuijiViewBeanjizhan> resultBeans = null;
-                try {
-                    mBaiduMap.clear();
-                    resultBeans = dbManagerJZ.guijiViewBeans();
-                    Log.d(TAG, "查询到的resultBeansonCreate: " + resultBeans);
-                    Log.d(TAG, "resultBeansonResponse1: " + resultBeans);
-                    if (resultBeans.size() > 0 && resultBeans != null) {
-                        mBaiduMap.clear();
-                        DataAll(resultBeans);
-                    } else {
-                        Log.d(TAG, "initdatas: aa" + "1111");
-
-//                        MyToast.showToast("请先添加基站");
-
-
-                    }
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-                MapStatus.Builder builder = new MapStatus.Builder();
-                builder.target(new LatLng(guijiViewBeans.get(0).getLat(), guijiViewBeans.get(0).getLon()));
-                builder.zoom(19.0f);
-//                mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));//跳转到当前
-                // 添加多纹理分段的折线绘制
-
-                List<LatLng> points11 = new ArrayList<>();
-                for (int i = 0; i < guijiViewBeans.size(); i++) {
-                    points11.add(new LatLng(guijiViewBeans.get(i).getLat(), guijiViewBeans.get(i).getLon()));
-                }
-                List<BitmapDescriptor> textureList = new ArrayList<>();
-//                            textureList.add(mRedTexture);
-                textureList.add(mBlueTexture);
-//                            textureList.add(mGreenTexture);
-                List<Integer> textureIndexs = new ArrayList<>();
-                textureIndexs.add(0);
-//                            textureIndexs.add(1);
-//                            textureIndexs.add(2);
-                //画线
-                OverlayOptions ooPolyline11 = new PolylineOptions()
-                        .width(10)
-                        .points(points11)
-                        .dottedLine(true)
-                        .customTextureList(textureList)
-                        .textureIndex(textureIndexs);
-                Polyline mTexturePolyline = (Polyline) mBaiduMap.addOverlay(ooPolyline11);
-
-                guijiFlag = true;
-                Log.d(TAG, "guijiFlagonClick: " + "开启了");
-//                iv_viewstart.setBackground(getResources().getDrawable(R.mipmap.kaishi_0));
-                ib_gj.setBackground(getResources().getDrawable(R.mipmap.gjtrue));
-                guijiViewBeans.clear();
+                Log.e("gj", "Viewgjs: " + guijiViewBeans.size());
+                onDrawGj(guijiViewBeans);
             } else {
-                if (timer != null) {
-                    timer.cancel();
-                }
-//                Toast.makeText(MainActivity.this, "无轨迹数据", Toast.LENGTH_LONG).show();
-                MyToast.showToast("无轨迹数据");
-                ib_gj.setBackground(getResources().getDrawable(R.mipmap.gj));
-                guijiFlag = false;
-//                iv_viewstart.setBackground(getResources().getDrawable(R.mipmap.kaishi_1));
+                Log.e("gj", "Viewgjs: ");
+//                if (timer != null) {
+//                    timer.cancel();
+//                }
+            }
+            if (viewById != null) {
+                viewById.setText("" + dbManagerGuijiView.guijiViewBeans().size() + "--" + d);
             }
         } catch (SQLException e) {
             e.printStackTrace();
             Log.d(TAG, "Viewgjs: erro" + e.getMessage());
+        }
+    }
+
+    private void onDrawGj(List<GuijiViewBean> guijiViewBeans) {
+//        绘制历史基站
+//        Queryjz();
+
+        MapStatus.Builder builder = new MapStatus.Builder();
+        builder.target(new LatLng(guijiViewBeans.get(0).getLat(), guijiViewBeans.get(0).getLon()));
+        builder.zoom(19.0f);
+//                mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));//跳转到当前
+        // 添加多纹理分段的折线绘制
+
+        List<LatLng> points11 = new ArrayList<>();
+        for (int i = 0; i < guijiViewBeans.size(); i++) {
+            points11.add(new LatLng(guijiViewBeans.get(i).getLat(), guijiViewBeans.get(i).getLon()));
+        }
+        List<BitmapDescriptor> textureList = new ArrayList<>();
+//                            textureList.add(mRedTexture);
+        textureList.add(mBlueTexture);
+//                            textureList.add(mGreenTexture);
+        List<Integer> textureIndexs = new ArrayList<>();
+        textureIndexs.add(0);
+//                            textureIndexs.add(1);
+//                            textureIndexs.add(2);
+        //画线
+        OverlayOptions ooPolyline11 = new PolylineOptions()
+                .width(10)
+                .points(points11)
+                .dottedLine(true)
+                .customTextureList(textureList)
+                .textureIndex(textureIndexs);
+        Polyline mTexturePolyline = (Polyline) mBaiduMap.addOverlay(ooPolyline11);
+
+//                guijiFlag = true;
+        Log.d(TAG, "guijiFlagonClick: " + "开启了");
+//                iv_viewstart.setBackground(getResources().getDrawable(R.mipmap.kaishi_0));
+//        ib_gj.setBackground(getResources().getDrawable(R.mipmap.gjtrue));
+        guijiViewBeans.clear();
+    }
+
+    private void Queryjz() {
+        List<GuijiViewBeanjizhan> resultBeans = null;
+        try {
+            resultBeans = dbManagerJZ.guijiViewBeans();
+            Log.d(TAG, "查询到的resultBeansonCreate: " + resultBeans);
+            Log.d(TAG, "resultBeansonResponse1: " + resultBeans);
+            if (resultBeans.size() > 0 && resultBeans != null) {
+//                        mBaiduMap.clear();
+//                        DataAll(resultBeans);
+            } else {
+                Log.d(TAG, "initdatas: aa" + "1111");
+
+//                        MyToast.showToast("请先添加基站");
+
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -3612,33 +3652,30 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             case R.id.ll_cl://测量距离
                 setmapJuli();
                 break;
-            case R.id.ll_gj://鹰眼轨迹
-                if (juliFlage) {
-//                    ToastUtils.setGravity(Gravity.CENTER, 0, 0);
-//                    ToastUtils.setBgColor(Color.BLACK);
-//                    ToastUtils.setMsgColor(Color.WHITE);
-//                    ToastUtils.showShort("请先关闭测量");
-//                    MyToast.showToast("请先关闭测量");
-                    com.lutong.Utils.ToastUtils.showToast("请先关闭测量");
-                    return;
-                }
-                if (guijistart) {//开启状态点击要关闭轨迹
-                    new CircleDialog.Builder()
+            case R.id.ll_gj://鹰眼轨迹监听
+                if (isoneOpengjs) {//地图加载出来后，轨迹才可使用
+                    if (juliFlage) {
+                        com.lutong.Utils.ToastUtils.showToast("请先关闭测量");
+                        return;
+                    }
+                    if (guijistart) {//开启状态点击要关闭轨迹
+                        new CircleDialog.Builder()
 //                            .setTitle("")
-                            .setWidth(0.7f)
-                            .setMaxHeight(0.7f)
-                            .setText("确定要关闭轨迹功能吗?")
-                            .setTitleColor(Color.parseColor("#00acff"))
-                            .setNegative("确定", new Positiv(13))
-                            .setPositive("取消", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
+                                .setWidth(0.7f)
+                                .setMaxHeight(0.7f)
+                                .setText("确定要关闭轨迹功能吗?")
+                                .setTitleColor(Color.parseColor("#00acff"))
+                                .setNegative("确定", new Positiv(13))
+                                .setPositive("取消", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
 
-                                }
-                            })
-                            .show(getFragmentManager());
-                } else {//关闭状态点击开启轨迹
-                    startGj();
+                                    }
+                                })
+                                .show(getFragmentManager());
+                    } else {//关闭状态点击开启轨迹
+                        startGj();
+                    }
                 }
                 //轨迹清理和记录
                 break;
@@ -3709,73 +3746,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             case R.id.iv_finish:
                 dialog.dismiss();
                 break;
-
-//            case R.id.ll_guijis://开始轨迹记录
-//                if (guijistart == false) {
-//                    guijistart = true;
-////                    MyToast.showToast("开始轨迹记录");
-//                    Log.d(TAG, "guijistart: " + guijistart);
-//                    iv_gjstart.setBackground(getResources().getDrawable(R.mipmap.huizhi_0));
-//                    GuijiViewBean guijiViewBean = new GuijiViewBean();
-//                    if (mylag != null) {
-//                        guijiViewBean.setLon(mylag.longitude);
-//                        guijiViewBean.setLat(mylag.latitude);
-//                    }
-//                    try {
-//                        dbManagerGuijiView.insertStudent(guijiViewBean);
-//                    } catch (SQLException e) {
-//                        e.printStackTrace();
-//                    }
-//                } else if (guijistart == true) {
-//                    guijistart = false;
-//                    Log.d(TAG, "guijistart: " + guijistart);
-////                    MyToast.showToast("关闭轨迹记录");
-//                    iv_gjstart.setBackground(getResources().getDrawable(R.mipmap.huizhi_1));
-//                }
-//                break;
-//            case R.id.ll_gjview://轨迹动画演示
-////                Toast.makeText(MainActivity.this, "你点击了轨迹记录", Toast.LENGTH_LONG).show();
-//                if (guijiFlag == false) {
-//                    if (jingbaoflag == true) {
-//                        MyToast.showToast("请先关闭报警");
-//                        break;
-//                    }
-//                    if (juliFlage == true) {
-//                        MyToast.showToast("请先关闭测量");
-//                        break;
-//                    }
-////aaa
-//                    guijiFlag = true;
-//                    iv_viewstart.setBackground(getResources().getDrawable(R.mipmap.kaishi_0));
-//                    /**
-//                     * 刷新
-//                     */
-//                    timer = new Timer();
-//                    timer.scheduleAtFixedRate(new TimerTask() {
-//                        @Override
-//                        public void run() {
-//                            System.out.println("Timer is running");
-//                            Message message = new Message();
-//                            handler.sendMessage(message);
-//                            message.what = 1;
-//                            Log.d(TAG, "handlerrun: " + 1);
-//                        }
-//                    }, 0, 1000);
-////                    Viewgjs();//绘制
-//                } else if (guijiFlag == true) {
-//                    guijiFlag = false;
-//                    Log.d(TAG, "guijiFlagonClick: " + "关闭了");
-//                    iv_viewstart.setBackground(getResources().getDrawable(R.mipmap.kaishi_1));
-//                    mMapView.showZoomControls(false);
-//                    mBaiduMap.clear();
-////                    MyUtils.Viewjizhan(markerMy, mBaiduMap, dataBean);
-//                    if (timer != null) {
-//                        timer.cancel();
-//                    }
-//
-//                    initdatas2();
-//                }
-//                break;
             case R.id.ll_gjclear:
 //                if (guijiFlag == true) {
 ////
@@ -3874,11 +3844,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     private void startGj() {
+        //开启默认清空轨迹历史记录
+        try {
+            dbManagerGuijiView.deleteall();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         if (guijistart == false) {
             guijistart = true;
-//                    MyToast.showToast("开始轨迹记录");
-//            Log.d(TAG, "guijistart: " + guijistart);
-//            iv_gjstart.setBackground(getResources().getDrawable(R.mipmap.huizhi_0));
             GuijiViewBean guijiViewBean = new GuijiViewBean();
             if (mylag != null) {
                 guijiViewBean.setLon(mylag.longitude);
@@ -3889,10 +3862,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            try {
+                List<GuijiViewBean> beans = dbManagerGuijiView.guijiViewBeans();
+                Log.e("gj", "startGj: " + beans.toString());
+                Toast.makeText(mContext, "开启了" + beans, Toast.LENGTH_SHORT).show();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             ib_gj.setBackground(getResources().getDrawable(R.mipmap.gjtrue));
-
-            guijiFlag = true;//轨迹动画显示
-            iv_viewstart.setBackground(getResources().getDrawable(R.mipmap.kaishi_0));
             /**
              * 刷新
              */
@@ -3912,12 +3889,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     private void CloseGjFlag() {
-        guijiFlag = false;
+//        guijiFlag = false;
+        Toast.makeText(mContext, "关闭了", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "guijiFlagonClick: " + "关闭了");
         iv_viewstart.setBackground(getResources().getDrawable(R.mipmap.kaishi_1));
         mMapView.showZoomControls(false);
         mBaiduMap.clear();
-//                    MyUtils.Viewjizhan(markerMy, mBaiduMap, dataBean);
         if (timer != null) {
             timer.cancel();
         }
@@ -4455,6 +4432,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                 e.printStackTrace();
                                 Log.d(TAG, "resultBeansonResponse1: " + e.getMessage());
                             }
+
+                            saveIsShow();//保存发送的数据
                         }
                     }
                 });
@@ -4641,6 +4620,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                 e.printStackTrace();
                                 Log.d(TAG, "resultBeansonResponse1: " + e.getMessage());
                             }
+
+                            saveIsShow();//保存发送的数据
+
 //                            dialog.dismiss();
                         }
                     }

@@ -6,8 +6,13 @@
     android:layout_height="match_parent"
     android:background="#f7f8f9"
     android:orientation="vertical">
+    <LinearLayout
+        android:background="@mipmap/jianbian"
+        android:layout_width="match_parent"
+        android:layout_height="20dp">
+    </LinearLayout>
     <!--标题-->
-    <include layout="@layout/tabs" />
+    <include layout="@layout/tabs00" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"

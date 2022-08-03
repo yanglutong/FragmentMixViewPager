@@ -89,7 +89,7 @@ public class JzListActivity extends FragmentActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_jz_list);
-//        setStatBar();
+        setStatBar();
         findViews();
 
         try {
