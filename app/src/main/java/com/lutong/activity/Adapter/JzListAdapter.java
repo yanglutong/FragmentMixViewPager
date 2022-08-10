@@ -54,8 +54,8 @@ import java.util.List;
 public class JzListAdapter extends RecyclerView.Adapter<JzListAdapter.MyViewHolder> {
 
 
-    private  List<Integer> listnum;
-    private  int size;
+    private List<Integer> listnum;
+    private int size;
     private JzListCallBack callBack;
     private DBManagerJZ dbManagerJZ;
     private LatLng mylag;
@@ -63,13 +63,13 @@ public class JzListAdapter extends RecyclerView.Adapter<JzListAdapter.MyViewHold
     private Context mcontext;
     int num = 00;
 
-    public JzListAdapter(Context mcontext, List<GuijiViewBeanjizhan> list, LatLng mylag, DBManagerJZ dbManagerJZ, JzListCallBack callBack, List<Integer> listnum ) {
+    public JzListAdapter(Context mcontext, List<GuijiViewBeanjizhan> list, LatLng mylag, DBManagerJZ dbManagerJZ, JzListCallBack callBack, List<Integer> listnum) {
         this.mcontext = mcontext;
         this.list = list;
         this.mylag = mylag;
         this.dbManagerJZ = dbManagerJZ;
         this.callBack = callBack;
-        this. listnum= listnum;
+        this.listnum = listnum;
     }
 
     @NonNull
@@ -86,7 +86,7 @@ public class JzListAdapter extends RecyclerView.Adapter<JzListAdapter.MyViewHold
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, @SuppressLint("RecyclerView") final int i) {
 
 //        myViewHolder.title.setText(list.get(i).getAddress() + "");
-        myViewHolder.title_num.setText("第" +listnum.get(i)  + "" + "条");//设置条数
+        myViewHolder.title_num.setText("第" + listnum.get(i) + "" + "条");//设置条数
         String str = "";
         if ("0".equals(list.get(i).getMnc())) {
             str = "移动";
@@ -94,21 +94,23 @@ public class JzListAdapter extends RecyclerView.Adapter<JzListAdapter.MyViewHold
             str = "联通";
         } else if ("11".equals(list.get(i).getMnc())) {
             str = "电信";
-        } else if (TextUtils.isEmpty(list.get(i).getMnc())){//如果是cdma显示 sid数据
+        } else if ("15".equals(list.get(i).getMnc())) {
+            str = "广电";
+        } else if (TextUtils.isEmpty(list.get(i).getMnc())) {//如果是cdma显示 sid数据
             str = "";
-        }else {
+        } else {
             str = "CDMA";
         }
-        if (list.get(i).getResources().equals("内部数据")){
-            myViewHolder.  ll_types.setVisibility(View.VISIBLE);
-            myViewHolder.   ll_pci.setVisibility(View.VISIBLE);
-            myViewHolder.    ll_band.setVisibility(View.VISIBLE);
-            myViewHolder.    ll_down.setVisibility(View.VISIBLE);
+        if (list.get(i).getResources().equals("内部数据")) {
+            myViewHolder.ll_types.setVisibility(View.VISIBLE);
+            myViewHolder.ll_pci.setVisibility(View.VISIBLE);
+            myViewHolder.ll_band.setVisibility(View.VISIBLE);
+            myViewHolder.ll_down.setVisibility(View.VISIBLE);
 
-            myViewHolder.    tv_band.setText(list.get(i).getBand()+"");
-            myViewHolder.  tv_types.setText(list.get(i).getTypes()+"");
-            myViewHolder.  tv_pci.setText(list.get(i).getPci()+"");
-            myViewHolder.  tv_down.setText(list.get(i).getDown()+"");
+            myViewHolder.tv_band.setText(list.get(i).getBand() + "");
+            myViewHolder.tv_types.setText(list.get(i).getTypes() + "");
+            myViewHolder.tv_pci.setText(list.get(i).getPci() + "");
+            myViewHolder.tv_down.setText(list.get(i).getDown() + "");
         }
 
         myViewHolder.tv_title.setText(str);//设置运营商
@@ -139,7 +141,6 @@ public class JzListAdapter extends RecyclerView.Adapter<JzListAdapter.MyViewHold
                 callBack.showCALL(list.get(i).getId(), list.get(i).getLat(), list.get(i).getLon());
             }
         });
-
 
 
     }
@@ -332,8 +333,8 @@ public class JzListAdapter extends RecyclerView.Adapter<JzListAdapter.MyViewHold
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView title_num, tv_title, tv_fugai, tv_mnc, tv_lac, tv_cid, tv_address, tv_lat_lon, tv_lat_lon2, tv_resources,
-        tv_band,tv_types,tv_pci,tv_down;
-        LinearLayout ll_types,ll_pci,ll_band,ll_down;
+                tv_band, tv_types, tv_pci, tv_down;
+        LinearLayout ll_types, ll_pci, ll_band, ll_down;
         ImageButton bt_openMap;
         Button bt_quanjing, bt_m_location, bt_m_dele, bt_taset, bt_show;
 
@@ -359,7 +360,6 @@ public class JzListAdapter extends RecyclerView.Adapter<JzListAdapter.MyViewHold
             ll_pci = itemView.findViewById(R.id.ll_pci);
             ll_band = itemView.findViewById(R.id.ll_band);
             ll_down = itemView.findViewById(R.id.ll_down);
-
 
 
             //点击事件id

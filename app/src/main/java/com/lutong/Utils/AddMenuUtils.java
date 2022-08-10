@@ -54,8 +54,10 @@ public class AddMenuUtils {
 //        mList.add(item);
         DLPopItem item = new DLPopItem(R.mipmap.peizhi, "基站列表", 0xffffff);//选择参数按钮
         mList.add(item);
-        DLPopItem item2 = new DLPopItem(R.mipmap.peizhi, "dk", 0xffffff);//选择参数按钮
-        mList.add(item2);
+//        DLPopItem itemgj = new DLPopItem(R.mipmap.gjtrue, "轨迹", 0xffffff);//选择参数按钮
+//        mList.add(itemgj);
+//        DLPopItem item2 = new DLPopItem(R.mipmap.peizhi, "dk", 0xffffff);//选择参数按钮
+//        mList.add(item2);
 
 //        DLPopItem item3 = new DLPopItem(R.mipmap.peizhi, "断开", 0xffffff);//选择参数按钮
 //        mList.add(item3);

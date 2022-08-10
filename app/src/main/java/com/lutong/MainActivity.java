@@ -1,15 +1,14 @@
-package com.lutong.ui;
+package com.lutong;
 
 import static com.lutong.Constants.isDx;
+import static com.lutong.Constants.isGd;
 import static com.lutong.Constants.isJzBj;
 import static com.lutong.Constants.isLt;
 import static com.lutong.Constants.isYd;
 import static com.lutong.Constants.jzMessage;
 import static com.lutong.Constants.port;
-import static com.lutong.Constants.sendLte;
 import static com.lutong.Constants.sendNr;
 import static com.lutong.Constants.stop;
-import static com.lutong.Constants.typeJzMode;
 import static com.lutong.Constants.typePage;
 
 import android.Manifest;
@@ -31,6 +30,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -72,7 +72,6 @@ import com.lutong.Device.DeviceInfoActivity;
 import com.lutong.OrmSqlLite.DBManagerZM;
 import com.lutong.PinConfig.PinConfigViewPagerActivity;
 import com.lutong.PinConfig.PinConfigViewPagerActivity5G;
-import com.lutong.R;
 import com.lutong.SaoPin.SaopinList.SaoPinSetingActivity;
 import com.lutong.Service.MyService;
 import com.lutong.Utils.AddMenuUtils;
@@ -89,6 +88,7 @@ import com.lutong.ormlite.DBManagerBj;
 import com.lutong.ormlite.JzbJBean;
 import com.lutong.server.SocketServerListenHandler;
 import com.lutong.tcp.RecJsonBean;
+import com.lutong.ui.MainTab;
 import com.lutong.widget.MyFragmentTabHost;
 
 import org.greenrobot.eventbus.EventBus;
@@ -200,6 +200,7 @@ public class MainActivity extends FragmentActivity implements
         isYd = name.getBoolean("checkbox4_yd", true);
         isLt = name.getBoolean("checkbox4_lt", true);
         isDx = name.getBoolean("checkbox4_dx", true);
+        isGd = name.getBoolean("checkbox_gd", true);
 
         //初始化数据库
         try {
@@ -218,7 +219,7 @@ public class MainActivity extends FragmentActivity implements
             super.handleMessage(msg);
             switch (msg.what) {
                 case 3333: {//连接成功
-                    MyToast.showToast("连接成功");
+//                    MyToast.showToast("连接成功");
                     //发送停止
                     socketServerListenHandler.sendMessage(sendMsg);//发送停止命令
                     break;
@@ -294,13 +295,24 @@ public class MainActivity extends FragmentActivity implements
             @Override
             public void onClick(View v) {
                 //返回主界面
-                liner_main.setVisibility(View.GONE);
+                liner_main.setVisibility(View.INVISIBLE);
                 liner_main.setAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_exit));
                 liner_home.setVisibility(View.VISIBLE);
                 liner_home.setAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_enter));
                 mTabHost.clearAllTabs();
                 initTabs();
                 setStatBar(0);
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                liner_main.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+                }, 400);
             }
         });
         ImageView iv_homes = findViewById(R.id.iv_homes);
@@ -308,12 +320,24 @@ public class MainActivity extends FragmentActivity implements
             @Override
             public void onClick(View v) {
                 //返回主界面
+                liner_main.setVisibility(View.INVISIBLE);
+                liner_main.setAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_exit));
                 liner_home.setVisibility(View.VISIBLE);
-                liner_main.setVisibility(View.GONE);
                 liner_home.setAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_enter));
                 mTabHost.clearAllTabs();
                 initTabs();
                 setStatBar(0);
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                liner_main.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+                }, 400);
             }
         });
 
@@ -424,6 +448,9 @@ public class MainActivity extends FragmentActivity implements
                 if (mList.get(position).getText().equals("基站列表")) {
                     startActivity(new Intent(context, JzListActivity.class));
                 }
+                if (mList.get(position).getText().equals("轨迹")) {
+                    Toast.makeText(context, "轨迹", Toast.LENGTH_SHORT).show();
+                }
                 if (mList.get(position).getText().equals("dk")) {
                     Toast.makeText(context, "dk", Toast.LENGTH_SHORT).show();
                     socketServerListenHandler.eliminate();
@@ -452,7 +479,6 @@ public class MainActivity extends FragmentActivity implements
 
         }
     }
-
     /**
      * 底部导航栏监听
      *
@@ -513,11 +539,11 @@ public class MainActivity extends FragmentActivity implements
             iv_menu.setVisibility(View.VISIBLE);
             liner_jz.setVisibility(View.VISIBLE);
             liner_location.setVisibility(View.GONE);
-            if (typeJzMode == 5) {
+//            if (typeJzMode == 5) {
                 sendMsg = sendNr;
-            } else {
-                sendMsg = sendLte;
-            }
+//            } else {
+//                sendMsg = sendLte;
+//            }
         } else {
             AddITemMenu();
             iv_menu.setVisibility(View.VISIBLE);
@@ -856,6 +882,7 @@ public class MainActivity extends FragmentActivity implements
         CheckBox checkbox_yd = dialog.getView(R.id.checkbox_yd);
         CheckBox checkbox_lt = dialog.getView(R.id.checkbox_lt);
         CheckBox checkbox_dx = dialog.getView(R.id.checkbox_dx);
+        CheckBox checkbox_gd = dialog.getView(R.id.checkbox_gd);
         CheckBox checkbox_jzBaoJ = dialog.getView(R.id.checkbox_jzBaoJ);//基站报警声音选中状态
         EditText ed_jzTime = dialog.getView(R.id.ed_jzTime);//基站信息显示持续时间
         //保存
@@ -865,15 +892,18 @@ public class MainActivity extends FragmentActivity implements
         isYd = name.getBoolean("checkbox4_yd", true);
         isLt = name.getBoolean("checkbox4_lt", true);
         isDx = name.getBoolean("checkbox4_dx", true);
+        isGd = name.getBoolean("checkbox_gd", true);
         //监听
         checkbox_yd.setOnCheckedChangeListener(this);
         checkbox_lt.setOnCheckedChangeListener(this);
         checkbox_dx.setOnCheckedChangeListener(this);
+        checkbox_gd.setOnCheckedChangeListener(this);
         checkbox_jzBaoJ.setOnCheckedChangeListener(this);
         //进入popw时的上次记录
         checkbox_yd.setChecked(isYd);
         checkbox_lt.setChecked(isLt);
         checkbox_dx.setChecked(isDx);
+        checkbox_gd.setChecked(isGd);
         checkbox_jzBaoJ.setChecked(isJzBj);
         ed_jzTime.setText(jzMessage + "");
         dialog.getView(R.id.bt_Cancel).setOnClickListener(new View.OnClickListener() {
@@ -902,6 +932,7 @@ public class MainActivity extends FragmentActivity implements
                 editor.putBoolean("checkbox4_yd", isYd);
                 editor.putBoolean("checkbox4_lt", isLt);
                 editor.putBoolean("checkbox4_dx", isDx);
+                editor.putBoolean("checkbox_gd", isGd);
                 //4：提交
                 editor.commit();
                 dialog.dismiss();
@@ -926,6 +957,7 @@ public class MainActivity extends FragmentActivity implements
                 editor.putBoolean("checkbox4_yd", isYd);
                 editor.putBoolean("checkbox4_lt", isLt);
                 editor.putBoolean("checkbox4_dx", isDx);
+                editor.putBoolean("checkbox_gd", isGd);
                 //4：提交
                 editor.commit();
             }
@@ -1124,6 +1156,18 @@ public class MainActivity extends FragmentActivity implements
                 editor.putBoolean("checkbox4_dx", isChecked);
                 editor.commit();
                 isDx = isChecked;
+//                //将最新状态返回给fragment
+//                setGmConfigSettings.setGmConfig(isYd, isLt, isDx, isJzBj, jzMessage);
+                break;
+            }
+            case R.id.checkbox_gd: {
+                //步骤1：创建一个SharedPreferences对象
+                SharedPreferences sharedPreferences = getSharedPreferences("name", Context.MODE_PRIVATE);
+                //步骤2： 实例化SharedPreferences.Editor对象
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("checkbox_gd", isChecked);
+                editor.commit();
+                isGd = isChecked;
 //                //将最新状态返回给fragment
 //                setGmConfigSettings.setGmConfig(isYd, isLt, isDx, isJzBj, jzMessage);
                 break;

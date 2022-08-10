@@ -116,6 +116,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="电信"></CheckBox>
+                <CheckBox
+                    android:id="@+id/checkbox_gd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="广电"></CheckBox>
 
             </LinearLayout>
         </LinearLayout>
@@ -130,12 +136,12 @@
             android:orientation="horizontal">
 
             <Button
-                android:layout_marginLeft="20dp"
-                android:layout_alignParentLeft="true"
-                android:background="@drawable/shape_round_blues"
                 android:id="@+id/bt_Ok"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/shape_round_blues"
                 android:text="确定"
                 android:textColor="@color/white"></Button>
             <Button

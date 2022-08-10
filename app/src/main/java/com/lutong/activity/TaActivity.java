@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -17,7 +16,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,7 +29,7 @@ import com.lutong.Utils.MyToast;
 import com.lutong.Utils.MyUtils;
 import com.lutong.activity.Adapter.TaAdapter;
 import com.lutong.activity.Adapter.TaCallBack;
-import com.lutong.ui.MainActivity2;
+import com.lutong.MainActivity;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -42,17 +40,16 @@ public class TaActivity extends FragmentActivity implements View.OnClickListener
     private RecyclerView ry_ta;
     private TaAdapter taAdapter;
     private ImageView finsh, add;
-    List<Double> list;
+    List<Integer> list;
     GuijiViewBeanjizhan forid;
     TaCallBack taCallBack = new TaCallBack() {
         @Override
-        public void call(int posion, Double data) {//修改ta的方法
-
+        public void call(int posion, Integer data) {//修改ta的方法
             try {
                 list.set(posion, data);
                 taAdapter.notifyDataSetChanged();
-                String s = MyUtils.listToString(list);
-                forid.setTa(s);
+                String s = MyUtils.getInterListElement(list);
+                forid.setRadius(s);
                 int i = dbManagerJZ.upTa(forid);//
                 Log.d(TAG, "dbManagerJZ.upTacall: " + i);
                 if (i == 1) {
@@ -69,14 +66,12 @@ public class TaActivity extends FragmentActivity implements View.OnClickListener
 
         @Override
         public void callDele(int i) {//ta值删除的方法
-
-
             try {
-                if (list.size() > 1) {
-                    list.remove(i);
+                if (list.size() > 0) {
+                    list.set(i,0);
                     taAdapter.notifyDataSetChanged();
-                    String s = MyUtils.listToString(list);
-                    forid.setTa(s);
+                    String s = MyUtils.getInterListElement(list);
+                    forid.setRadius(s);
                     int ia = dbManagerJZ.upTa(forid);//
                     Log.d(TAG, "dbManagerJZ.upTacall: " + ia);
                     if (ia == 1) {
@@ -113,8 +108,8 @@ public class TaActivity extends FragmentActivity implements View.OnClickListener
             try {
                 dbManagerJZ = new DBManagerJZ(TaActivity.this);
                 forid = dbManagerJZ.forid(id);
-                String s = forid.getTa();
-                list = MyUtils.StringTolist(s);
+                String s = forid.getRadius();
+                list = MyUtils.StringToListInteger(s);
                 taAdapter = new TaAdapter(TaActivity.this, list, taCallBack);
                 ry_ta.setAdapter(taAdapter);
                 Log.d(TAG, "foridonCreate: " + forid);
@@ -150,14 +145,13 @@ public class TaActivity extends FragmentActivity implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.finsh:
-                Intent intent = new Intent(TaActivity.this, MainActivity2.class);
+                Intent intent = new Intent(TaActivity.this, MainActivity.class);
                 intent.putExtra("JzListActivity", "0");
                 setResult(13, intent);
                 finish();
                 break;
             case R.id.add:
 //                Toast.makeText(TaActivity.this, "你点击了添加", Toast.LENGTH_LONG).show();
-
                 showdilog();
                 break;
 
@@ -183,13 +177,12 @@ public class TaActivity extends FragmentActivity implements View.OnClickListener
             @Override
             public void onClick(View view) {
                 if (!TextUtils.isEmpty(et_ta.getText().toString())) {
-                    Double data = Double.parseDouble(et_ta.getText().toString());
+                    Integer data = Integer.parseInt(et_ta.getText().toString());
                     list.add(data);
-
                     try {
                         taAdapter.notifyDataSetChanged();
-                        String s = MyUtils.listToString(list);
-                        forid.setTa(s);
+                        String s = MyUtils.getInterListElement(list);
+                        forid.setRadius(s);
                         int ia = dbManagerJZ.upTa(forid);//
                         ry_ta.setAdapter(taAdapter);
                         Log.d(TAG, "dbManagerJZ.upTacall: " + ia);
@@ -227,7 +220,7 @@ public class TaActivity extends FragmentActivity implements View.OnClickListener
     }
     @Override
     public void onBackPressed() {//重写返回键方法
-        Intent intent = new Intent(TaActivity.this, MainActivity2.class);
+        Intent intent = new Intent(TaActivity.this, MainActivity.class);
         intent.putExtra("JzListActivity", "0");
         setResult(13, intent);
         finish();

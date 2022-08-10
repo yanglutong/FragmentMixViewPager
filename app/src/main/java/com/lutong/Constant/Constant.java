@@ -10,9 +10,10 @@ import java.util.List;
 public class Constant {
     public static boolean isCell=true;//是邻小区或历史记录
     public static int TIMEOUT=10;
-    public static boolean MAXTA = true;//最大ta圈
-    public static boolean MINTA = true;//最小ta圈
-    public static boolean UNIFORMTA = true;//平均圈
+    public static boolean MAXTA = false;//最大ta圈
+    public static boolean MINTA = false;//最小ta圈
+    public static boolean UNIFORMTA = false;//平均圈
+    public static boolean MTA = true;//根据米数画圈
     //IP 1
     public static String IP1 = "192.168.2.53";
     //IP 2

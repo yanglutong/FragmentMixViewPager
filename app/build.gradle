@@ -18,7 +18,7 @@ android {//sm123456 key0  sm_location_ylt.jks
         multiDexEnabled true
         applicationId "com.lutong"
         minSdkVersion 19
-        targetSdkVersion 30
+        targetSdkVersion 28
     }
 
 //    buildTypes {

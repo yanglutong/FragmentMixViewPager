@@ -5,6 +5,8 @@ import static com.lutong.Constants.beat;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.lutong.ConnectivityManager.NetUtil;
@@ -118,18 +120,29 @@ public class SocketServerListenHandler {
 
     ArrayList<Boolean> listNet = new ArrayList<>();
     private void setTitleState(boolean atomicBoolean) {
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        String operator = telephonyManager.getSimOperator(); //sim提供者
         listNet.clear();
-        if (NetUtil.getNetWorkState(context) == -1) {//网络不可用
-            //移动数据不可用
-            listNet.add(false);//添加移动数据不可用标识，基站查询
+
+        if(NetUtil.getNetWorkState(context) == 1){//wifi可用 卡可用  卡不可用
+            //连接着，并且网络不可用，扫网可用，true
+            if(TextUtils.isEmpty(operator)){
+                //wifi能用 并且卡不可用
+                listNet.add(false);//添加移动数据不可用标识，基站查询
+            }else{
+                //wifi能用 卡可用
+                listNet.add(true);//添加移动数据不可用标识，基站查询
+            }
             listNet.add(atomicBoolean);//连接着，并且网络不可用，扫网可用，true
-        } else if(NetUtil.getNetWorkState(context) == 0){//移动数据可用
-            listNet.add(true);
-            listNet.add(false);//扫网不可用，false
-        }else if(NetUtil.getNetWorkState(context) == 1){//wifi可用
-            //移动数据不可用  有网络并且有手机卡的状态
-            listNet.add(false);//添加移动数据不可用标识，基站查询
-            listNet.add(atomicBoolean);//连接着，并且网络不可用，扫网可用，true
+        }else{
+            if (NetUtil.getNetWorkState(context) == -1) {//网络不可用
+                //移动数据不可用
+                listNet.add(false);//添加移动数据不可用标识，基站查询
+                listNet.add(atomicBoolean);//连接着，并且网络不可用，扫网可用，true
+            } else if(NetUtil.getNetWorkState(context) == 0){//移动数据可用
+                listNet.add(true);
+                listNet.add(false);//扫网不可用，false
+            }
         }
         sendHandlerMessage(3030, listNet);//标题栏状态
     }

@@ -11,13 +11,12 @@ public class Constants {
     public static String beat = "0addbeef00000000000000027b7d";//检测连接的心跳报文
     public static String stop="0addbeef000000000000000a7b22574f524b223a307d";
 
-    public static Integer ports = 0;
-
     public static Integer port = 56969;//端口号
 
     public static boolean isYd = true;
     public static boolean isLt = true;
     public static boolean isDx = true;
+    public static boolean isGd = true;
     public static boolean isJzBj = true;//基站报警声音
     public static int jzMessage = 300;//基站信息显示时间
 

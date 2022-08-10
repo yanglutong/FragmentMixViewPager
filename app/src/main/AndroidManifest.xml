@@ -230,6 +230,7 @@
     <uses-permission android:name="android.permission.INTERNET" /> <!-- Android O之后开启前台服务需要申请该权限 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- Android Q之后，后台定位需要申请该权限 -->
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> <!-- 解决Android11tts不播放声音 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"></uses-permission>
     <queries>
         <intent>
             <action android:name="android.intent.action.TTS_SERVICE" />
@@ -296,17 +297,17 @@
 <!--             <category android:name="android.intent.category.LAUNCHER" />-->
 <!--             </intent-filter>-->
         </activity>
-        <activity
-            android:name=".ui.MainActivity2"
-            android:screenOrientation="portrait">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--        <activity-->
+<!--            android:name=".ui.MainActivity2"-->
+<!--            android:screenOrientation="portrait">-->
+<!--&lt;!&ndash;            <intent-filter>&ndash;&gt;-->
+<!--&lt;!&ndash;                <action android:name="android.intent.action.MAIN" />&ndash;&gt;-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
+<!--&lt;!&ndash;                <category android:name="android.intent.category.LAUNCHER" />&ndash;&gt;-->
+<!--&lt;!&ndash;            </intent-filter>&ndash;&gt;-->
+<!--        </activity>-->
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,5 +1,14 @@
 package com.lutong.fragment;
 
+import static com.lutong.Constants.isDx;
+import static com.lutong.Constants.isGd;
+import static com.lutong.Constants.isJzBj;
+import static com.lutong.Constants.isLt;
+import static com.lutong.Constants.isYd;
+import static com.lutong.Constants.jzMessage;
+import static com.lutong.Constants.typeJzMode;
+import static com.lutong.Constants.typePage;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -21,7 +30,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.liys.dialoglib.LAnimationsType;
 import com.liys.dialoglib.LDialog;
 import com.lutong.App.MessageEvent;
-import com.lutong.Constants;
 import com.lutong.R;
 import com.lutong.Utils.MyUtils;
 import com.lutong.adapter.RecyclerAdapter;
@@ -40,14 +48,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-
-import static com.lutong.Constants.isDx;
-import static com.lutong.Constants.isJzBj;
-import static com.lutong.Constants.isLt;
-import static com.lutong.Constants.isYd;
-import static com.lutong.Constants.jzMessage;
-import static com.lutong.Constants.typeJzMode;
-import static com.lutong.Constants.typePage;
 
 
 /**
@@ -68,51 +68,56 @@ public class GijChildFragment4 extends Fragment implements RecyclerAdapter.OnLon
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            if (typeJzMode == 4 && typePage == 1) {
-                if (msg.what == 11114) {
-                    JsonLteBean jsonLteBean = (JsonLteBean) msg.obj;
-                    listAdd.clear();
-                    addLte(jsonLteBean);//添加数据源
-                    //移动联通电信运营商区分
-                    if (list.size() > 0) {
-                        for (RecJsonBean recJsonBean : list) {
-                            if (isYd) {
-                                if (recJsonBean.getTv_plmn().equals("46002") || recJsonBean.getTv_plmn().equals("46000")) {
-                                    listAdd.add(recJsonBean);
-                                }
+            if (msg.what == 11114) {
+                JsonLteBean jsonLteBean = (JsonLteBean) msg.obj;
+                listAdd.clear();
+                addLte(jsonLteBean);//添加数据源
+                //移动联通电信运营商区分
+                if (list.size() > 0) {
+                    for (RecJsonBean recJsonBean : list) {
+                        if (isYd) {
+                            if (recJsonBean.getTv_plmn().equals("46002") || recJsonBean.getTv_plmn().equals("46000")) {
+                                listAdd.add(recJsonBean);
                             }
-                            if (isLt) {
-                                if (recJsonBean.getTv_plmn().equals("46001")) {
-                                    listAdd.add(recJsonBean);
-                                }
+                        }
+                        if (isLt) {
+                            if (recJsonBean.getTv_plmn().equals("46001")) {
+                                listAdd.add(recJsonBean);
                             }
-                            if (isDx) {
-                                if (recJsonBean.getTv_plmn().equals("46011")) {
-                                    listAdd.add(recJsonBean);
-                                }
+                        }
+                        if (isDx) {
+                            if (recJsonBean.getTv_plmn().equals("46011")) {
+                                listAdd.add(recJsonBean);
+                            }
+                        }
+                        if (isGd) {
+                            if (recJsonBean.getTv_plmn().equals("46015")) {
+                                listAdd.add(recJsonBean);
                             }
                         }
                     }
+                }
 
-                    //基站老化
-                    Iterator<RecJsonBean> iterator = list.iterator();
-                    while (iterator.hasNext()) {
-                        RecJsonBean recJsonBean = iterator.next();
-                        boolean remove = MyUtils.isRemove(MyUtils.timeM(MyUtils.getTimeShort()), MyUtils.timeM(recJsonBean.getTv_cj_time()), jzMessage);
-                        if (remove) {
-                            iterator.remove();
-                        }
+                //基站老化
+                Iterator<RecJsonBean> iterator = list.iterator();
+                while (iterator.hasNext()) {
+                    RecJsonBean recJsonBean = iterator.next();
+                    boolean remove = MyUtils.isRemove(MyUtils.timeM(MyUtils.getTimeShort()), MyUtils.timeM(recJsonBean.getTv_cj_time()), jzMessage);
+                    if (remove) {
+                        iterator.remove();
                     }
-                    //按照优先级排序
-                    Collections.sort(listAdd, new Comparator<RecJsonBean>() {
-                        @Override
-                        public int compare(RecJsonBean o1, RecJsonBean o2) {
-                            return o2.getTv_yxj() - o1.getTv_yxj();
-                        }
-                    });
+                }
+                //按照优先级排序
+                Collections.sort(listAdd, new Comparator<RecJsonBean>() {
+                    @Override
+                    public int compare(RecJsonBean o1, RecJsonBean o2) {
+                        return o2.getTv_yxj() - o1.getTv_yxj();
+                    }
+                });
 
-                    Log.e("TAG", "handleMessage: " + listManager.toString());
-                    //基站报警
+                Log.e("TAG", "handleMessage: " + listManager.toString());
+                //基站报警
+                if (typePage == 1 && typeJzMode == 4) {
                     if (listManager.size() > 1) {
                         //基站报警
                         ArrayList<RecJsonBean> beans = new ArrayList<>();
@@ -170,17 +175,17 @@ public class GijChildFragment4 extends Fragment implements RecyclerAdapter.OnLon
                             jsonBean.setJzBjState(false);
                         }
                     }
-                    //显示条目下标
-                    for (int i = 0; i < listAdd.size(); i++) {
-                        RecJsonBean jsonBean = listAdd.get(i);
-                        jsonBean.setIndex(i + 1);
-                    }
-                    recyclerAdapter.notifyDataSetChanged();
+                } else {
+                    stopVoice();
                 }
-            } else {
-                stopVoice();
-            }
 
+                //显示条目下标
+                for (int i = 0; i < listAdd.size(); i++) {
+                    RecJsonBean jsonBean = listAdd.get(i);
+                    jsonBean.setIndex(i + 1);
+                }
+                recyclerAdapter.notifyDataSetChanged();
+            }
         }
     };
     View view;
@@ -250,7 +255,7 @@ public class GijChildFragment4 extends Fragment implements RecyclerAdapter.OnLon
         if (isVisibleToUser) {//显示的时候
             //切换成4G
             typeJzMode = 4;
-            EventBus.getDefault().postSticky(new MessageEvent(2022, Constants.sendLte));
+//            EventBus.getDefault().postSticky(new MessageEvent(2022, Constants.sendLte));
         } else {
             stopVoice();
         }
@@ -416,13 +421,13 @@ public class GijChildFragment4 extends Fragment implements RecyclerAdapter.OnLon
     }
 
     private void showDialog(Context context, RecJsonBean recJsonBean) {
-        LDialog dialog = LDialog.newInstance(context,R.layout.gm_pop);
+        LDialog dialog = LDialog.newInstance(context, R.layout.gm_pop);
         Button bt_adddilao = dialog.findViewById(R.id.bt_adddilao);
         bt_adddilao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //通过EventBus发送消息切换到基站查询界面
-                EventBus.getDefault().postSticky(new MessageEvent(7777,recJsonBean));
+                EventBus.getDefault().postSticky(new MessageEvent(7777, recJsonBean));
                 dialog.dismiss();
                 //切换到基站查询界面
             }
@@ -518,7 +523,7 @@ public class GijChildFragment4 extends Fragment implements RecyclerAdapter.OnLon
     public void setOnLongClick(int i) {
         //适配器长按监听
         RecJsonBean recJsonBean = listAdd.get(i);
-        showDialog(getContext(),recJsonBean);
+        showDialog(getContext(), recJsonBean);
         Log.e("ylt", "setOnLongClick: " + recJsonBean.toString());
     }
 }

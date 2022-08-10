@@ -35,7 +35,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:gravity="center"
-            android:text="基站覆盖半径设置"
+            android:text="基站覆盖半径设置(米)"
             android:textColor="#ffffff"
             android:textSize="18dp" />
 <!--            android:text="TA值设置"

@@ -13,11 +13,8 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
-
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
@@ -31,12 +28,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 import androidx.core.app.ActivityCompat;
 
 import com.blankj.utilcode.util.AppUtils;
+import com.lutong.AppContext;
 import com.lutong.OrmSqlLite.Bean.AdminBean;
 import com.lutong.OrmSqlLite.Bean.LogBean;
 import com.lutong.OrmSqlLite.Bean.ZcBean;
@@ -50,8 +46,7 @@ import com.lutong.Utils.LoginUtils.LoginUtils;
 import com.lutong.Utils.ToastUtils;
 import com.lutong.activity.ConfigsActivity;
 import com.lutong.base.BaseActivity;
-import com.lutong.ui.MainActivity2;
-import com.lutong.AppContext;
+import com.lutong.MainActivity;
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 
 import java.sql.SQLException;
@@ -553,7 +548,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                                              *要执行的操作
                                                              */
 //                                                            ViewLoading.dismiss(LoginActivity.this);
-                                                            startActivity(new Intent(LoginActivity.this, MainActivity2.class));
+                                                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                                             finish();
                                                         }
                                                     };
@@ -593,7 +588,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                                         /**
                                                          *要执行的操作
                                                          */
-                                                        startActivity(new Intent(LoginActivity.this, MainActivity2.class));
+                                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                                         finish();
                                                     }
                                                 };

@@ -24,7 +24,7 @@ import com.lutong.R;
 import com.lutong.Utils.MyToast;
 import com.lutong.activity.Adapter.JzListAdapter;
 import com.lutong.fragment.home.HomeFragment;
-import com.lutong.ui.MainActivity;
+import com.lutong.MainActivity;
 
 
 import java.sql.SQLException;

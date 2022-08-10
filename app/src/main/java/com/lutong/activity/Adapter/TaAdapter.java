@@ -28,20 +28,19 @@ import com.mylhyl.circledialog.CircleDialog;
 import java.util.List;
 
 /**
- * show-站
+ * show-站d
  */
 
 public class TaAdapter extends RecyclerView.Adapter<TaAdapter.MyViewHolder> {
 
     private TaCallBack callBack;
-    private List<Double> list;
+    private List<Integer> list;
     private Context mcontext;
 
-    public TaAdapter(Context mcontext, List<Double> list, TaCallBack callBack) {
+    public TaAdapter(Context mcontext, List<Integer> list, TaCallBack callBack) {
         this.mcontext = mcontext;
         this.list = list;
         this.callBack = callBack;
-
     }
 
     @NonNull
@@ -64,7 +63,7 @@ public class TaAdapter extends RecyclerView.Adapter<TaAdapter.MyViewHolder> {
                 //初始化控件
                 final EditText et_ta = inflate.findViewById(R.id.et_ta);
                 et_ta.setText(list.get(i) + "");
-                ImageView iv_finish=inflate.findViewById(R.id.iv_finish);
+                ImageView iv_finish = inflate.findViewById(R.id.iv_finish);
                 iv_finish.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -76,7 +75,7 @@ public class TaAdapter extends RecyclerView.Adapter<TaAdapter.MyViewHolder> {
                     @Override
                     public void onClick(View view) {
                         if (!TextUtils.isEmpty(et_ta.getText().toString())) {
-                            double data = Double.parseDouble(et_ta.getText().toString());
+                            int data = Integer.parseInt(et_ta.getText().toString());
                             callBack.call(i, data);
                             dialog.dismiss();
                         } else {
@@ -119,7 +118,7 @@ public class TaAdapter extends RecyclerView.Adapter<TaAdapter.MyViewHolder> {
     }
 
     class myclic implements View.OnClickListener {
-        private List<Double> list;
+        private List<Integer> list;
         private String data;
         private int type;
         int i;
@@ -128,7 +127,7 @@ public class TaAdapter extends RecyclerView.Adapter<TaAdapter.MyViewHolder> {
             this.i = i;
         }
 
-        public myclic(int i, List<Double> list, int type) {
+        public myclic(int i, List<Integer> list, int type) {
             this.i = i;
             this.type = type;
             this.list = list;
@@ -137,8 +136,10 @@ public class TaAdapter extends RecyclerView.Adapter<TaAdapter.MyViewHolder> {
         @Override
         public void onClick(View view) {
             if (list.size() == 1) {
-                Toast.makeText(mcontext, "至少一个Ta值,不可删", Toast.LENGTH_LONG).show();
-                return;
+                if (list.get(0) == 0) {
+                    Toast.makeText(mcontext, "半径为0,不可删", Toast.LENGTH_LONG).show();
+                    return;
+                }
             }
             if (type == 2)
                 callBack.callDele(i);

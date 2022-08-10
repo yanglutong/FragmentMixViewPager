@@ -14,6 +14,7 @@ import android.net.wifi.WifiManager;
 
 import android.os.Build;
 import android.telephony.SubscriptionManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 
@@ -62,8 +63,10 @@ public class MyUtils {
             }
         });
     }
+
     private static Context context;
     private static boolean typeAppup = false;//是否强制更新
+
     //集合转String
     public static String listToString(List<Double> stringList) {
         if (stringList == null) {
@@ -81,6 +84,7 @@ public class MyUtils {
         }
         return result.toString();
     }
+
     public static void getPermissions(Activity mainActivity) {
         mPermissionList.clear();
         for (int i = 0; i < permissions.length; i++) {
@@ -95,7 +99,7 @@ public class MyUtils {
             ActivityCompat.requestPermissions(mainActivity, permissions, MY_PERMISSIONS_REQUEST_CALL_CAMERA);
         }
     }
-    
+
     //权限
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 1;
     private static final int MY_PERMISSIONS_REQUEST_CALL_CAMERA = 2;
@@ -141,10 +145,18 @@ public class MyUtils {
             Manifest.permission.RECEIVE_BOOT_COMPLETED,
             Manifest.permission.REQUEST_INSTALL_PACKAGES,
     };//申请的权限
-    public static List<Double> StringTolist(String str) {
 
-        List list = Arrays.asList(str.split(","));
+    public static List<Double> StringTolist(String str) {
         List<Double> integerList = new ArrayList<>();
+        if (TextUtils.isEmpty(str)) {
+            integerList.add(0.0);
+            return integerList;
+        }
+        if (!str.contains(",")) {
+            integerList.add(0.0);
+            return integerList;
+        }
+        List list = Arrays.asList(str.split(","));
         for (int i = 0; i < list.size(); i++) {
 //            Integer.parseInt((String) list.get(i));
 //            integerList.add(Integer.parseInt((String) list.get(i)));
@@ -152,6 +164,17 @@ public class MyUtils {
         }
         return integerList;
     }
+
+    public static List<Integer> StringToListInteger(String str) {
+        List<Integer> integerList = new ArrayList<>();
+        if (TextUtils.isEmpty(str)) {
+            integerList.add(0);
+            return integerList;
+        }
+        integerList.add(Integer.parseInt(str));
+        return integerList;
+    }
+
     public static String getWifiName(Activity activity) {
         WifiManager my_wifiManager = ((WifiManager) activity.getApplicationContext().getSystemService(WIFI_SERVICE));
         assert my_wifiManager != null;
@@ -347,7 +370,7 @@ public class MyUtils {
             int d6 = (el - numb6) % 10;
             Log.d("10进制加前五位", "setUser_pwd: " + d1 + "" + d2 + "" + d3 + "" + d4 + "" + d5 + "" + d6);
             return String.valueOf(d1) + String.valueOf(d2) + String.valueOf(d3) + String.valueOf(d4) + String.valueOf(d5) + String.valueOf(d6);
-        }else {
+        } else {
 
             @SuppressLint("MissingPermission") String macAddress = DeviceUtils.getMacAddress();//获取mac
             String replace = macAddress.replace(":", "");
@@ -384,23 +407,26 @@ public class MyUtils {
 
 //        ed_zc.setText(bjzcm);
     }
-    /**获取当前卡槽数量
-     * @description
+
+    /**
+     * 获取当前卡槽数量
+     *
      * @param
      * @return
+     * @description
      * @author lutong
      * @time 2021/9/26 16:14
      */
 
-    public static int  readSimState(Context context){
-        int  s=0;
+    public static int readSimState(Context context) {
+        int s = 0;
         SubscriptionManager mSubscriptionManager = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
             mSubscriptionManager = SubscriptionManager.from(context);
         }
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            }else{
+            } else {
                 s = mSubscriptionManager.getActiveSubscriptionInfoCount();//获取当前sim卡数量
 //                Log.i("ylt", "onCreate: "+s);
             }
@@ -411,10 +437,9 @@ public class MyUtils {
     }
 
     /**
-     * @description
-     * 获取时分秒的总数
      * @param
      * @return
+     * @description 获取时分秒的总数
      * @author lutong
      * @time 2022/4/13 17:02
      */
@@ -429,24 +454,26 @@ public class MyUtils {
         }
         return ss;
     }
+
     /**
-     * @description
-     * @param start 用户现在的时间
-     * @param end 首次添加的时间
+     * @param start   用户现在的时间
+     * @param end     首次添加的时间
      * @param setting 用户自定义时间
      * @return
+     * @description
      * @author lutong
      * @time 2022/4/13 17:11
      */
 
-    public static boolean isRemove(int start,int end,int setting){//老化基站就删除
+    public static boolean isRemove(int start, int end, int setting) {//老化基站就删除
         boolean is = false;
         int cha = start - end;
-        if(setting<cha){
+        if (setting < cha) {
             is = true;//代表基站保留已过时
         }
         return is;
     }
+
     //单个播放音频文件raw
     public static MediaPlayer initBeepSound(Context context) {
 //        if ( mediaPlayer == null) {
@@ -490,4 +517,14 @@ public class MyUtils {
     }
 
 
+    public static String getInterListElement(List<Integer> list) {
+        if (list == null || list.size() == 0) {
+            return "0";
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Integer integer : list) {
+            stringBuilder.append(integer);
+        }
+        return stringBuilder.toString();
+    }
 }

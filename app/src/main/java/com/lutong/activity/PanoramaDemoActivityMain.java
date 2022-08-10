@@ -38,7 +38,7 @@ public class PanoramaDemoActivityMain extends Activity {
         setStatBar();
         title = findViewById(R.id.title);
         title.setVisibility(View.VISIBLE);
-        
+
         mPanoView = findViewById(R.id.panorama);
         mPanoView.setPanoramaImageLevel(PanoramaView.ImageDefinition.ImageDefinitionHigh); // 设置清晰度
         mPanoView.setArrowTextureByUrl("http://d.lanrentuku.com/down/png/0907/system-cd-disk/arrow-up.png");

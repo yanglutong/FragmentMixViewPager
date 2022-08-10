@@ -5,12 +5,21 @@ import static android.content.Context.SENSOR_SERVICE;
 import static com.baidu.mapapi.utils.CoordinateConverter.CoordType.BD09LL;
 import static com.lutong.Constant.Constant.MAXTA;
 import static com.lutong.Constant.Constant.MINTA;
+import static com.lutong.Constant.Constant.MTA;
 import static com.lutong.Constant.Constant.UNIFORMTA;
 import static com.lutong.Constants.appKey;
 import static com.lutong.Constants.getBaseUrl;
 import static com.lutong.Constants.getBaseUrl3;
+import static com.lutong.Constants.isDx;
+import static com.lutong.Constants.isGd;
+import static com.lutong.Constants.isJzBj;
+import static com.lutong.Constants.isLt;
+import static com.lutong.Constants.isYd;
+import static com.lutong.Constants.jzMessage;
 import static com.lutong.activity.JzListActivity.SHOWCALLID;
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -20,6 +29,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.hardware.Sensor;
@@ -31,11 +41,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.text.TextUtils;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -45,6 +57,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -115,6 +130,7 @@ import com.lutong.R;
 import com.lutong.Retrofit.RetrofitFactory;
 import com.lutong.Service.LocationService;
 import com.lutong.Utils.ACacheUtil;
+import com.lutong.Utils.AnimationUtil;
 import com.lutong.Utils.CommonUtil;
 import com.lutong.Utils.CurrentLocation;
 import com.lutong.Utils.DtUtils;
@@ -123,6 +139,7 @@ import com.lutong.Utils.MapUtil;
 import com.lutong.Utils.MyToast;
 import com.lutong.Utils.MyUtils;
 import com.lutong.Utils.Myshow;
+import com.lutong.activity.Adapter.TestData;
 import com.lutong.activity.JzListActivity;
 import com.lutong.activity.PanoramaDemoActivityMain;
 import com.lutong.activity.TaActivity;
@@ -240,7 +257,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private View inflate;
     private EditText et_taclac, et_eci, et_ta, et_sid, ets_lon, ets_lat;
     private Button bt_adddilao;
-    private CheckBox rb_yidong, rb_ldainxin4, rb_liantong, rb_cdma, rb_bdjz1, rb_bdjz2;
+    private CheckBox rb_yidong, rb_ldainxin4, rb_liantong, rb_cdma, rb_gd, rb_bdjz2;
     private ImageView iv_finish, iv_set;
     private int jizhanFlag = 0;
     public static LatLng mylag = null;
@@ -325,31 +342,31 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     e.printStackTrace();
                 }
             }
-            if (msg.what == 9999) {//点击工模返回基站页面查询基站
-                RecJsonBean obj = (RecJsonBean) msg.obj;
-                //查看是否有网络
-                if (NetUtil.getNetWorkState(getContext()) == -1) {//没有网络
-                    Log.e(TAG, "handleMessage: 9999" + obj.toString());
-                    Message obtain = Message.obtain();
-                    obtain.what = 9999;
-                    obtain.obj = obj;
-                    handler.sendMessageAtTime(obtain, 2000);
-                } else {//有网络
-                    String plmn = obj.getTv_plmn().substring(3);
-                    String tv_cid = obj.getTv_cid();
-                    String tv_tac = obj.getTv_tac();
-                    Log.e(TAG, "handleMessage: 9999" + plmn + "---" + tv_cid + "---" + tv_tac);
-                    ArrayList<String> list = new ArrayList<>();
-                    list.add(plmn);
-                    list.add(tv_tac);
-                    list.add(tv_cid);
-                    list.add(appKey);
-
-                    Log.i("TAG", "handleMessageplmn: " + plmn);
-
-                    getRetrofits(list, plmn, tv_cid, tv_tac);
-                }
-            }
+//            if (msg.what == 9999) {//点击工模返回基站页面查询基站
+//                RecJsonBean obj = (RecJsonBean) msg.obj;
+//                //查看是否有网络
+//                if (NetUtil.getNetWorkState(getContext()) == -1) {//没有网络
+//                    Log.e(TAG, "handleMessage: 9999" + obj.toString());
+//                    Message obtain = Message.obtain();
+//                    obtain.what = 9999;
+//                    obtain.obj = obj;
+//                    timeJz=timeJz+2000;
+//                    handler.sendMessageAtTime(obtain, 2000);
+//                } else {//有网络
+//                    String plmn = obj.getTv_plmn().substring(3);
+//                    String tv_cid = obj.getTv_cid();
+//                    String tv_tac = obj.getTv_tac();
+//                    Log.e(TAG, "handleMessage: 9999" + plmn + "---" + tv_cid + "---" + tv_tac);
+//                    ArrayList<String> list = new ArrayList<>();
+//                    list.add(plmn);
+//                    list.add(tv_tac);
+//                    list.add(tv_cid);
+//                    list.add(appKey);
+//                    Log.i("TAG", "handleMessageplmn: " + plmn);
+//                    getRetrofits(list, plmn, tv_cid, tv_tac);
+//                }
+//                Log.e(TAG, "timeJz" + timeJz);
+//            }
             if (msg.what == 5500) {
                 int state = (int) msg.obj;
                 new Timer().schedule(new TimerTask() {
@@ -359,21 +376,22 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                             @Override
                             public void run() {
                                 if (state != -1) {//重新连接上网络时刷新地图界面
-                                    Toast.makeText(mContext, "" + state, Toast.LENGTH_SHORT).show();
-                                    if (isoneOpengj) {//第一次有网的话开启轨迹
-                                        initGj();
-                                        isoneOpengj = false;
-                                        isoneOpengjs = true;//第一次正常加载过才可以用轨迹
-                                    }
+//                                    Toast.makeText(mContext, "" + state, Toast.LENGTH_SHORT).show();
+//                                    if (isoneOpengj) {//第一次有网的话开启轨迹
+//                                        initGj();
+//                                        isoneOpengj = false;
+                                    isoneOpengjs = true;//第一次正常加载过才可以用轨迹
+//                                    }
                                     initData(view);
                                 }
                             }
                         });
                     }
-                }, 2000);
+                }, 3000);
             }
         }
     };
+    private int timeJz = 0;//点击工模返回基站页面查询基站 无网络30秒取消查询基站
     private boolean isoneOpengj = true;
     private boolean isoneOpengjs = false;
     private MapUtil mapUtil;
@@ -381,6 +399,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private Timer timerStart = new Timer();
     private View view_check;
     private TextView viewById;
+    private ImageView iv_down, iv_up;
+    private LinearLayout lab, liner, lines;
 
     public void HomeFragment() {
         // Required empty public constructor
@@ -406,8 +426,20 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         initData(view);
         //初始化基站下方的查询工模
         initJz(view);
+        //初始化轨迹
+//        initGjs();
     }
 
+    private void initGjs() {
+        SharedPreferences name = getActivity().getSharedPreferences("name", Context.MODE_PRIVATE);
+        guijistart = name.getBoolean("gj", false);
+
+        if(guijistart){
+            ib_gj.setImageResource(R.mipmap.gjtrue);
+        }else{
+            ib_gj.setImageResource(R.mipmap.gj);
+        }
+    }
     private void initGj() {
         if (juliFlage) {
             com.lutong.Utils.ToastUtils.showToast("请先关闭测量");
@@ -435,10 +467,80 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         }
     }
 
+    private boolean isOpen = false;//获取隐藏动画状态
+
     private void initJz(View inflate) {
         Log.e(TAG, "initJzinitJz: " + jizhanFlag);
         list.clear();
         //初始化控件
+        lab = inflate.findViewById(R.id.lab);//查询页面布局
+        lines = inflate.findViewById(R.id.lines);
+        liner = inflate.findViewById(R.id.liner);
+
+        //收起
+        iv_down = inflate.findViewById(R.id.iv_down);
+        //打开
+        iv_up = inflate.findViewById(R.id.iv_up);
+        //收起监听
+        iv_down.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (lab.getVisibility() == View.GONE) {//显示
+                    lab.setVisibility(View.VISIBLE);
+                    lines.setVisibility(View.GONE);
+
+                    lab.setAnimation(AnimationUtil.moveToViewLocation());
+                    iv_down.setImageResource(R.mipmap.down);
+                } else {
+                    lab.setVisibility(View.INVISIBLE);
+                    lab.setAnimation(AnimationUtil.moveToViewBottom());
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    lines.setVisibility(View.VISIBLE);
+                                    lab.setVisibility(View.GONE);
+//                                    iv_down.setImageResource(R.mipmap.up);
+                                }
+                            });
+                        }
+                    }, 500);
+                }
+            }
+        });
+        //打开监听
+        iv_up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (lab.getVisibility() == View.GONE) {//显示
+                    lab.setVisibility(View.VISIBLE);
+                    lines.setVisibility(View.GONE);
+
+                    lab.setAnimation(AnimationUtil.moveToViewLocation());
+                    iv_down.setImageResource(R.mipmap.down);
+                } else {
+                    lab.setVisibility(View.INVISIBLE);
+                    lab.setAnimation(AnimationUtil.moveToViewBottom());
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    lines.setVisibility(View.VISIBLE);
+                                    lab.setVisibility(View.GONE);
+//                                    iv_down.setImageResource(R.mipmap.up);
+                                }
+                            });
+                        }
+                    }, 500);
+                }
+            }
+        });
+
+
         ll_sid = inflate.findViewById(R.id.ll_sid);
 //        iv_finish = inflate.findViewById(R.id.iv_finish);
 //        iv_finish.setOnClickListener(this);
@@ -447,6 +549,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         et_eci = inflate.findViewById(R.id.et_eci);
         et_ta = inflate.findViewById(R.id.et_ta);
         view_check = inflate.findViewById(R.id.view_check);
+        rb_gd = inflate.findViewById(R.id.rb_gd);//广电
 
 
         //手动输入的 view
@@ -469,6 +572,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     rb_liantong.setChecked(false);
                     rb_ldainxin4.setChecked(false);
                     rb_cdma.setChecked(false);
+                    rb_gd.setChecked(false);
                     jizhanFlag = 0;
                     ll_sid.setVisibility(View.GONE);
                     view_check.setVisibility(View.GONE);
@@ -485,7 +589,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     rb_yidong.setChecked(false);
                     rb_ldainxin4.setChecked(false);
                     rb_cdma.setChecked(false);
-                    jizhanFlag = 01;
+                    rb_gd.setChecked(false);
+                    jizhanFlag = 1;
                     ll_sid.setVisibility(View.GONE);
                     view_check.setVisibility(View.GONE);
                 } else {
@@ -501,6 +606,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     rb_yidong.setChecked(false);
                     rb_liantong.setChecked(false);
                     rb_cdma.setChecked(false);
+                    rb_gd.setChecked(false);
                     jizhanFlag = 11;
                     ll_sid.setVisibility(View.GONE);
                     view_check.setVisibility(View.GONE);
@@ -509,6 +615,25 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 }
             }
         });
+
+        rb_gd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b == true) {
+                    rb_yidong.setChecked(false);
+                    rb_liantong.setChecked(false);
+                    rb_ldainxin4.setChecked(false);
+                    rb_cdma.setChecked(false);
+                    jizhanFlag = 15;
+                    ll_sid.setVisibility(View.GONE);
+                    view_check.setVisibility(View.GONE);
+                } else {
+                    jizhanFlag = 44;
+                }
+            }
+        });
+
+
         rb_cdma.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -516,6 +641,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     rb_yidong.setChecked(false);
                     rb_liantong.setChecked(false);
                     rb_ldainxin4.setChecked(false);
+                    rb_gd.setChecked(false);
                     jizhanFlag = 4;
                     ll_sid.setVisibility(View.VISIBLE);
                     view_check.setVisibility(View.VISIBLE);
@@ -544,24 +670,35 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             rb_liantong.setChecked(false);
             rb_cdma.setChecked(false);
             rb_ldainxin4.setChecked(false);
+            rb_gd.setChecked(false);
         }
         if (jizhanFlag == 1) {//如果是1 ，是联通
             rb_yidong.setChecked(false);
             rb_liantong.setChecked(true);
             rb_cdma.setChecked(false);
             rb_ldainxin4.setChecked(false);
+            rb_gd.setChecked(false);
         }
         if (jizhanFlag == 11) {//如果是11 ，是电信
             rb_yidong.setChecked(false);
             rb_liantong.setChecked(false);
             rb_cdma.setChecked(false);
             rb_ldainxin4.setChecked(true);
+            rb_gd.setChecked(false);
+        }
+        if (jizhanFlag == 15) {//如果是15 ，是广电
+            rb_yidong.setChecked(false);
+            rb_liantong.setChecked(false);
+            rb_cdma.setChecked(false);
+            rb_ldainxin4.setChecked(false);
+            rb_gd.setChecked(true);
         }
         if (jizhanFlag == 4) {//如果是4 ，是cdma
             rb_yidong.setChecked(false);
             rb_liantong.setChecked(false);
             rb_cdma.setChecked(true);
             rb_ldainxin4.setChecked(false);
+            rb_gd.setChecked(false);
         }
 
 
@@ -612,8 +749,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 if (list.size() == 0) {
                     list.add(1.0);
                 }
+                Log.e(TAG, "onClick: " + rb_yidong.isChecked() + rb_liantong.isChecked() + rb_ldainxin4.isChecked() + rb_cdma.isChecked() + rb_gd.isChecked());
                 //是否有类型未选中
-                if (rb_yidong.isChecked() == false && rb_liantong.isChecked() == false && rb_ldainxin4.isChecked() == false && rb_cdma.isChecked() == false) {
+                if (rb_yidong.isChecked() == false && rb_liantong.isChecked() == false && rb_ldainxin4.isChecked() == false && rb_cdma.isChecked() == false && rb_gd.isChecked() == false) {
                     Log.d(TAG, "onClick: " + rb_liantong.isChecked());
                     MyToast.showToast("请选择基站类型");
                     return;
@@ -1268,6 +1406,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 str = "联通";
             } else if (extraInfo.getString("mnc") != null && extraInfo.getString("mnc").equals("11")) {
                 str = "电信";
+            } else if (extraInfo.getString("mnc") != null && extraInfo.getString("mnc").equals("15")) {
+                str = "广电";
             } else if (extraInfo.getString("mnc") != null && TextUtils.isEmpty(extraInfo.getString("mnc"))) {//如果是cdma显示 sid数据
                 str = "";
                 TextView tv_sid = view.findViewById(R.id.tv_sid);
@@ -1765,6 +1905,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                         ib_gj.setBackground(getResources().getDrawable(R.mipmap.gj));
                         CloseGjFlag();//关闭轨迹动画显示
                         guijistart = false;
+
+                        //保存轨迹开启关闭记录
+                        SharedPreferences name = getActivity().getSharedPreferences("name", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor edit = name.edit();
+                        edit.putBoolean("gj", guijistart);
+                        edit.commit();
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -1919,7 +2065,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             int TAS = 78;
             String ta = "";
             if (TextUtils.isEmpty(resultBeans.get(i).getTa() + "")) {
-                ta = "1";
+                ta = "1.0";
             } else {
                 ta = resultBeans.get(i).getTa() + "";
             }
@@ -1932,7 +2078,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             int size = lists.size();
             double sum_db = sum;
             double size_db = size;
-            double Myradius_db = sum_db / size_db * 78;
+            double Myradius_db = sum_db / size_db * 78;//
 
             Log.d(TAG, "DataAlla: " + sum_db + "--" + size_db);
             Log.d(TAG, "DataAll: aaa0" + sum_db / size_db * 78);
@@ -1955,6 +2101,28 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 Log.d(TAG, "DataAlla:pingjun" + (int) Myradius_db);
             }
 
+
+            String radius = "";
+            if (TextUtils.isEmpty(resultBeans.get(i).getRadius() + "")) {
+                radius = "0";
+            } else {
+                radius = resultBeans.get(i).getRadius() + "";
+            }
+            //根据米数画圈
+            if (MTA == true) {
+//                Double aDouble = Collections.max(lists);
+                OverlayOptions ooCirclepingjun = new CircleOptions()
+//                            .fillColor(0x000000FF)
+                        .fillColor(Color.argb(40, 255,
+                                0,
+                                0))
+                        .center(desLatLngBaidu)
+                        .stroke(new Stroke(5, Color.rgb(255,
+                                0,
+                                0)))
+                        .radius(Integer.parseInt(radius));
+                mBaiduMap.addOverlay(ooCirclepingjun);
+            }
             //最大ta圈
             if (MAXTA == true) {
                 OverlayOptions ooCircleaMAx = new CircleOptions()
@@ -2062,8 +2230,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             }
 
         }
-
-
     }
 
 
@@ -2080,6 +2246,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void findView(View view) {
+
+
         bt_jizhan = view.findViewById(R.id.bt_jizhan);
         bt_jizhan.setOnClickListener(this);//基站的监听
         bt_qiehuan = view.findViewById(R.id.bt_qiehuan);
@@ -2367,6 +2535,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 str = "联通";
             } else if (guijiViewBeanjizhan.getMnc().equals("11")) {
                 str = "电信";
+            } else if (guijiViewBeanjizhan.getMnc().equals("15")) {
+                str = "广电";
             } else {//如果是cdma显示 sid数据
                 str = "CDMA";
                 TextView tv_sid = view.findViewById(R.id.tv_sid);
@@ -2374,6 +2544,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 LinearLayout llsid = view.findViewById(R.id.llsid);
                 llsid.setVisibility(View.VISIBLE);
             }
+            Log.e("ylt", "onResume: " + str);
             TextView tv_resources = view.findViewById(R.id.tv_resources);
 //            aaa
             if (guijiViewBeanjizhan.getResources().equals("内部数据")) {
@@ -2758,6 +2929,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             mylag = new LatLng(location.getLatitude(), location.getLongitude());//当前的位置
             longitude = location.getLongitude() + "";
             latitude = location.getLatitude() + "";
+
+            Log.e(TAG, "onReceiveLocation guijistart: "+guijistart );
 
             if (guijistart == true) {//轨迹开始添加记录
                 List<GuijiViewBean> guijiViewBeans = null;
@@ -3675,22 +3848,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                 .show(getFragmentManager());
                     } else {//关闭状态点击开启轨迹
                         startGj();
+                        //保存轨迹开启关闭记录
+                        SharedPreferences name = getActivity().getSharedPreferences("name", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor edit = name.edit();
+                        edit.putBoolean("gj", guijistart);
+                        edit.commit();
                     }
+
+
                 }
                 //轨迹清理和记录
-                break;
-            case R.id.bt_uisearch:
-                int remainder = 1;
-                if (!TextUtils.isEmpty(ACacheUtil.getNumberremainder())) {
-                    remainder = Integer.parseInt(ACacheUtil.getNumberremainder());
-                }
-                if (remainder == 0) {
-//                    Toast.makeText(MainActivity.this, "查询次数已用尽!", Toast.LENGTH_SHORT).show();
-                    MyToast.showToast("查询次数已用尽!");
-                    break;
-                }
-                list.clear();
-                showDoliag();
                 break;
             case R.id.bt_jia:
                 float izoomjia = mBaiduMap.getMapStatus().zoom;
@@ -3844,9 +4011,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     private void startGj() {
-        //开启默认清空轨迹历史记录
+        //开启默认 清空轨迹历史记录 清楚界面上的所有绘制 重新将基站绘制出来
         try {
             dbManagerGuijiView.deleteall();
+            initdatas2();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -3902,398 +4070,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     }
 
 
-    private void showDoliag() {//底部弹出窗
-        dialog = new Dialog(mContext, R.style.ActionSheetDialogStyle2);
-        //填充对话框的布局
-        inflate = LayoutInflater.from(mContext).inflate(R.layout.item_dibushowlt2, null);
-        RadioGroup rgp_main = inflate.findViewById(R.id.rg_main);
-        //聚合数据
-//        RadioButton rb_open1 = inflate.findViewById(R.id.rb_open_check1);
-//        RadioButton rb_open2 = inflate.findViewById(R.id.rb_open_check2);
-        RadioButton rb_oneself = inflate.findViewById(R.id.rb_oneself);
-        RadioButton rb_Manuallyenter = inflate.findViewById(R.id.rb_Manuallyenter);
-        //初始化控件
-        ll_sid = inflate.findViewById(R.id.ll_sid);
-//        iv_finish = inflate.findViewById(R.id.iv_finish);
-//        iv_finish.setOnClickListener(this);
-        et_sid = inflate.findViewById(R.id.et_sid);
-        et_taclac = inflate.findViewById(R.id.et_taclac);
-        et_eci = inflate.findViewById(R.id.et_eci);
-        et_ta = inflate.findViewById(R.id.et_ta);
-
-
-        //手动输入的 view
-        ll_location = inflate.findViewById(R.id.ll_location);//手动输入经纬度布局
-        ets_lon = inflate.findViewById(R.id.ets_lon);//经度
-        ets_lat = inflate.findViewById(R.id.ets_lat);//纬度
-        final RecyclerView recyclerView = inflate.findViewById(R.id.recylerview);
-
-        ll_location.setVisibility(View.GONE);
-
-        if (DATATYPE == 6) {
-//            rb_open1.setChecked(true);
-        }
-       /* if (DATATYPE == 1) {
-            rb_open2.setChecked(true);
-        }*/
-        if (DATATYPE == 2) {
-            rb_oneself.setChecked(true);
-        }
-//        rgp_main.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-//                switch (i) {
-//                    //选中公开数据1为阿里云数据
-//                    case R.id.rb_open_check1:
-////   Toast.makeText(MainActivity.this, "公开数据", Toast.LENGTH_LONG).show();
-////                        MyToast.showToast("公开数据1--阿里");
-//                        Log.d(TAG, "qonCheckedChanged: " + "6");
-//                        DATATYPE = 6;
-//                        ll_location.setVisibility(View.GONE);
-//                        break;
-//                   /* case R.id.rb_open_check2:
-////                        Toast.makeText(MainActivity.this, "公开数据", Toast.LENGTH_LONG).show();
-////                        MyToast.showToast("公开数据2--聚合");
-//                        Log.d(TAG, "qonCheckedChanged: " + "1");
-//                        DATATYPE = 1;
-//                        ll_location.setVisibility(View.GONE);
-//                        break;*/
-//                    case R.id.rb_oneself:
-////                        Toast.makeText(MainActivity.this, "内部数据", Toast.LENGTH_LONG).show();
-////                        MyToast.showToast("内部数据");
-//                        Log.d(TAG, "qonCheckedChanged: " + "2");
-//                        DATATYPE = 2;
-//                        ll_location.setVisibility(View.GONE);
-//                        break;
-//                    case R.id.rb_Manuallyenter:
-////                        Toast.makeText(MainActivity.this, "内部数据", Toast.LENGTH_LONG).show();
-////                        MyToast.showToast("内部数据");
-//                        Log.d(TAG, "qonCheckedChanged: " + "2");
-//                        DATATYPE = 3;
-//                        ll_location.setVisibility(View.VISIBLE);
-//                        break;
-//
-//                }
-//            }
-//        });
-
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
-        demoAdapter = new DemoAdapter(list, callBack);
-//        recyclerView.setAdapter(demoAdapter);
-        Button btadd = inflate.findViewById(R.id.btadd);
-        btadd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (TextUtils.isEmpty(et_ta.getText().toString())) {
-//                    Toast.makeText(MainActivity.this, "输入不能为空", Toast.LENGTH_LONG).show();
-                    MyToast.showToast("输入不能为空");
-                    return;
-                }
-//                if (et_ta.getText().length() > 3) {
-//                    Toast.makeText(MainActivity.this, "输入格式不正确", Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-
-
-//                if(list.size()>0){//TA值默认添加的一条清除
-//                    list.clear();
-//                }
-                list.add(Double.parseDouble(et_ta.getText().toString()));
-//                mAdapter.notifyDataSetChanged();
-                et_ta.setText("");
-                demoAdapter.notifyDataSetChanged();
-//                aaa
-            }
-        });
-        String sid = ACacheUtil.getSID();
-        et_sid.setText(sid);
-        String tl = ACacheUtil.getTl();
-        et_taclac.setText(tl);
-        String eci = ACacheUtil.getEci();
-        et_eci.setText(eci);
-        String ta = ACacheUtil.getTa();
-//        et_ta.setText(ta);
-        rb_yidong = inflate.findViewById(R.id.rb_yidong);
-        rb_yidong.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b == true) {
-                    rb_liantong.setChecked(false);
-                    rb_ldainxin4.setChecked(false);
-                    rb_cdma.setChecked(false);
-//                    rb_bdjz1.setChecked(false);
-//                    rb_bdjz2.setChecked(false);
-                    jizhanFlag = 00;
-                    Log.d(TAG, "onCheckedChanged: " + jizhanFlag);
-                    ll_sid.setVisibility(View.GONE);
-                } else {
-                    jizhanFlag = 44;
-                    Log.d(TAG, "onCheckedChanged: " + jizhanFlag);
-                }
-
-            }
-        });
-
-        rb_liantong = inflate.findViewById(R.id.rb_liantong);
-        rb_liantong.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b == true) {
-                    rb_yidong.setChecked(false);
-                    rb_ldainxin4.setChecked(false);
-                    rb_cdma.setChecked(false);
-//                    rb_bdjz1.setChecked(false);
-//                    rb_bdjz2.setChecked(false);
-                    jizhanFlag = 01;
-                    Log.d(TAG, "onCheckedChanged: " + jizhanFlag);
-                    ll_sid.setVisibility(View.GONE);
-                } else {
-                    jizhanFlag = 44;
-                    Log.d(TAG, "onCheckedChanged: " + jizhanFlag);
-                }
-//
-            }
-        });
-        rb_ldainxin4 = inflate.findViewById(R.id.rb_ldainxin4);
-        rb_ldainxin4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b == true) {
-                    rb_yidong.setChecked(false);
-                    rb_liantong.setChecked(false);
-                    rb_cdma.setChecked(false);
-//                    rb_bdjz1.setChecked(false);
-//                    rb_bdjz2.setChecked(false);
-                    jizhanFlag = 11;
-                    Log.d(TAG, "onCheckedChanged: " + jizhanFlag);
-                    ll_sid.setVisibility(View.GONE);
-                } else {
-                    jizhanFlag = 44;
-                    Log.d(TAG, "onCheckedChanged: " + jizhanFlag);
-                }
-
-
-            }
-        });
-        rb_cdma = inflate.findViewById(R.id.rb_cdma);
-
-        rb_cdma.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b == true) {
-                    rb_yidong.setChecked(false);
-                    rb_liantong.setChecked(false);
-                    rb_ldainxin4.setChecked(false);
-//                    rb_bdjz1.setChecked(false);
-//                    rb_bdjz2.setChecked(false);
-
-                    jizhanFlag = 4;
-                    ll_sid.setVisibility(View.VISIBLE);
-                    Log.d(TAG, "onCheckedChanged: " + jizhanFlag);
-                } else {
-                    jizhanFlag = 44;
-                    Log.d(TAG, "onCheckedChanged: " + jizhanFlag);
-                }
-
-            }
-        });
-//        rb_bdjz1 = inflate.findViewById(R.id.rb_bdjzl);
-//        rb_bdjz1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//                if (b == true) {
-//                    rb_yidong.setChecked(false);
-//                    rb_liantong.setChecked(false);
-//                    rb_cdma.setChecked(false);
-//                    rb_ldainxin4.setChecked(false);
-//                    rb_bdjz2.setChecked(false);
-//
-////                    jizhanFlag = 4;
-//                    ll_sid.setVisibility(View.GONE);
-//                    Log.d(TAG, "onCheckedChanged: " + jizhanFlag);
-//                    List<SpBean2> gsmInfoList = DtUtils.getGsmInfoList(mContext);
-//                    List<SpBean2> list11 = new ArrayList<>();
-//                    if (gsmInfoList.size() > 0 && gsmInfoList != null) {//有数据
-//                        if (gsmInfoList.size() == 1) {//只有一条
-//                            for (int i = 0; i < gsmInfoList.size(); i++) {
-//
-//                                int cid = Integer.parseInt(gsmInfoList.get(i).getCid());
-//                                int tac = Integer.parseInt(gsmInfoList.get(i).getTac());
-//                                if (cid != 2147483647 && tac != 2147483647) {
-////                                gsmInfoList.remove(i);
-//                                    list11.add(gsmInfoList.get(i));
-//                                }
-//                            }
-//
-//                            et_taclac.setText(gsmInfoList.get(0).getTac() + "");
-//                            et_eci.setText(gsmInfoList.get(0).getCid() + "");
-//                            jizhanFlag = DtUtils.YY2(gsmInfoList.get(0).getPlmn());
-//                            Log.d("gsmInfoList", "onCheckedChanged:一条 ");
-//                        } else {//多条
-//                            for (int i = 0; i < gsmInfoList.size(); i++) {
-//                                int cid = Integer.parseInt(gsmInfoList.get(i).getCid());
-//                                int tac = Integer.parseInt(gsmInfoList.get(i).getTac());
-//                                if (cid != 2147483647 && tac != 2147483647) {
-////                                gsmInfoList.remove(i);
-//                                    list11.add(gsmInfoList.get(i));
-//                                }
-//                            }
-//                            if (list11.size() > 0) {
-//                                et_taclac.setText(list11.get(0).getTac() + "");
-//                                et_eci.setText(list11.get(0).getCid() + "");
-//                                jizhanFlag = DtUtils.YY2(list11.get(0).getPlmn());
-//                                Log.d("gsmInfoList", "onCheckedChanged:多条 ");
-//                            } else {
-//                                et_taclac.setText("");
-//                                et_eci.setText("");
-//                                jizhanFlag = 44;
-//                            }
-//
-//                        }
-//
-//                    } else {
-//                        et_taclac.setText("");
-//                        et_eci.setText("");
-//                        jizhanFlag = 44;
-//                    }
-//
-//                } else {
-//                    et_taclac.setText("");
-//                    et_eci.setText("");
-//                    jizhanFlag = 44;
-//                    Log.d(TAG, "onCheckedChanged: " + jizhanFlag);
-//                }
-//
-//            }
-//        });
-//        rb_bdjz2 = inflate.findViewById(R.id.rb_bdjz2);
-//        rb_bdjz2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//                if (b == true) {
-//                    rb_yidong.setChecked(false);
-//                    rb_liantong.setChecked(false);
-//                    rb_ldainxin4.setChecked(false);
-//                    rb_bdjz1.setChecked(false);
-//                    rb_cdma.setChecked(false);
-////                    jizhanFlag = 4;
-//                    ll_sid.setVisibility(View.GONE);
-//                    Log.d(TAG, "onCheckedChanged: " + jizhanFlag);
-//
-//
-//                    List<SpBean2> gsmInfoList = DtUtils.getGsmInfoList(mContext);
-//                    List<SpBean2> gsmInfoListremove = new ArrayList<>();
-//                    List<SpBean2> list11 = new ArrayList<>();
-//                    List<SpBean2> list22 = new ArrayList<>();
-//                    if (gsmInfoList.size() > 0 && gsmInfoList != null) {//有数据
-//                        if (gsmInfoList.size() == 1) {//只有一条
-//                            for (int i = 0; i < gsmInfoList.size(); i++) {
-//
-//                                int cid = Integer.parseInt(gsmInfoList.get(i).getCid());
-//                                int tac = Integer.parseInt(gsmInfoList.get(i).getTac());
-//                                if (cid != 2147483647 && tac != 2147483647) {
-////                                gsmInfoList.remove(i);
-//                                    list11.add(gsmInfoList.get(i));
-//                                }
-//                            }
-//
-//                            et_taclac.setText(gsmInfoList.get(0).getTac() + "");
-//                            et_eci.setText(gsmInfoList.get(0).getCid() + "");
-//                            jizhanFlag = DtUtils.YY2(gsmInfoList.get(0).getPlmn());
-//                            Log.d("gsmInfoList", "onCheckedChanged:一条 ");
-//                        } else {//多条
-//                            for (int i = 0; i < gsmInfoList.size(); i++) {
-//                                int cid = Integer.parseInt(gsmInfoList.get(i).getCid());
-//                                int tac = Integer.parseInt(gsmInfoList.get(i).getTac());
-//
-//                                if (cid != 2147483647 && tac != 2147483647) {
-////                                gsmInfoList.remove(i);
-//                                    gsmInfoListremove.add(gsmInfoList.get(i));
-//                                }
-//
-//                            }
-//                            if (gsmInfoListremove.size() > 1) {
-//                                list11.add(gsmInfoListremove.get(0));
-//                                list22.add(gsmInfoListremove.get(1));
-//                            } else if (gsmInfoListremove.size() == 1) {
-//                                list11.add(gsmInfoListremove.get(0));
-//                            }
-//                            if (list22.size() > 0) {
-//                                et_taclac.setText(list22.get(0).getTac() + "");
-//                                et_eci.setText(list22.get(0).getCid() + "");
-//                                jizhanFlag = DtUtils.YY2(list22.get(0).getPlmn());
-//                                Log.d("gsmInfoList", "onCheckedChanged:多条 ");
-//                            } else {
-//                                et_taclac.setText("");
-//                                et_eci.setText("");
-//                                jizhanFlag = 44;
-//                            }
-//
-//                        }
-//
-//                    } else {
-//                        et_taclac.setText("");
-//                        et_eci.setText("");
-//                        jizhanFlag = 44;
-//                    }
-//                } else {
-//                    et_taclac.setText("");
-//                    et_eci.setText("");
-//                    jizhanFlag = 44;
-//                    Log.d(TAG, "onCheckedChanged: " + jizhanFlag);
-//                }
-//
-//            }
-//        });
-        bt_adddilao = inflate.findViewById(R.id.bt_adddilao);
-        bt_adddilao.setOnClickListener(this);
-        String s = ACacheUtil.getjzType();
-        if (TextUtils.isEmpty(s)) {
-        } else {
-            jizhanFlag = Integer.parseInt(s);
-        }
-
-        if (jizhanFlag == 0) {//如果是0 ，是移动
-            rb_yidong.setChecked(true);
-            rb_liantong.setChecked(false);
-            rb_cdma.setChecked(false);
-            rb_ldainxin4.setChecked(false);
-        }
-        if (jizhanFlag == 1) {//如果是1 ，是联通
-            rb_yidong.setChecked(false);
-            rb_liantong.setChecked(true);
-            rb_cdma.setChecked(false);
-            rb_ldainxin4.setChecked(false);
-        }
-        if (jizhanFlag == 11) {//如果是11 ，是电信
-            rb_yidong.setChecked(false);
-            rb_liantong.setChecked(false);
-            rb_cdma.setChecked(false);
-            rb_ldainxin4.setChecked(true);
-        }
-        if (jizhanFlag == 4) {//如果是4 ，是cdma
-            rb_yidong.setChecked(false);
-            rb_liantong.setChecked(false);
-            rb_cdma.setChecked(true);
-            rb_ldainxin4.setChecked(false);
-        }
-
-        //将布局设置给Dialog
-        dialog.setContentView(inflate);
-        //获取当前Activity所在的窗体
-        Window dialogWindow = dialog.getWindow();
-        //设置Dialog从窗体底部弹出
-        dialogWindow.setGravity(Gravity.BOTTOM);
-        dialogWindow.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        //获得窗体的属性
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-//       将属性设置给窗体
-        dialogWindow.setAttributes(lp);
-        dialog.show();//显示对话框
-    }
-
-
     private CallBack callBack = new CallBack() {
         @Override
         public void call(String data, int i) {
@@ -4331,7 +4107,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             Flag = jizhanFlag;
         }
         MyUtils.getNumber(ACacheUtil.getID());//次数更新
-
+        Log.e(TAG, "sendPost: " + jizhanFlag);
         ArrayList<String> list = new ArrayList<>();
         if (jizhanFlag == 4) {//电信CDMA基站
             list.add(et_sid.getText().toString());
@@ -4339,7 +4115,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             list.add(et_eci.getText().toString());
             list.add(appKey);
             getRetrofit3(list);
-        } else {
+        } else if (jizhanFlag == 15) {//广电
+            list.add(jizhanFlag + "");
+            list.add(et_taclac.getText().toString());
+            list.add(et_eci.getText().toString());
+            list.add(appKey);
+            getRetrofit(list);
+        } else {//移动联通电信基站
             list.add(jizhanFlag + "");
             list.add(et_taclac.getText().toString());
             list.add(et_eci.getText().toString());
@@ -4414,7 +4196,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                 d.setMcc("");
                                 Log.e(TAG, "runjkjljk: " + jizhanFlag);
                                 d.setMnc(jizhanFlag + "");
-                                d.setRadius("0");
+                                d.setRadius(et_ta.getText().toString());
 //                        d.setTa(et_ta.getText().toString());
                                 d.setTa(MyUtils.listToString(HomeFragment.this.list));
                                 d.setType(0);
@@ -4432,7 +4214,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                 e.printStackTrace();
                                 Log.d(TAG, "resultBeansonResponse1: " + e.getMessage());
                             }
-
                             saveIsShow();//保存发送的数据
                         }
                     }
@@ -4514,9 +4295,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                 if (plmn.equals("11")) {
                                     d.setMnc("11");
                                 }
-                                d.setRadius("0");
+                                d.setRadius(et_ta.getText().toString());
 //                        d.setTa(et_ta.getText().toString());
-                                d.setTa("1.0");
+                                d.setTa(MyUtils.listToString(HomeFragment.this.list));
                                 d.setType(0);
                                 d.setResources("公开数据");
                                 d.setLat(String.valueOf(desLatLngBaidu.latitude));
@@ -4602,7 +4383,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                 d.setMcc("");
                                 Log.e(TAG, "runjkjljk: " + jizhanFlag);
                                 d.setMnc(jizhanFlag + "");
-                                d.setRadius("0");
+                                d.setRadius(et_ta.getText().toString());
 //                        d.setTa(et_ta.getText().toString());
                                 d.setTa(MyUtils.listToString(HomeFragment.this.list));
                                 d.setType(0);
@@ -4653,6 +4434,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     str = "联通";
                 } else if (guijiViewBeanjizhan.getMnc().equals("11")) {
                     str = "电信";
+                } else if (guijiViewBeanjizhan.getMnc().equals("15")) {
+                    str = "广电";
                 } else {//如果是cdma显示 sid数据
                     str = "CDMA";
                     TextView tv_sid = view.findViewById(R.id.tv_sid);
@@ -5081,6 +4864,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         }
     };
 
+
+    Timer timers;
+
     //订阅Event
     @Subscribe(threadMode = ThreadMode.BACKGROUND, sticky = true)
     public void onEvent(MessageEvent event) {
@@ -5091,10 +4877,53 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             handler.sendMessage(message);
         }
         if (event.getCode() == 9999) {
-            Message message = Message.obtain();
-            message.what = 9999;
-            message.obj = event.getData();
-            handler.sendMessage(message);
+            if (timers == null) {
+                timers = new Timer();
+            }
+            RecJsonBean obj = (RecJsonBean) event.getData();
+            //查看是否有网络
+            if (NetUtil.getNetWorkState(getContext()) == -1) {//没有网络
+                if (timeJz < 30000) {
+                    timeJz = timeJz + 2000;
+                    timers.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            EventBus.getDefault().postSticky(new MessageEvent(9999, obj));
+                        }
+                    }, 2000);
+                    Log.e(TAG, "timeJz1" + timeJz);
+                } else {
+                    Log.e(TAG, "timeJz2" + timeJz);
+                    //没网络情况下，过了30秒查询失败
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(mContext, "查询失败", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    timeJz = 0;
+                    timers.cancel();//释放此线程
+                    timers = null;
+                }
+            } else {//有网络
+                String plmn = obj.getTv_plmn().substring(3);
+                String tv_cid = obj.getTv_cid();
+                String tv_tac = obj.getTv_tac();
+                Log.e(TAG, "handleMessage: 9999" + plmn + "---" + tv_cid + "---" + tv_tac);
+                ArrayList<String> list = new ArrayList<>();
+                list.add(plmn);
+                list.add(tv_tac);
+                list.add(tv_cid);
+                list.add(appKey);
+                Log.i("TAG", "handleMessageplmn: " + plmn);
+                Log.i("TAG", "timeJz3: " + timeJz);
+                getRetrofits(list, plmn, tv_cid, tv_tac);
+
+
+                timeJz = 0;
+                timers.cancel();//释放此线程
+                timers = null;
+            }
         }
     }
 }

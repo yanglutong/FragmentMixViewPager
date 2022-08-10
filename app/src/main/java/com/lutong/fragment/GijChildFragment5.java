@@ -1,6 +1,7 @@
 package com.lutong.fragment;
 
 import static com.lutong.Constants.isDx;
+import static com.lutong.Constants.isGd;
 import static com.lutong.Constants.isJzBj;
 import static com.lutong.Constants.isLt;
 import static com.lutong.Constants.isYd;
@@ -65,49 +66,54 @@ public class GijChildFragment5 extends Fragment implements RecyclerAdapter.OnLon
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            if(typePage == 1 && typeJzMode == 5){
-                if (msg.what == 11115) {
-                    JsonNrBean jsonNrBean = (JsonNrBean) msg.obj;
-                    listAdd.clear();
-                    setNr(jsonNrBean);//添加数据源
-                    //移动联通电信运营商区分
-                    if (list.size() > 0) {
-                        for (RecJsonBean recJsonBean : list) {
-                            if (isYd) {
-                                if (recJsonBean.getTv_plmn().equals("46002") || recJsonBean.getTv_plmn().equals("46000")) {
-                                    listAdd.add(recJsonBean);
-                                }
+            if (msg.what == 11115) {
+                JsonNrBean jsonNrBean = (JsonNrBean) msg.obj;
+                listAdd.clear();
+                setNr(jsonNrBean);//添加数据源
+                //移动联通电信运营商区分
+                if (list.size() > 0) {
+                    for (RecJsonBean recJsonBean : list) {
+                        if (isYd) {
+                            if (recJsonBean.getTv_plmn().equals("46002") || recJsonBean.getTv_plmn().equals("46000")) {
+                                listAdd.add(recJsonBean);
                             }
-                            if (isLt) {
-                                if (recJsonBean.getTv_plmn().equals("46001")) {
-                                    listAdd.add(recJsonBean);
-                                }
+                        }
+                        if (isLt) {
+                            if (recJsonBean.getTv_plmn().equals("46001")) {
+                                listAdd.add(recJsonBean);
                             }
-                            if (isDx) {
-                                if (recJsonBean.getTv_plmn().equals("46011")) {
-                                    listAdd.add(recJsonBean);
-                                }
+                        }
+                        if (isDx) {
+                            if (recJsonBean.getTv_plmn().equals("46011")) {
+                                listAdd.add(recJsonBean);
+                            }
+                        }
+                        if (isGd) {
+                            if (recJsonBean.getTv_plmn().equals("46015")) {
+                                listAdd.add(recJsonBean);
                             }
                         }
                     }
+                }
 
-                    //基站老化
-                    Iterator<RecJsonBean> iterator = list.iterator();
-                    while (iterator.hasNext()) {
-                        RecJsonBean recJsonBean = iterator.next();
-                        boolean remove = MyUtils.isRemove(MyUtils.timeM(MyUtils.getTimeShort()), MyUtils.timeM(recJsonBean.getTv_cj_time()), jzMessage);
-                        if (remove) {
-                            iterator.remove();
-                        }
+                //基站老化
+                Iterator<RecJsonBean> iterator = list.iterator();
+                while (iterator.hasNext()) {
+                    RecJsonBean recJsonBean = iterator.next();
+                    boolean remove = MyUtils.isRemove(MyUtils.timeM(MyUtils.getTimeShort()), MyUtils.timeM(recJsonBean.getTv_cj_time()), jzMessage);
+                    if (remove) {
+                        iterator.remove();
                     }
-                    //按照优先级排序
-                    Collections.sort(listAdd, new Comparator<RecJsonBean>() {
-                        @Override
-                        public int compare(RecJsonBean o1, RecJsonBean o2) {
-                            return o2.getTv_yxj() - o1.getTv_yxj();
-                        }
-                    });
-                    //基站报警
+                }
+                //按照优先级排序
+                Collections.sort(listAdd, new Comparator<RecJsonBean>() {
+                    @Override
+                    public int compare(RecJsonBean o1, RecJsonBean o2) {
+                        return o2.getTv_yxj() - o1.getTv_yxj();
+                    }
+                });
+                //基站报警
+                if (typePage == 1 && typeJzMode == 5) {
                     if (listManager.size() > 1) {
                         //基站报警
                         ArrayList<RecJsonBean> beans = new ArrayList<>();
@@ -165,15 +171,15 @@ public class GijChildFragment5 extends Fragment implements RecyclerAdapter.OnLon
                             jsonBean.setJzBjState(false);
                         }
                     }
-                    //显示条目下标
-                    for (int i = 0; i < listAdd.size(); i++) {
-                        RecJsonBean jsonBean = listAdd.get(i);
-                        jsonBean.setIndex(i + 1);
-                    }
-                    recyclerAdapter.notifyDataSetChanged();
+                } else {
+                    stopVoice();
                 }
-            }else{
-                stopVoice();
+                //显示条目下标
+                for (int i = 0; i < listAdd.size(); i++) {
+                    RecJsonBean jsonBean = listAdd.get(i);
+                    jsonBean.setIndex(i + 1);
+                }
+                recyclerAdapter.notifyDataSetChanged();
             }
         }
     };
@@ -247,7 +253,7 @@ public class GijChildFragment5 extends Fragment implements RecyclerAdapter.OnLon
         if (isVisibleToUser) {//显示的时候
             //切换成4G
             typeJzMode = 5;
-            EventBus.getDefault().postSticky(new MessageEvent(2022, Constants.sendNr));
+//            EventBus.getDefault().postSticky(new MessageEvent(2022, Constants.sendNr));
         }else{
             stopVoice();
         }
