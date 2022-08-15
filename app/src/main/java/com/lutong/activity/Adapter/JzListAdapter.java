@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,15 +37,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.CoordinateConverter;
 
+import com.lutong.App.MessageEvent;
 import com.lutong.OrmSqlLite.Bean.GuijiViewBeanjizhan;
 import com.lutong.OrmSqlLite.DBManagerJZ;
 import com.lutong.R;
 import com.lutong.Utils.MyToast;
 import com.lutong.activity.PanoramaDemoActivityMain;
 import com.lutong.activity.TaActivity;
+import com.lutong.ormlite.DBManagerBj;
+import com.lutong.ormlite.JzbJBean;
 import com.mylhyl.circledialog.CircleDialog;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -62,6 +69,8 @@ public class JzListAdapter extends RecyclerView.Adapter<JzListAdapter.MyViewHold
     private List<GuijiViewBeanjizhan> list;
     private Context mcontext;
     int num = 00;
+    private String tvLac;
+    private String tvCid;
 
     public JzListAdapter(Context mcontext, List<GuijiViewBeanjizhan> list, LatLng mylag, DBManagerJZ dbManagerJZ, JzListCallBack callBack, List<Integer> listnum) {
         this.mcontext = mcontext;
@@ -162,6 +171,9 @@ public class JzListAdapter extends RecyclerView.Adapter<JzListAdapter.MyViewHold
         myViewHolder.bt_m_dele.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                tvLac = list.get(i).getLac();
+                tvCid = list.get(i).getCi();
+                Log.e("TAG", "onBindViewHolders: "+tvCid+tvLac );
                 new CircleDialog.Builder((FragmentActivity) mcontext)
                         .setTitle("")
                         .setWidth(0.7f)
@@ -311,6 +323,37 @@ public class JzListAdapter extends RecyclerView.Adapter<JzListAdapter.MyViewHold
         public void onClick(View view) {
             if (i == 3) {
                 callBack.callDele(id);
+                Log.e("TAG", "onBindViewHolders: "+tvCid+tvLac );
+                //删除报警记录
+                if(!TextUtils.isEmpty(tvCid)&&!TextUtils.isEmpty(tvLac)){
+                    try {
+                        DBManagerBj managerBj = new DBManagerBj(mcontext);
+                        List<JzbJBean> jBeans = managerBj.getdemoBeanList();
+                        if(jBeans.size()>1){
+                            boolean is = false;
+                            int ids = 0;
+                            //有数据
+                            for (int i = 1; i < jBeans.size(); i++) {
+                                JzbJBean jBean = jBeans.get(i);
+                                if(jBean.getTac().equals(tvLac)&&jBean.getCid().equals(tvCid)){
+                                    is = true;
+                                    ids = jBean.getId();
+                                }
+                            }
+                            //删除该基站报警条目
+                            if(is){
+                                managerBj.deletedemoBeanID(ids+"");
+                                //将删除的条目告诉工模
+                                ArrayList<String> list = new ArrayList<>();
+                                list.add(tvLac);
+                                list.add(tvCid);
+                                EventBus.getDefault().postSticky(new MessageEvent(20225,list));
+                            }
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
             if (i == 4) {
                 try {

@@ -6,7 +6,6 @@ import static com.lutong.Constants.isJzBj;
 import static com.lutong.Constants.isLt;
 import static com.lutong.Constants.isYd;
 import static com.lutong.Constants.jzMessage;
-import static com.lutong.Constants.typeJzMode;
 import static com.lutong.Constants.typePage;
 
 import android.content.Context;
@@ -31,7 +30,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.liys.dialoglib.LAnimationsType;
 import com.liys.dialoglib.LDialog;
 import com.lutong.App.MessageEvent;
-import com.lutong.Constants;
 import com.lutong.R;
 import com.lutong.Utils.MyUtils;
 import com.lutong.adapter.RecyclerAdapter;
@@ -47,15 +45,14 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
 /**
  * 工模界面-子Fragment 4G 5G
  */
-public class GijChildFragment5 extends Fragment implements RecyclerAdapter.OnLongClick {
-    public GijChildFragment5() {
+public class GijChildFragment5_Gf extends Fragment implements RecyclerAdapter.OnLongClick {
+    public GijChildFragment5_Gf() {
     }
 
     private ArrayList<RecJsonBean> list;
@@ -127,14 +124,14 @@ public class GijChildFragment5 extends Fragment implements RecyclerAdapter.OnLon
                         }
                     }
                 }
-//                for (int i = 0; i < beans.size(); i++) {
-//                    RecJsonBean jzbJBean = beans.get(i);
-//                    jzbJBean.setJzBjState(true);
-////                        list.set(jzbJBean.getIndex() - 1, jzbJBean);
-//                }
+                for (int i = 0; i < beans.size(); i++) {
+                    RecJsonBean jzbJBean = beans.get(i);
+                    jzbJBean.setJzBjState(true);
+//                        list.set(jzbJBean.getIndex() - 1, jzbJBean);
+                }
 
                 //是选中状态，并且显示在界面上的才会响铃
-                if(jsonNrBean != null){
+                if (isJzBj && jsonNrBean != null) {//报警声音
                     String tac = null;
                     String cid = null;
                     for (int i = 1; i < listManager.size(); i++) {
@@ -147,27 +144,24 @@ public class GijChildFragment5 extends Fragment implements RecyclerAdapter.OnLon
                     if (tac != null && cid != null) {
                         //有报警的基站并且为显示状态才报警
                         boolean isBaoJ = false;
-                        int index = 0;
-                        for (int i = 0; i < listAdd.size(); i++) {
-                            RecJsonBean jsonBean = listAdd.get(i);
+                        for (RecJsonBean jsonBean : listAdd) {
                             if (jsonBean.getTv_tac().equals(tac) && jsonBean.getTv_cid().equals(cid)) {
                                 isBaoJ = true;
-                                index = i;
                             }
                         }
 
                         if (isBaoJ) {
-                            //将这条标红
-                            RecJsonBean jzbJBean = listAdd.get(index);
-                            jzbJBean.setJzBjState(true);
-                            if (isJzBj && isPlay) {
+                            if (isPlay) {
                                 startVoice();
-                            } else {
-                                length = 5;
-                                stopVoice();
                             }
+                        } else {
+                            length = 5;
+                            stopVoice();
                         }
                     }
+                } else {
+                    length = 5;
+                    stopVoice();
                 }
             } else {
                 for (int i = 0; i < listAdd.size(); i++) {
@@ -257,22 +251,8 @@ public class GijChildFragment5 extends Fragment implements RecyclerAdapter.OnLon
             obtain.what = 11115;
             handler.sendMessage(obtain);
         }
-        if (event.getCode() == 20225) {
-            ArrayList<String> list = (ArrayList<String>) event.getData();
-            tac = list.get(0);
-            cid = list.get(1);
-            //将删除的条目在界面上取消爆红显示
-            if (listAdd.size() > 0) {
-                for (RecJsonBean recJsonBean : listAdd) {
-                    if (recJsonBean.getTv_tac().equals(tac) && recJsonBean.getTv_cid().equals(cid)) {
-                        recJsonBean.setJzBjState(false);
-                    }
-                }
-            }
-            Log.e("ylt", "onEvent20225: " + list.get(0) + list.get(1));
-        }
     }
-    String tac, cid;
+
     @Override
     public void onDestroy() {
         super.onDestroy();

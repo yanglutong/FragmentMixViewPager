@@ -9,18 +9,24 @@ import static com.lutong.Constants.jzMessage;
 import static com.lutong.Constants.typeJzMode;
 import static com.lutong.Constants.typePage;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -30,7 +36,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.liys.dialoglib.LAnimationsType;
 import com.liys.dialoglib.LDialog;
 import com.lutong.App.MessageEvent;
+import com.lutong.MainActivity;
 import com.lutong.R;
+import com.lutong.TestActivity;
 import com.lutong.Utils.MyUtils;
 import com.lutong.adapter.RecyclerAdapter;
 import com.lutong.ormlite.DBManagerBj;
@@ -65,129 +73,133 @@ public class GijChildFragment4 extends Fragment implements RecyclerAdapter.OnLon
     }
 
     private Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak")
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             if (msg.what == 11114) {
                 JsonLteBean jsonLteBean = (JsonLteBean) msg.obj;
-                listAdd.clear();
                 addLte(jsonLteBean);//添加数据源
-                //移动联通电信运营商区分
-                if (list.size() > 0) {
-                    for (RecJsonBean recJsonBean : list) {
-                        if (isYd) {
-                            if (recJsonBean.getTv_plmn().equals("46002") || recJsonBean.getTv_plmn().equals("46000")) {
-                                listAdd.add(recJsonBean);
-                            }
-                        }
-                        if (isLt) {
-                            if (recJsonBean.getTv_plmn().equals("46001")) {
-                                listAdd.add(recJsonBean);
-                            }
-                        }
-                        if (isDx) {
-                            if (recJsonBean.getTv_plmn().equals("46011")) {
-                                listAdd.add(recJsonBean);
-                            }
-                        }
-                        if (isGd) {
-                            if (recJsonBean.getTv_plmn().equals("46015")) {
-                                listAdd.add(recJsonBean);
-                            }
-                        }
-                    }
-                }
-
-                //基站老化
-                Iterator<RecJsonBean> iterator = list.iterator();
-                while (iterator.hasNext()) {
-                    RecJsonBean recJsonBean = iterator.next();
-                    boolean remove = MyUtils.isRemove(MyUtils.timeM(MyUtils.getTimeShort()), MyUtils.timeM(recJsonBean.getTv_cj_time()), jzMessage);
-                    if (remove) {
-                        iterator.remove();
-                    }
-                }
-                //按照优先级排序
-                Collections.sort(listAdd, new Comparator<RecJsonBean>() {
-                    @Override
-                    public int compare(RecJsonBean o1, RecJsonBean o2) {
-                        return o2.getTv_yxj() - o1.getTv_yxj();
-                    }
-                });
-
-                Log.e("TAG", "handleMessage: " + listManager.toString());
-                //基站报警
-                if (typePage == 1 && typeJzMode == 4) {
-                    if (listManager.size() > 1) {
-                        //基站报警
-                        ArrayList<RecJsonBean> beans = new ArrayList<>();
-                        for (int i = 1; i < listManager.size(); i++) {
-                            JzbJBean jzbJBean = listManager.get(i);
-                            for (int j = 0; j < listAdd.size(); j++) {
-                                RecJsonBean jsonBean = listAdd.get(j);
-                                if (jzbJBean.getCid().equals(jsonBean.getTv_cid() + "") && jzbJBean.getTac().equals(jsonBean.getTv_tac() + "")) {
-                                    beans.add(jsonBean);
-                                }
-                            }
-                        }
-                        for (int i = 0; i < beans.size(); i++) {
-                            RecJsonBean jzbJBean = beans.get(i);
-                            jzbJBean.setJzBjState(true);
-//                        list.set(jzbJBean.getIndex() - 1, jzbJBean);
-                        }
-
-                        //是选中状态，并且显示在界面上的才会响铃
-                        if (isJzBj) {//报警声音
-                            String tac = null;
-                            String cid = null;
-                            for (int i = 1; i < listManager.size(); i++) {
-                                JzbJBean jzbJBean = listManager.get(i);
-                                if (jzbJBean.getTac().equals(jsonLteBean.getTAC() + "") && jzbJBean.getCid().equals(jsonLteBean.getCID() + "")) {
-                                    tac = jsonLteBean.getTAC() + "";
-                                    cid = jsonLteBean.getCID() + "";
-                                }
-                            }
-                            if (tac != null && cid != null) {
-                                //有报警的基站并且为显示状态才报警
-                                boolean isBaoJ = false;
-                                for (RecJsonBean jsonBean : listAdd) {
-                                    if (jsonBean.getTv_tac().equals(tac) && jsonBean.getTv_cid().equals(cid)) {
-                                        isBaoJ = true;
-                                    }
-                                }
-
-                                if (isBaoJ) {
-                                    if (isPlay) {
-                                        startVoice();
-                                    }
-                                } else {
-                                    length = 5;
-                                    stopVoice();
-                                }
-                            }
-                        } else {
-                            length = 5;
-                            stopVoice();
-                        }
-                    } else {
-                        for (int i = 0; i < listAdd.size(); i++) {
-                            RecJsonBean jsonBean = listAdd.get(i);
-                            jsonBean.setJzBjState(false);
-                        }
-                    }
-                } else {
-                    stopVoice();
-                }
-
-                //显示条目下标
-                for (int i = 0; i < listAdd.size(); i++) {
-                    RecJsonBean jsonBean = listAdd.get(i);
-                    jsonBean.setIndex(i + 1);
-                }
-                recyclerAdapter.notifyDataSetChanged();
+                extracted(jsonLteBean);
             }
         }
     };
+
+    private void extracted(JsonLteBean jsonLteBean) {
+        listAdd.clear();
+        //移动联通电信运营商区分
+        if (list.size() > 0) {
+            for (RecJsonBean recJsonBean : list) {
+                if (isYd) {
+                    if (recJsonBean.getTv_plmn().equals("46002") || recJsonBean.getTv_plmn().equals("46000")) {
+                        listAdd.add(recJsonBean);
+                    }
+                }
+                if (isLt) {
+                    if (recJsonBean.getTv_plmn().equals("46001")) {
+                        listAdd.add(recJsonBean);
+                    }
+                }
+                if (isDx) {
+                    if (recJsonBean.getTv_plmn().equals("46011")) {
+                        listAdd.add(recJsonBean);
+                    }
+                }
+                if (isGd) {
+                    if (recJsonBean.getTv_plmn().equals("46015")) {
+                        listAdd.add(recJsonBean);
+                    }
+                }
+            }
+        }
+
+        //基站老化
+        Iterator<RecJsonBean> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            RecJsonBean recJsonBean = iterator.next();
+            boolean remove = MyUtils.isRemove(MyUtils.timeM(MyUtils.getTimeShort()), MyUtils.timeM(recJsonBean.getTv_cj_time()), jzMessage);
+            if (remove) {
+                iterator.remove();
+            }
+        }
+        Log.e("ylt", "handleMessagesss: " + listAdd.toString() + "\r\n\r\n\r\n" + "-----------");
+        //基站报警
+        if (typePage == 1) {
+            if (listManager.size() > 1) {
+                //基站报警
+                ArrayList<RecJsonBean> beans = new ArrayList<>();
+                for (int i = 1; i < listManager.size(); i++) {
+                    JzbJBean jzbJBean = listManager.get(i);
+                    for (int j = 0; j < listAdd.size(); j++) {
+                        RecJsonBean jsonBean = listAdd.get(j);
+                        if (jzbJBean.getCid().equals(jsonBean.getTv_cid() + "") && jzbJBean.getTac().equals(jsonBean.getTv_tac() + "")) {
+                            beans.add(jsonBean);
+                        }
+                    }
+                }
+
+//                for (int i = 0; i < beans.size(); i++) {
+//                    RecJsonBean jzbJBean = beans.get(i);
+//                    jzbJBean.setJzBjState(true);
+////                        list.set(jzbJBean.getIndex() - 1, jzbJBean);
+//                }
+
+                //是选中状态，并且显示在界面上的才会响铃
+                if (jsonLteBean != null) {//报警可用
+                    String tac = null;
+                    String cid = null;
+                    for (int i = 1; i < listManager.size(); i++) {
+                        JzbJBean jzbJBean = listManager.get(i);
+                        if (jzbJBean.getTac().equals(jsonLteBean.getTAC() + "") && jzbJBean.getCid().equals(jsonLteBean.getCID() + "")) {
+                            tac = jsonLteBean.getTAC() + "";
+                            cid = jsonLteBean.getCID() + "";
+                        }
+                    }
+                    if (tac != null && cid != null) {
+                        //有报警的基站并且为显示状态才报警
+                        boolean isBaoJ = false;
+                        int index = 0;
+                        for (int i = 0; i < listAdd.size(); i++) {
+                            RecJsonBean jsonBean = listAdd.get(i);
+                            if (jsonBean.getTv_tac().equals(tac) && jsonBean.getTv_cid().equals(cid)) {
+                                isBaoJ = true;
+                                index = i;
+                            }
+                        }
+
+                        if (isBaoJ) {
+                            //将这条标红
+                            RecJsonBean jzbJBean = listAdd.get(index);
+                            jzbJBean.setJzBjState(true);
+                            if (isPlay && isJzBj) {
+                                startVoice();
+                            } else {
+                                length = 5;
+                                stopVoice();
+                            }
+                        }
+                    }
+                }
+            } else {
+                for (int i = 0; i < listAdd.size(); i++) {
+                    RecJsonBean jsonBean = listAdd.get(i);
+                    jsonBean.setJzBjState(false);
+                }
+            }
+        }
+//        else {
+//            stopVoice();
+//        }
+        //按照优先级和能量值排序
+        Collections.sort(listAdd);
+        //显示条目下标
+        for (int i = 0; i < listAdd.size(); i++) {
+            RecJsonBean jsonBean = listAdd.get(i);
+            jsonBean.setIndex(i + 1);
+        }
+        recyclerAdapter.notifyDataSetChanged();
+    }
+
     View view;
 
     @Override
@@ -234,13 +246,39 @@ public class GijChildFragment4 extends Fragment implements RecyclerAdapter.OnLon
             handler.sendMessage(message);
         }
         if (event.getCode() == 13145) {//获取activity的数据库listManager
-            listManager = (ArrayList<JzbJBean>) event.getData();
-            Log.e("ylt", "GijChildFragment4: " + listManager.size() + "===" + listManager.toString());
+            try {
+                DBManagerBj managerBj = new DBManagerBj(getContext());
+                listManager = (ArrayList<JzbJBean>) managerBj.getdemoBeanList();
+                Log.e("ylt", "initGmConfigState4: " + listManager.toString());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         if (event.getCode() == 3033) {//界面为基站查询或定位时，停止播放报警声音
             stopVoice();
         }
+        if (event.getCode() == 121212) {
+            Message obtain = Message.obtain();
+            obtain.obj = null;
+            obtain.what = 11114;
+            handler.sendMessage(obtain);
+        }
+        if (event.getCode() == 20225) {
+            ArrayList<String> list = (ArrayList<String>) event.getData();
+            tac = list.get(0);
+            cid = list.get(1);
+            //将删除的条目在界面上取消爆红显示
+            if (listAdd.size() > 0) {
+                for (RecJsonBean recJsonBean : listAdd) {
+                    if (recJsonBean.getTv_tac().equals(tac) && recJsonBean.getTv_cid().equals(cid)) {
+                        recJsonBean.setJzBjState(false);
+                    }
+                }
+            }
+            Log.e("ylt", "onEvent20225: " + list.get(0) + list.get(1));
+        }
     }
+    String tac, cid;
 
     @Override
     public void onDestroy() {
@@ -251,110 +289,112 @@ public class GijChildFragment4 extends Fragment implements RecyclerAdapter.OnLon
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        stopVoice();//只要有切换界面的操作
-        if (isVisibleToUser) {//显示的时候
-            //切换成4G
-            typeJzMode = 4;
-//            EventBus.getDefault().postSticky(new MessageEvent(2022, Constants.sendLte));
-        } else {
-            stopVoice();
-        }
+//        stopVoice();//只要有切换界面的操作
+//        if (isVisibleToUser) {//显示的时候
+//            //切换成4G
+//            typeJzMode = 4;
+////            EventBus.getDefault().postSticky(new MessageEvent(2022, Constants.sendLte));
+//        } else {
+//            stopVoice();
+//        }
     }
 
     private void addLte(JsonLteBean jsonLteBean) {
-        if (jsonLteBean.getNETMODE().equals("LTE")) {
-            int earfcn = jsonLteBean.getEARFCN();
-            String time = jsonLteBean.getTIME();
-            List<String> plmn = jsonLteBean.getPLMN();
-            double rsrp = jsonLteBean.getRSRP();
-            int tac = jsonLteBean.getTAC();
-            String duplex = jsonLteBean.getDUPLEX();
-            String netmode = jsonLteBean.getNETMODE();
-            int pci = jsonLteBean.getPCI();
-            int cid = jsonLteBean.getCID();
-            int band = jsonLteBean.getBAND();
+        if (jsonLteBean != null) {
+            if (jsonLteBean.getNETMODE().equals("LTE")) {
+                int earfcn = jsonLteBean.getEARFCN();
+                String time = jsonLteBean.getTIME();
+                List<String> plmn = jsonLteBean.getPLMN();
+                double rsrp = jsonLteBean.getRSRP();
+                int tac = jsonLteBean.getTAC();
+                String duplex = jsonLteBean.getDUPLEX();
+                String netmode = jsonLteBean.getNETMODE();
+                int pci = jsonLteBean.getPCI();
+                int cid = jsonLteBean.getCID();
+                int band = jsonLteBean.getBAND();
 
 
-            ArrayList<RecJsonBean> arrayList = new ArrayList<>();
-            ArrayList<RecJsonBean> beans = new ArrayList<>();
-            int index = 0;
-            int index2 = 0;
-            if (plmn.size() > 1) {//双条基站
-                if (jsonLteBean.getSIB3() != null) {
-                    arrayList.add(new RecJsonBean(earfcn + "", time, plmn.get(0), rsrp + "", tac + "", duplex, jsonLteBean.getSIB3().getReselPriority(), netmode, pci + "", cid + "", band + ""));
-                    arrayList.add(new RecJsonBean(earfcn + "", time, plmn.get(1), rsrp + "", tac + "", duplex, jsonLteBean.getSIB3().getReselPriority(), netmode, pci + "", cid + "", band + ""));
-                } else {
-                    arrayList.add(new RecJsonBean(earfcn + "", time, plmn.get(0), rsrp + "", tac + "", duplex, 0, netmode, pci + "", cid + "", band + ""));
-                    arrayList.add(new RecJsonBean(earfcn + "", time, plmn.get(1), rsrp + "", tac + "", duplex, 0, netmode, pci + "", cid + "", band + ""));
-                }
-                //集合是否已经存在当前条目
-                if (list.size() > 0) {
-                    for (int i = 0; i < list.size(); i++) {
-                        RecJsonBean jsonBean = list.get(i);
-                        if (jsonBean.getTv_plmn().equals(arrayList.get(0).getTv_plmn()) && jsonBean.getTv_tac().equals(arrayList.get(0).getTv_tac()) && jsonBean.getTv_cid().equals(arrayList.get(0).getTv_cid()) && jsonBean.getTv_pci().equals(arrayList.get(0).getTv_pci())) {
-                            //替换老条目
-                            index = i;
-                            beans.add(jsonBean);
-                            //集合里有此条目时看过来的数据有无优先级 这次优先级为0就保留上次的
-                            if (arrayList.get(0).getTv_yxj() == 0) {
-                                if (list.get(i).getTv_yxj() != 0) {
-                                    arrayList.get(0).setTv_yxj(list.get(i).getTv_yxj());
-                                }
-                            }
-                        }
-                        if (jsonBean.getTv_plmn().equals(arrayList.get(1).getTv_plmn()) && jsonBean.getTv_tac().equals(arrayList.get(1).getTv_tac()) && jsonBean.getTv_cid().equals(arrayList.get(1).getTv_cid()) && jsonBean.getTv_pci().equals(arrayList.get(1).getTv_pci())) {
-                            //替换老条目
-                            index2 = i;
-                            beans.add(jsonBean);
-                            //集合里有此条目时看过来的数据有无优先级 如果没有 使用集合里的此条目优先级 有的话就直接添加
-                            if (arrayList.get(1).getTv_yxj() == 0) {
-                                if (list.get(i).getTv_yxj() != 0) {//有优先级的话就替换过来这条优先级
-                                    arrayList.get(1).setTv_yxj(list.get(i).getTv_yxj());
-                                }
-                            }
-                        }
-                    }
-
-                    if (beans.size() > 1) {//代表这两条都是listLte集合已经存在的数据 直接替换掉老数据
-                        list.set(index, arrayList.get(0));
-                        list.set(index2, arrayList.get(1));
+                ArrayList<RecJsonBean> arrayList = new ArrayList<>();
+                ArrayList<RecJsonBean> beans = new ArrayList<>();
+                int index = 0;
+                int index2 = 0;
+                if (plmn.size() > 1) {//双条基站
+                    if (jsonLteBean.getSIB3() != null) {
+                        arrayList.add(new RecJsonBean(earfcn + "", time, plmn.get(0), rsrp, tac + "", duplex, jsonLteBean.getSIB3().getReselPriority(), netmode, pci + "", cid + "", band + ""));
+                        arrayList.add(new RecJsonBean(earfcn + "", time, plmn.get(1), rsrp, tac + "", duplex, jsonLteBean.getSIB3().getReselPriority(), netmode, pci + "", cid + "", band + ""));
                     } else {
-                        list.add(index, arrayList.get(0));
-                        list.add(index2, arrayList.get(1));
+                        arrayList.add(new RecJsonBean(earfcn + "", time, plmn.get(0), rsrp, tac + "", duplex, 0, netmode, pci + "", cid + "", band + ""));
+                        arrayList.add(new RecJsonBean(earfcn + "", time, plmn.get(1), rsrp, tac + "", duplex, 0, netmode, pci + "", cid + "", band + ""));
                     }
-                } else {
-                    list.add(arrayList.get(0));
-                    list.add(arrayList.get(1));
-                }
-            } else if (plmn.size() == 1) {//单条基站
-                if (jsonLteBean.getSIB3() != null) {
-                    arrayList.add(new RecJsonBean(earfcn + "", time, plmn.get(0), rsrp + "", tac + "", duplex, jsonLteBean.getSIB3().getReselPriority(), netmode, pci + "", cid + "", band + ""));
-                } else {
-                    arrayList.add(new RecJsonBean(earfcn + "", time, plmn.get(0), rsrp + "", tac + "", duplex, 0, netmode, pci + "", cid + "", band + ""));
-                }
-                if (list.size() > 0) {
-                    for (int i = 0; i < list.size(); i++) {
-                        RecJsonBean lteBean = list.get(i);
-                        if (lteBean.getTv_tac().equals(tac + "") && lteBean.getTv_pci().equals(pci + "") && lteBean.getTv_cid().equals(cid + "")) {
-                            beans.add(lteBean);
-                            index = i;
-
-                            //集合里有此条目时看过来的数据有无优先级 如果没有 使用集合里的此条目优先级 有的话就直接添加
-                            if (arrayList.get(0).getTv_yxj() == 0) {
-                                if (list.get(i).getTv_yxj() != 0) {//有优先级的话就替换过来这条优先级
-                                    arrayList.get(0).setTv_yxj(list.get(i).getTv_yxj());
+                    //集合是否已经存在当前条目
+                    if (list.size() > 0) {
+                        for (int i = 0; i < list.size(); i++) {
+                            RecJsonBean jsonBean = list.get(i);
+                            if (jsonBean.getTv_plmn().equals(arrayList.get(0).getTv_plmn()) && jsonBean.getTv_tac().equals(arrayList.get(0).getTv_tac()) && jsonBean.getTv_cid().equals(arrayList.get(0).getTv_cid()) && jsonBean.getTv_pci().equals(arrayList.get(0).getTv_pci())) {
+                                //替换老条目
+                                index = i;
+                                beans.add(jsonBean);
+                                //集合里有此条目时看过来的数据有无优先级 这次优先级为0就保留上次的
+                                if (arrayList.get(0).getTv_yxj() == 0) {
+                                    if (list.get(i).getTv_yxj() != 0) {
+                                        arrayList.get(0).setTv_yxj(list.get(i).getTv_yxj());
+                                    }
+                                }
+                            }
+                            if (jsonBean.getTv_plmn().equals(arrayList.get(1).getTv_plmn()) && jsonBean.getTv_tac().equals(arrayList.get(1).getTv_tac()) && jsonBean.getTv_cid().equals(arrayList.get(1).getTv_cid()) && jsonBean.getTv_pci().equals(arrayList.get(1).getTv_pci())) {
+                                //替换老条目
+                                index2 = i;
+                                beans.add(jsonBean);
+                                //集合里有此条目时看过来的数据有无优先级 如果没有 使用集合里的此条目优先级 有的话就直接添加
+                                if (arrayList.get(1).getTv_yxj() == 0) {
+                                    if (list.get(i).getTv_yxj() != 0) {//有优先级的话就替换过来这条优先级
+                                        arrayList.get(1).setTv_yxj(list.get(i).getTv_yxj());
+                                    }
                                 }
                             }
                         }
+
+                        if (beans.size() > 1) {//代表这两条都是listLte集合已经存在的数据 直接替换掉老数据
+                            list.set(index, arrayList.get(0));
+                            list.set(index2, arrayList.get(1));
+                        } else {
+                            list.add(index, arrayList.get(0));
+                            list.add(index2, arrayList.get(1));
+                        }
+                    } else {
+                        list.add(arrayList.get(0));
+                        list.add(arrayList.get(1));
                     }
-                    if (beans.size() > 0) {//过来的是集合里有过得数据
-                        //如果是集合里有过的数据就将新数据替换老条目
-                        list.set(index, arrayList.get(0));
+                } else if (plmn.size() == 1) {//单条基站
+                    if (jsonLteBean.getSIB3() != null) {
+                        arrayList.add(new RecJsonBean(earfcn + "", time, plmn.get(0), rsrp, tac + "", duplex, jsonLteBean.getSIB3().getReselPriority(), netmode, pci + "", cid + "", band + ""));
+                    } else {
+                        arrayList.add(new RecJsonBean(earfcn + "", time, plmn.get(0), rsrp, tac + "", duplex, 0, netmode, pci + "", cid + "", band + ""));
+                    }
+                    if (list.size() > 0) {
+                        for (int i = 0; i < list.size(); i++) {
+                            RecJsonBean lteBean = list.get(i);
+                            if (lteBean.getTv_tac().equals(tac + "") && lteBean.getTv_pci().equals(pci + "") && lteBean.getTv_cid().equals(cid + "")) {
+                                beans.add(lteBean);
+                                index = i;
+
+                                //集合里有此条目时看过来的数据有无优先级 如果没有 使用集合里的此条目优先级 有的话就直接添加
+                                if (arrayList.get(0).getTv_yxj() == 0) {
+                                    if (list.get(i).getTv_yxj() != 0) {//有优先级的话就替换过来这条优先级
+                                        arrayList.get(0).setTv_yxj(list.get(i).getTv_yxj());
+                                    }
+                                }
+                            }
+                        }
+                        if (beans.size() > 0) {//过来的是集合里有过得数据
+                            //如果是集合里有过的数据就将新数据替换老条目
+                            list.set(index, arrayList.get(0));
+                        } else {
+                            list.add(arrayList.get(0));
+                        }
                     } else {
                         list.add(arrayList.get(0));
                     }
-                } else {
-                    list.add(arrayList.get(0));
                 }
             }
         }
@@ -422,6 +462,13 @@ public class GijChildFragment4 extends Fragment implements RecyclerAdapter.OnLon
 
     private void showDialog(Context context, RecJsonBean recJsonBean) {
         LDialog dialog = LDialog.newInstance(context, R.layout.gm_pop);
+        dialog.setCanceledOnTouchOutside(false);//点击外部不消失
+
+        TextView gm_cid = dialog.findViewById(R.id.gm_cid);
+        TextView gm_tac = dialog.findViewById(R.id.gm_tac);
+        gm_cid.setText(recJsonBean.getTv_cid());
+        gm_tac.setText(recJsonBean.getTv_tac());
+
         Button bt_adddilao = dialog.findViewById(R.id.bt_adddilao);
         bt_adddilao.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -454,11 +501,10 @@ public class GijChildFragment4 extends Fragment implements RecyclerAdapter.OnLon
 //                .setMaxWidth(300) //单位:dp
 //                .setMaxWidthPX(100) //单位:px
 //                .setMaxWidthRatio(0.8) //占屏幕宽比例
-
                 //2.设置高
                 //精确高度
-                .setHeight(400) //单位:dp
-                .setHeightPX(400) //单位:px
+                .setHeight(560) //单位:dp
+                .setHeightPX(560) //单位:px
 //                .setHeightRatio(0.4) //占屏幕高比例
 //                //最小高度
 //                .setMinHeight(100) //单位:dp
@@ -517,6 +563,7 @@ public class GijChildFragment4 extends Fragment implements RecyclerAdapter.OnLon
 //                    }
 //                }, R.id.tv_confirm, R.id.tv_cancel)  //可以传多个
                 .show();
+
     }
 
     @Override
@@ -524,6 +571,5 @@ public class GijChildFragment4 extends Fragment implements RecyclerAdapter.OnLon
         //适配器长按监听
         RecJsonBean recJsonBean = listAdd.get(i);
         showDialog(getContext(), recJsonBean);
-        Log.e("ylt", "setOnLongClick: " + recJsonBean.toString());
     }
 }

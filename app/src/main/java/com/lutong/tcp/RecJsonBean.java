@@ -1,14 +1,20 @@
 package com.lutong.tcp;
 
-/**工模 数据类
+import com.lutong.TestActivity;
+
+import java.math.BigDecimal;
+
+/**
+ * 工模 数据类
+ *
  * @author: 小杨同志
  * @date: 2022/3/16
  */
-public class RecJsonBean {
+public class RecJsonBean implements Comparable<RecJsonBean> {
     public String tv_arfcn;
     public String tv_cj_time;
     public String tv_plmn;
-    public String tv_rsrp;
+    public double tv_rsrp;
     public String tv_tac;
     public String tv_tdd;
     public int tv_yxj;
@@ -21,7 +27,7 @@ public class RecJsonBean {
     public boolean jzState;
     public boolean jzBjState;
 
-    public RecJsonBean(String tv_arfcn, String tv_cj_time, String tv_plmn, String tv_rsrp, String tv_tac, String tv_tdd, int tv_yxj, String tv_NetWorkType, String tv_pci, String tv_cid, String tv_band) {
+    public RecJsonBean(String tv_arfcn, String tv_cj_time, String tv_plmn, double tv_rsrp, String tv_tac, String tv_tdd, int tv_yxj, String tv_NetWorkType, String tv_pci, String tv_cid, String tv_band) {
         this.tv_arfcn = tv_arfcn;
         this.tv_cj_time = tv_cj_time;
         this.tv_plmn = tv_plmn;
@@ -35,7 +41,7 @@ public class RecJsonBean {
         this.tv_band = tv_band;
     }
 
-    public RecJsonBean(String tv_arfcn, String tv_cj_time, String tv_plmn, String tv_rsrp, String tv_tac, String tv_tdd, int tv_yxj, String tv_NetWorkType, String tv_pci, String tv_cid, String tv_band, String nrCenterArfcn) {
+    public RecJsonBean(String tv_arfcn, String tv_cj_time, String tv_plmn, double tv_rsrp, String tv_tac, String tv_tdd, int tv_yxj, String tv_NetWorkType, String tv_pci, String tv_cid, String tv_band, String nrCenterArfcn) {
         this.tv_arfcn = tv_arfcn;
         this.tv_cj_time = tv_cj_time;
         this.tv_plmn = tv_plmn;
@@ -107,11 +113,11 @@ public class RecJsonBean {
         this.tv_plmn = tv_plmn;
     }
 
-    public String getTv_rsrp() {
+    public double getTv_rsrp() {
         return tv_rsrp;
     }
 
-    public void setTv_rsrp(String tv_rsrp) {
+    public void setTv_rsrp(double tv_rsrp) {
         this.tv_rsrp = tv_rsrp;
     }
 
@@ -188,5 +194,24 @@ public class RecJsonBean {
                 ", index=" + index +
                 ", jzBjState=" + jzBjState +
                 '}';
+    }
+
+    @Override
+    public int compareTo(RecJsonBean o) {
+        // TODO Auto-generated method stub
+        if (this.getTv_yxj() > o.getTv_yxj()) {
+            return -1;
+        } else if (this.getTv_yxj() < o.getTv_yxj()) {
+            return 1;
+        } else {
+            int v = TestActivity.getBigDecimal(o.getTv_rsrp()+"",this.getTv_rsrp() + "");
+            if (v == 0) {
+                return 0;
+            } else if (v == 1) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }
     }
 }

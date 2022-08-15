@@ -1,78 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_gravity="center"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/shape_button_bg">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <LinearLayout
-            android:background="@drawable/shape_button_bg"
-            android:orientation="vertical"
+            android:layout_width="300dp"
+            android:layout_height="@dimen/dp_40"
+            android:background="@drawable/shape_round_blue"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_option_zhiShi"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="查询基站"
+                android:textColor="@android:color/white"></TextView>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp">
-            <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x15">
+
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_width="@dimen/dimens_20dp"
-                    android:layout_height="@dimen/dimens_20dp">
-                </ImageView>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginTop="@dimen/x15"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:gravity="center"
-                    android:text="确定查询该基站吗?"
-                    android:textSize="20sp"
-                    android:textColor="@color/black"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </TextView>
-            </LinearLayout>
-
-
-
-
-
-            <LinearLayout
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginTop="@dimen/x20"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_40">
-                <Button
-                    android:layout_marginRight="@dimen/x18"
-                    android:id="@+id/bt_adddilao"
-                    android:layout_width="@dimen/navi_dimens_70dp"
-                    android:layout_height="35dp"
-                    android:background="@drawable/shape_button_queren"
-                    android:text="确定"
-                    android:textColor="#FFFFFF"
-                    android:textSize="17dp" />
-
-               <TextView
-                   android:gravity="center"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content">
-               </TextView>
-                <Button
-                    android:id="@+id/bt_cancel"
-                    android:layout_marginLeft="@dimen/x18"
-                    android:text="取消"
-                    android:textColor="#FFFFFF"
-                    android:background="@drawable/shape_button_quxiao"
-                    android:layout_width="@dimen/navi_dimens_70dp"
-                    android:layout_height="35dp">
-                </Button>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_marginTop="@dimen/x10"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </LinearLayout>
+                android:text="确定查询该基站吗?"
+                android:textColor="@color/black"
+                android:textSize="20sp"></TextView>
         </LinearLayout>
 
-</LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_10"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_marginRight="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/v11"
+                    android:text="TAC:"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"></TextView>
+
+                <View
+                    android:id="@+id/v11"
+                    android:layout_width="1dp"
+                    android:layout_height="1dp"
+                    android:layout_centerInParent="true"></View>
+
+                <TextView
+                    android:id="@+id/gm_tac"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/v11"
+                    android:text="12132"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"></TextView>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/v1"
+                    android:text="CID: "
+                    android:textColor="@color/black"
+                    android:textSize="15sp"></TextView>
+
+                <View
+                    android:id="@+id/v1"
+                    android:layout_width="1dp"
+                    android:layout_height="1dp"
+                    android:layout_centerInParent="true"></View>
+
+                <TextView
+                    android:id="@+id/gm_cid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/v1"
+                    android:text="12132"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"></TextView>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginTop="15dp"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/bt_adddilao"
+                android:layout_width="@dimen/navi_dimens_70dp"
+                android:layout_height="35dp"
+                android:layout_marginRight="@dimen/x18"
+                android:background="@drawable/shape_button_queren"
+                android:text="确定"
+                android:textColor="#FFFFFF"
+                android:textSize="17dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"></TextView>
+
+            <Button
+                android:id="@+id/bt_cancel"
+                android:layout_width="@dimen/navi_dimens_70dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="@dimen/x18"
+                android:background="@drawable/shape_button_queren"
+                android:textSize="17dp"
+                android:text="取消"
+                android:textColor="#FFFFFF"></Button>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="@dimen/x10"></LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

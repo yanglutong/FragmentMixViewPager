@@ -63,7 +63,7 @@
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/activity_location.xml" value="0.22282608695652173" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/activity_main.xml" value="0.144" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/activity_map_info.xml" value="0.4" />
-        <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/activity_map_info_list2.xml" value="0.264" />
+        <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/activity_map_info_list2.xml" value="0.4" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/activity_panorama_demo_main.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/activity_pin_config_viewpager.xml" value="0.24114583333333334" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/activity_saopin_info.xml" value="0.24114583333333334" />
@@ -88,7 +88,7 @@
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/fragment_gij.xml" value="0.2" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/fragment_gijs.xml" value="0.264" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/fragmernt3.xml" value="0.2" />
-        <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/gm_pop.xml" value="0.264" />
+        <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/gm_pop.xml" value="0.4" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/item_dibushow2.xml" value="0.24114583333333334" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/item_dibushow3.xml" value="0.24114583333333334" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/item_dibushow53.xml" value="0.22552083333333334" />
@@ -96,12 +96,12 @@
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/item_dibushowdaohao.xml" value="0.14322916666666666" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/item_dibushowlt.xml" value="0.264" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/item_dibushowlt2.xml" value="0.264" />
-        <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/jz_fragment.xml" value="0.2" />
+        <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/jz_fragment.xml" value="0.264" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/main_lies.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/pin_config_list.xml" value="0.2" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/pin_config_list5g.xml" value="0.4" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/pin_config_lists.xml" value="0.22552083333333334" />
-        <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/pin_config_lte.xml" value="0.24114583333333334" />
+        <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/pin_config_lte.xml" value="0.264" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/pin_config_lte_type.xml" value="0.264" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/pin_config_lte_type2.xml" value="0.24114583333333334" />
         <entry key="..\:/Users/lutong/Desktop/FragmentMixViewPager/app/src/main/res/layout/pop_window.xml" value="0.24114583333333334" />

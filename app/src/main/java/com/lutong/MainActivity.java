@@ -166,12 +166,10 @@ public class MainActivity extends FragmentActivity implements
         }
         //初始化工模配置选项状态
         initGmConfigState();
-
         //初始化服务
         socketServerListenHandler = new SocketServerListenHandler(this, handler, port);
         socketServerListenHandler.startSchedule(timerStart, 10000);//检测心跳
-        socketServerListenHandler.startScheduleTitle(timertitle, 2000);//标题
-
+        socketServerListenHandler.startScheduleTitle(timertitle, 3000);//标题
         setHome();
     }
 
@@ -505,6 +503,7 @@ public class MainActivity extends FragmentActivity implements
                 typePage = 1;
                 //获取工模界面的4 5G选中状态
                 setCurrentTab((String) getText(R.string.title3));
+                EventBus.getDefault().postSticky(new MessageEvent(13145,""));
                 break;
             case 2:
                 pageMode = 2;
@@ -585,6 +584,7 @@ public class MainActivity extends FragmentActivity implements
 
     private void setGmBjConfigs() {
         LDialog dialog = LDialog.newInstance(this, R.layout.pin_config_lte_type);
+        dialog.setCanceledOnTouchOutside(false);//点击外部不消失
         dialog
                 .setMaskValue(0.5f) //遮罩--透明度(0-1)
                 //1.设置宽
@@ -695,6 +695,14 @@ public class MainActivity extends FragmentActivity implements
 
             jBeans.clear();
             jBeans.addAll(dbManager.getdemoBeanList());
+
+            //将序号排序
+            if (jBeans.size() > 1) {
+                for (int i1 = 1; i1 < jBeans.size(); i1++) {
+                    JzbJBean jBean = jBeans.get(i1);
+                    jBean.setCount(i1);
+                }
+            }
             if (jBeans.size() > 1) {//显示界面，将数据库数据显示出来
                 liner_jzBj.setVisibility(View.VISIBLE);
                 dialog.setHeightRatio(0.53);
@@ -710,6 +718,12 @@ public class MainActivity extends FragmentActivity implements
                             //删除的为最后一条数据就隐藏item界面
                             JzbJBean jBean = jBeans.get(i);
                             try {
+                                ArrayList<String> list = new ArrayList<>();
+                                list.add(jBean.getTac());
+                                list.add(jBean.getCid());
+                                EventBus.getDefault().postSticky(new MessageEvent(20225,list));
+
+
                                 dbManager.deletedemoBean(jBean);
                                 jBeans.clear();
                                 jBeans.addAll(dbManager.getdemoBeanList());
@@ -727,16 +741,20 @@ public class MainActivity extends FragmentActivity implements
                         } else {
                             //删除的不为最后一条
                             try {
-                                dbManager.deletedemoBean(jBeans.get(i));
+                                ArrayList<String> list = new ArrayList<>();
+                                list.add(jBeans.get(i).getTac());
+                                list.add(jBeans.get(i).getCid());
+                                EventBus.getDefault().postSticky(new MessageEvent(20225,list));
 
+                                dbManager.deletedemoBean(jBeans.get(i));
                                 jBeans.clear();
                                 jBeans.addAll(dbManager.getdemoBeanList());
+
 
                                 //                                listManager = (ArrayList<JzbJBean>) dbManager.getdemoBeanList();
 //                                Log.e("ylt", "Main2ListManager: "+listManager.toString());
                                 //将保存的数据库条目发送给fragment
                                 EventBus.getDefault().postSticky(new MessageEvent(13145, jBeans));
-
 
                             } catch (SQLException e) {
                                 e.printStackTrace();
@@ -860,6 +878,7 @@ public class MainActivity extends FragmentActivity implements
 
     private void setGmConfigs() {
         LDialog dialog = LDialog.newInstance(this, R.layout.pin_config_lte);
+        dialog.setCanceledOnTouchOutside(false);//点击外部不消失
         dialog
                 .setMaskValue(0.5f)
                 .setWidthRatio(0.8)
@@ -1121,6 +1140,7 @@ public class MainActivity extends FragmentActivity implements
         }
     }
 
+
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
@@ -1133,7 +1153,7 @@ public class MainActivity extends FragmentActivity implements
                 editor.commit();
                 isYd = isChecked;
 //                //将最新状态返回给fragment
-//                setGmConfigSettings.setGmConfig(isYd, isLt, isDx, isJzBj, jzMessage);
+                EventBus.getDefault().postSticky(new MessageEvent(121212,""));
                 break;
             }
             case R.id.checkbox_lt: {
@@ -1145,7 +1165,7 @@ public class MainActivity extends FragmentActivity implements
                 editor.commit();
                 isLt = isChecked;
 //                //将最新状态返回给fragment
-//                setGmConfigSettings.setGmConfig(isYd, isLt, isDx, isJzBj, jzMessage);
+                EventBus.getDefault().postSticky(new MessageEvent(121212,""));
                 break;
             }
             case R.id.checkbox_dx: {
@@ -1157,7 +1177,7 @@ public class MainActivity extends FragmentActivity implements
                 editor.commit();
                 isDx = isChecked;
 //                //将最新状态返回给fragment
-//                setGmConfigSettings.setGmConfig(isYd, isLt, isDx, isJzBj, jzMessage);
+                EventBus.getDefault().postSticky(new MessageEvent(121212,""));
                 break;
             }
             case R.id.checkbox_gd: {
@@ -1169,7 +1189,7 @@ public class MainActivity extends FragmentActivity implements
                 editor.commit();
                 isGd = isChecked;
 //                //将最新状态返回给fragment
-//                setGmConfigSettings.setGmConfig(isYd, isLt, isDx, isJzBj, jzMessage);
+                EventBus.getDefault().postSticky(new MessageEvent(121212,""));
                 break;
             }
             case R.id.checkbox_jzBaoJ: {
@@ -1177,6 +1197,8 @@ public class MainActivity extends FragmentActivity implements
                     EventBus.getDefault().postSticky(new MessageEvent<>(3033, ""));
                 }
                 isJzBj = isChecked;
+                EventBus.getDefault().postSticky(new MessageEvent(121212,""));
+                break;
             }
         }
     }
@@ -1229,5 +1251,4 @@ public class MainActivity extends FragmentActivity implements
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
     }
-
 }

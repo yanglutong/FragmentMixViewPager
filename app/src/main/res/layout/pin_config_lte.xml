@@ -29,15 +29,17 @@
                     android:textColor="@android:color/white"></TextView>
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/gij_config_bj"
             android:orientation="vertical">
+
             <LinearLayout
-                android:layout_marginLeft="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
@@ -52,12 +54,12 @@
                         android:layout_height="wrap_content"
                         android:text="基站报警声音"
                         android:textColor="@color/black"></TextView>
+
                     <CheckBox
                         android:id="@+id/checkbox_jzBaoJ"
-                        android:text=""
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                    </CheckBox>
+                        android:layout_height="wrap_content"
+                        android:text=""></CheckBox>
                 </LinearLayout>
 
                 <LinearLayout
@@ -73,12 +75,12 @@
                         android:textColor="@color/black"></TextView>
 
                     <EditText
-                        android:gravity="center"
                         android:id="@+id/ed_jzTime"
-                        android:maxLength="9"
-                        android:inputType="number"
                         android:layout_width="70dp"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="9"
                         android:text="300"></EditText>
 
                     <TextView
@@ -90,12 +92,14 @@
 
 
             </LinearLayout>
+
             <LinearLayout
-                android:layout_marginLeft="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
+
                 <CheckBox
                     android:id="@+id/checkbox_yd"
                     android:layout_width="wrap_content"
@@ -116,6 +120,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="电信"></CheckBox>
+
                 <CheckBox
                     android:id="@+id/checkbox_gd"
                     android:layout_width="wrap_content"
@@ -144,13 +149,14 @@
                 android:background="@drawable/shape_round_blues"
                 android:text="确定"
                 android:textColor="@color/white"></Button>
+
             <Button
-                android:layout_marginRight="20dp"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/shape_round_blues"
                 android:id="@+id/bt_Cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/shape_round_blues"
                 android:text="取消"
                 android:textColor="@color/white"></Button>
         </RelativeLayout>

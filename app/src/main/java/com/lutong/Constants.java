@@ -21,7 +21,7 @@ public class Constants {
     public static int jzMessage = 300;//基站信息显示时间
 
     public static int typeJzMode = 4;//工模界面选中的基站
-    public static int typePage = 0;//fragment界面显示
+    public static int typePage = 0;//三个fragment界面显示 基站查询 工模 定位
 
     public final static String getBaseUrl = "http://www.cellmap.cn/api/cell2gps.aspx";//基站查询
     public final static String getBaseUrl3 = "http://www.cellmap.cn/api/cdma2gps_api.aspx";//基站查询3G

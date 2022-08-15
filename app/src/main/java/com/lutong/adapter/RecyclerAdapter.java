@@ -45,13 +45,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         normalHolder.liner_item.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Toast.makeText(mContext, "c"+position, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, "c"+position, Toast.LENGTH_SHORT).show();
                 onLongClick.setOnLongClick(position);
                 return true;//长按执行完，不执行短按
             }
         });
         normalHolder.liner_item.setOnClickListener((View.OnClickListener) v -> {
-            Toast.makeText(mContext, "d"+position, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(mContext, "d"+position, Toast.LENGTH_SHORT).show();
 //                onLongClick.setOnLongClick(position);
         });
 
@@ -75,8 +75,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
     private void setDates(NormalHolder normalHolder, int position){
-        String tv_rsrp = mDatas.get(position).getTv_rsrp();
-        if (!TextUtils.isEmpty(mDatas.get(position).getTv_rsrp())) {
+        String tv_rsrp = mDatas.get(position).getTv_rsrp()+"";
+        if (!TextUtils.isEmpty(mDatas.get(position).getTv_rsrp()+"")) {
             if (tv_rsrp.contains(".")) {//去除小数点
                 int idx = tv_rsrp.lastIndexOf(".");//查找小数点的位置
                 String strNum = tv_rsrp.substring(0, idx);//截取从字符串开始到小数点位置的字符串，就是整数部分

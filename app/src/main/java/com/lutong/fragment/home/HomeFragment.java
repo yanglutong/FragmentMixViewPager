@@ -10,16 +10,8 @@ import static com.lutong.Constant.Constant.UNIFORMTA;
 import static com.lutong.Constants.appKey;
 import static com.lutong.Constants.getBaseUrl;
 import static com.lutong.Constants.getBaseUrl3;
-import static com.lutong.Constants.isDx;
-import static com.lutong.Constants.isGd;
-import static com.lutong.Constants.isJzBj;
-import static com.lutong.Constants.isLt;
-import static com.lutong.Constants.isYd;
-import static com.lutong.Constants.jzMessage;
 import static com.lutong.activity.JzListActivity.SHOWCALLID;
 
-import android.animation.Animator;
-import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -41,13 +33,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.text.TextUtils;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -57,9 +47,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -68,15 +55,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -113,7 +97,6 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.baidu.mapapi.utils.CoordinateConverter;
 import com.baidu.mapapi.utils.DistanceUtil;
-import com.blankj.utilcode.util.ToastUtils;
 import com.lutong.App.MessageEvent;
 import com.lutong.AppContext;
 import com.lutong.ConnectivityManager.NetUtil;
@@ -121,9 +104,7 @@ import com.lutong.OrmSqlLite.Bean.DataAliBean;
 import com.lutong.OrmSqlLite.Bean.DataBean;
 import com.lutong.OrmSqlLite.Bean.GuijiViewBean;
 import com.lutong.OrmSqlLite.Bean.GuijiViewBeanjizhan;
-import com.lutong.OrmSqlLite.Bean.JzDataQury;
 import com.lutong.OrmSqlLite.Bean.JzGetData;
-import com.lutong.OrmSqlLite.Bean.SpBean2;
 import com.lutong.OrmSqlLite.DBManagerGuijiView;
 import com.lutong.OrmSqlLite.DBManagerJZ;
 import com.lutong.R;
@@ -133,13 +114,11 @@ import com.lutong.Utils.ACacheUtil;
 import com.lutong.Utils.AnimationUtil;
 import com.lutong.Utils.CommonUtil;
 import com.lutong.Utils.CurrentLocation;
-import com.lutong.Utils.DtUtils;
 import com.lutong.Utils.GCJ02ToWGS84Util;
 import com.lutong.Utils.MapUtil;
 import com.lutong.Utils.MyToast;
 import com.lutong.Utils.MyUtils;
 import com.lutong.Utils.Myshow;
-import com.lutong.activity.Adapter.TestData;
 import com.lutong.activity.JzListActivity;
 import com.lutong.activity.PanoramaDemoActivityMain;
 import com.lutong.activity.TaActivity;
@@ -150,6 +129,8 @@ import com.lutong.fragment.adapter.DemoAdapter;
 import com.lutong.fragment.adapter.DemoAdapteradd;
 import com.lutong.fragment.adapter.Mycallback;
 import com.lutong.fragment.adapter.SerrnTaAdapter;
+import com.lutong.ormlite.DBManagerBj;
+import com.lutong.ormlite.JzbJBean;
 import com.lutong.tcp.RecJsonBean;
 import com.lutong.tcp.TCPServer;
 import com.mylhyl.circledialog.CircleDialog;
@@ -168,8 +149,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import javax.microedition.khronos.opengles.GL10;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -434,12 +413,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         SharedPreferences name = getActivity().getSharedPreferences("name", Context.MODE_PRIVATE);
         guijistart = name.getBoolean("gj", false);
 
-        if(guijistart){
+        if (guijistart) {
             ib_gj.setImageResource(R.mipmap.gjtrue);
-        }else{
+        } else {
             ib_gj.setImageResource(R.mipmap.gj);
         }
     }
+
     private void initGj() {
         if (juliFlage) {
             com.lutong.Utils.ToastUtils.showToast("请先关闭测量");
@@ -1540,7 +1520,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                     .setMaxHeight(0.7f)
                                     .setText("确定要删除基站吗")
                                     .setTitleColor(Color.parseColor("#00acff"))
-                                    .setNegative("确定", new Positiv(3, dele))
+                                    .setNegative("确定", new Positiv(3, dele,tv_lac.getText().toString(),tv_cid.getText().toString()))
                                     .setPositive("取消", null)
                                     .show(getFragmentManager());
 
@@ -1855,7 +1835,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         private final int t;
         private Bundle extraInfo;
         private String dele;
-
+        private String tac;
+        private String cid;
         public Positiv(int t) {
             this.t = t;
         }
@@ -1868,6 +1849,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         public Positiv(int t, Bundle extraInfo) {
             this.t = t;
             this.extraInfo = extraInfo;
+        }
+
+        public Positiv(int t, String dele, String tac, String cid) {
+            this.t = t;
+            this.dele = dele;
+            this.tac = tac;
+            this.cid = cid;
         }
 
         @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -1930,6 +1918,38 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     Log.d(TAG, "panderonClick: " + "1");
                 } else {
                     Log.d(TAG, "panderonClick: " + "2");
+                }
+
+                //删除报警记录
+                if(!TextUtils.isEmpty(tac)&&!TextUtils.isEmpty(cid)){
+                    try {
+                        DBManagerBj managerBj = new DBManagerBj(getActivity());
+                        List<JzbJBean> jBeans = managerBj.getdemoBeanList();
+                        if(jBeans.size()>1){
+                            boolean is = false;
+                            int ids = 0;
+                            //有数据
+                            for (int i = 1; i < jBeans.size(); i++) {
+                                JzbJBean jBean = jBeans.get(i);
+                                if(jBean.getTac().equals(tac)&&jBean.getCid().equals(cid)){
+                                    is = true;
+                                    ids = jBean.getId();
+
+                                }
+                            }
+                            //删除该基站报警条目
+                            if(is){
+                                managerBj.deletedemoBeanID(ids+"");
+                                //将删除的条目告诉工模
+                                ArrayList<String> list = new ArrayList<>();
+                                list.add(tac);
+                                list.add(cid);
+                                EventBus.getDefault().postSticky(new MessageEvent(20225,list));
+                            }
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -2667,7 +2687,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                     .setMaxHeight(0.7f)
                                     .setText("确定要删除基站吗")
                                     .setTitleColor(Color.parseColor("#00acff"))
-                                    .setNegative("确定", new Positiv(3, dele))
+                                    .setNegative("确定", new Positiv(3, dele,tv_lac.getText().toString(),tv_cid.getText().toString()))
                                     .setPositive("取消", null)
                                     .show(getFragmentManager());
 
@@ -2930,7 +2950,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             longitude = location.getLongitude() + "";
             latitude = location.getLatitude() + "";
 
-            Log.e(TAG, "onReceiveLocation guijistart: "+guijistart );
+            Log.e(TAG, "onReceiveLocation guijistart: " + guijistart);
 
             if (guijistart == true) {//轨迹开始添加记录
                 List<GuijiViewBean> guijiViewBeans = null;
@@ -4033,7 +4053,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             try {
                 List<GuijiViewBean> beans = dbManagerGuijiView.guijiViewBeans();
                 Log.e("gj", "startGj: " + beans.toString());
-                Toast.makeText(mContext, "开启了" + beans, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, "开启了" + beans, Toast.LENGTH_SHORT).show();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -4159,6 +4179,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
             @Override
             public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
+
                 String string = response.body().string();
                 Log.e("yltylt", "onResponse: " + string);
                 getActivity().runOnUiThread(new Runnable() {
@@ -4167,6 +4188,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                         if (string.equals("null")) {
                             MyToast.showToast("查询不到该基站");
                         } else {
+                            //在数据库添加查询的基站
+                            insertBjjz(list.get(1), list.get(2));
                             String[] split = string.split(",");
                             Log.e("yltylt", "onResponse3: " + string);
                             try {
@@ -4222,6 +4245,48 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         });
     }
 
+    private void insertBjjz(String tac, String cid) {
+        EventBus.getDefault().postSticky(new MessageEvent(13145,""));
+        Log.e(TAG, "insertBjjz: " + tac + "---" + cid);
+        DBManagerBj managerBj  = null;
+        try {
+            managerBj = new DBManagerBj(getActivity());
+            List<JzbJBean> beans = managerBj.getdemoBeanList();
+            Log.e(TAG, "insertBjjz: "+beans.toString()+"---"+ + beans.size());
+            if (beans.size() > 1) {
+                boolean is = true;
+                //是否已经有该基站
+                for (int i = 1; i < beans.size(); i++) {
+                    JzbJBean jBean = beans.get(i);
+                    if (jBean.getCid().equals(cid) && jBean.getTac().equals(tac)) {
+                        is = false;
+                    }
+                }
+                if (is) {
+                    JzbJBean jBean = new JzbJBean();
+                    jBean.setCount(1);
+                    jBean.setCid(cid);
+                    jBean.setTac(tac);
+                    managerBj.insertdemoBean(jBean);
+                }
+            } else {
+                //先插入默认数据
+                if(beans.size()==0){
+                    managerBj.insertdemoBean(new JzbJBean());
+                }
+                JzbJBean jBean = new JzbJBean();
+                jBean.setCount(1);
+                jBean.setCid(cid);
+                jBean.setTac(tac);
+                managerBj.insertdemoBean(jBean);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Log.e(TAG, "insertBjjz: "+e.getMessage() );
+        }
+
+    }
+
     private void getRetrofits(ArrayList<String> list, String plmn, String tv_cid, String tv_tac) {
         String url;
 //        http://www.cellmap.cn/api/cell2gps.aspx?mnc=0&lac=12795&cell=241734401&key=09f9433abbe7406aa5da1d3290d36c1d
@@ -4251,6 +4316,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             @Override
             public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
                 String string = response.body().string();
+
                 Log.e("yltylt", "onResponse: " + string);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
@@ -4258,6 +4324,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                         if (string.equals("null")) {
                             MyToast.showToast("查询不到该基站");
                         } else {
+                            //在数据库添加查询的基站
+                            insertBjjz(list.get(1), list.get(2));
                             String[] split = string.split(",");
                             Log.e("yltylt", "onResponse3: " + string);
                             try {
@@ -4295,7 +4363,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                 if (plmn.equals("11")) {
                                     d.setMnc("11");
                                 }
-                                d.setRadius(et_ta.getText().toString());
+                                d.setRadius("0");
 //                        d.setTa(et_ta.getText().toString());
                                 d.setTa(MyUtils.listToString(HomeFragment.this.list));
                                 d.setType(0);
@@ -4425,6 +4493,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 Log.d(TAG, "aaonActivityResult: " + guijiViewBeanjizhan);
 
                 View view = View.inflate(mContext, R.layout.activity_map_info, null);
+
 
                 TextView tv_title = view.findViewById(R.id.tv_title);
                 String str = "";
@@ -4560,7 +4629,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                         .setMaxHeight(0.7f)
                                         .setText("确定要删除基站吗")
                                         .setTitleColor(Color.parseColor("#00acff"))
-                                        .setNegative("确定", new Positiv(3, dele))
+                                        .setNegative("确定", new Positiv(3, dele,tv_lac.getText().toString(),tv_cid.getText().toString()))
                                         .setPositive("取消", null)
                                         .show(getFragmentManager());
 
