@@ -912,6 +912,7 @@ public class MainActivity extends FragmentActivity implements
         isLt = name.getBoolean("checkbox4_lt", true);
         isDx = name.getBoolean("checkbox4_dx", true);
         isGd = name.getBoolean("checkbox_gd", true);
+        Log.e("TAG", "setGmConfigs: "+jzMessage );
         //监听
         checkbox_yd.setOnCheckedChangeListener(this);
         checkbox_lt.setOnCheckedChangeListener(this);
@@ -925,9 +926,33 @@ public class MainActivity extends FragmentActivity implements
         checkbox_gd.setChecked(isGd);
         checkbox_jzBaoJ.setChecked(isJzBj);
         ed_jzTime.setText(jzMessage + "");
+        Log.e("TAG", "setGmConfigs2: "+jzMessage );
         dialog.getView(R.id.bt_Cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //保存
+                SharedPreferences name = getSharedPreferences("name", Context.MODE_PRIVATE);
+                isJzBj = name.getBoolean("checkbox_jzBaoJ", true);
+                jzMessage = name.getInt("ed_jzTime", 300);
+                isYd = name.getBoolean("checkbox4_yd", true);
+                isLt = name.getBoolean("checkbox4_lt", true);
+                isDx = name.getBoolean("checkbox4_dx", true);
+                isGd = name.getBoolean("checkbox_gd", true);
+
+                SharedPreferences.Editor edit = name.edit();
+                //3：将获取过来的值放入文件
+                edit.putBoolean("checkbox_jzBaoJ", isJzBj);
+                edit.putInt("ed_jzTime", jzMessage);
+                edit.putBoolean("checkbox4_yd", isYd);
+                edit.putBoolean("checkbox4_lt", isLt);
+                edit.putBoolean("checkbox4_dx", isDx);
+                edit.putBoolean("checkbox_gd", isGd);
+                //4：提交
+                edit.commit();
+
+                Log.e("TAG", "onClick: "+ isJzBj + jzMessage + isYd + isLt + isDx + isGd + jzMessage);
+
+
                 dialog.dismiss();
             }
         });
@@ -957,30 +982,30 @@ public class MainActivity extends FragmentActivity implements
                 dialog.dismiss();
             }
         });
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                //步骤1：创建一个SharedPreferences对象
-                SharedPreferences sharedPreferences = getSharedPreferences("name", Context.MODE_PRIVATE);
-                //步骤2： 实例化SharedPreferences.Editor对象
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-
-
-                jzMessage = Integer.parseInt(ed_jzTime.getText().toString());
-
-                isJzBj = checkbox_jzBaoJ.isChecked();
-
-                //3：将获取过来的值放入文件
-                editor.putBoolean("checkbox_jzBaoJ", isJzBj);
-                editor.putInt("ed_jzTime", jzMessage);
-                editor.putBoolean("checkbox4_yd", isYd);
-                editor.putBoolean("checkbox4_lt", isLt);
-                editor.putBoolean("checkbox4_dx", isDx);
-                editor.putBoolean("checkbox_gd", isGd);
-                //4：提交
-                editor.commit();
-            }
-        });
+//        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//            @Override
+//            public void onDismiss(DialogInterface dialog) {
+//                //步骤1：创建一个SharedPreferences对象
+//                SharedPreferences sharedPreferences = getSharedPreferences("name", Context.MODE_PRIVATE);
+//                //步骤2： 实例化SharedPreferences.Editor对象
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//
+//
+//                jzMessage = Integer.parseInt(ed_jzTime.getText().toString());
+//
+//                isJzBj = checkbox_jzBaoJ.isChecked();
+//
+//                //3：将获取过来的值放入文件
+//                editor.putBoolean("checkbox_jzBaoJ", isJzBj);
+//                editor.putInt("ed_jzTime", jzMessage);
+//                editor.putBoolean("checkbox4_yd", isYd);
+//                editor.putBoolean("checkbox4_lt", isLt);
+//                editor.putBoolean("checkbox4_dx", isDx);
+//                editor.putBoolean("checkbox_gd", isGd);
+//                //4：提交
+//                editor.commit();
+//            }
+//        });
     }
 
     @Override
@@ -1145,48 +1170,48 @@ public class MainActivity extends FragmentActivity implements
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.checkbox_yd: {
-                //步骤1：创建一个SharedPreferences对象
-                SharedPreferences sharedPreferences = getSharedPreferences("name", Context.MODE_PRIVATE);
-                //步骤2： 实例化SharedPreferences.Editor对象
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("checkbox4_yd", isChecked);
-                editor.commit();
+//                //步骤1：创建一个SharedPreferences对象
+//                SharedPreferences sharedPreferences = getSharedPreferences("name", Context.MODE_PRIVATE);
+//                //步骤2： 实例化SharedPreferences.Editor对象
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.putBoolean("checkbox4_yd", isChecked);
+//                editor.commit();
                 isYd = isChecked;
 //                //将最新状态返回给fragment
                 EventBus.getDefault().postSticky(new MessageEvent(121212,""));
                 break;
             }
             case R.id.checkbox_lt: {
-                //步骤1：创建一个SharedPreferences对象
-                SharedPreferences sharedPreferences = getSharedPreferences("name", Context.MODE_PRIVATE);
-                //步骤2： 实例化SharedPreferences.Editor对象
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("checkbox4_lt", isChecked);
-                editor.commit();
+//                //步骤1：创建一个SharedPreferences对象
+//                SharedPreferences sharedPreferences = getSharedPreferences("name", Context.MODE_PRIVATE);
+//                //步骤2： 实例化SharedPreferences.Editor对象
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.putBoolean("checkbox4_lt", isChecked);
+//                editor.commit();
                 isLt = isChecked;
 //                //将最新状态返回给fragment
                 EventBus.getDefault().postSticky(new MessageEvent(121212,""));
                 break;
             }
             case R.id.checkbox_dx: {
-                //步骤1：创建一个SharedPreferences对象
-                SharedPreferences sharedPreferences = getSharedPreferences("name", Context.MODE_PRIVATE);
-                //步骤2： 实例化SharedPreferences.Editor对象
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("checkbox4_dx", isChecked);
-                editor.commit();
+//                //步骤1：创建一个SharedPreferences对象
+//                SharedPreferences sharedPreferences = getSharedPreferences("name", Context.MODE_PRIVATE);
+//                //步骤2： 实例化SharedPreferences.Editor对象
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.putBoolean("checkbox4_dx", isChecked);
+//                editor.commit();
                 isDx = isChecked;
 //                //将最新状态返回给fragment
                 EventBus.getDefault().postSticky(new MessageEvent(121212,""));
                 break;
             }
             case R.id.checkbox_gd: {
-                //步骤1：创建一个SharedPreferences对象
-                SharedPreferences sharedPreferences = getSharedPreferences("name", Context.MODE_PRIVATE);
-                //步骤2： 实例化SharedPreferences.Editor对象
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("checkbox_gd", isChecked);
-                editor.commit();
+//                //步骤1：创建一个SharedPreferences对象
+//                SharedPreferences sharedPreferences = getSharedPreferences("name", Context.MODE_PRIVATE);
+//                //步骤2： 实例化SharedPreferences.Editor对象
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.putBoolean("checkbox_gd", isChecked);
+//                editor.commit();
                 isGd = isChecked;
 //                //将最新状态返回给fragment
                 EventBus.getDefault().postSticky(new MessageEvent(121212,""));
